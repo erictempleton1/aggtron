@@ -1,6 +1,6 @@
 import os
 import models
-from werkzeug.security import generate_password_hash, check_password_hack
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import (LoginManager, current_user, login_required,
                              login_user, logout_user, UserMixin, AnonymousUserMixin,
                              confirm_login, fresh_login_required)
@@ -49,8 +49,8 @@ class User(UserMixin):
             return None
 
 
-    def get_by_id(self.id):
-        dbUser = models.User.objects.with_id(id)
+    def get_by_id(self, id):
+        dbUser = models.User.objects.with_id(self.id)
         if dbUser:
             self.email = dbUser.email
             self.active = dbUser.active
