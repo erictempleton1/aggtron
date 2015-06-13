@@ -50,13 +50,19 @@ class User(UserMixin):
 
 
     def get_by_id(self, id):
-        dbUser = models.User.objects.with_id(self.id)
-        if dbUser:
-            self.email = dbUser.email
-            self.active = dbUser.active
-            self.id = dbUser.id
-            return self
-        else:
+        try:
+            dbUser = models.User.objects.with_id(self.id)
+
+            if dbUser:
+                self.email = dbUser.email
+                self.active = dbUser.active
+                self.id = dbUser.id
+                return self
+            else:
+                return None
+
+        except:
+            print 'there was an error'
             return None
 
 

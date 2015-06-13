@@ -13,7 +13,7 @@ auth_flask_login = Blueprint('auth_flask_login', __name__, template_folder='temp
 
 @auth_flask_login.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST' and email in request.form:
+    if request.method == 'POST' and 'email' in request.form:
         email = request.form['email']
         userObj = User()
         user = userObj.get_by_email_w_password(email)
@@ -22,6 +22,7 @@ def login():
 
             if login_user(user, remember=remember):
                 flash('Logged in')
+                return redirect('/')
             else:
                 flash('Unable to log in')
 
@@ -60,3 +61,28 @@ def register():
     templateData = {'form': registerForm}
 
     return render_template('/auth/register.html', **templateData)
+
+
+@auth_flask_login.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('Logged out')
+    return redirect('/login')
+
+
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return redirect('/login')
+
+
+@login_manager.user_loader
+def load_user(id):
+    if id is None:
+        redirect('login')
+    user = User()
+    user.get_by_id(id)
+    if user.is_active():
+        return user
+    else:
+        return None
