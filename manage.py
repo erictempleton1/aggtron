@@ -5,8 +5,10 @@ from flask.ext.script import Manager, Server
 from aggtron import app
 
 from auth import auth_flask_login
+from main_site import main_site_index
 
 app.register_blueprint(auth_flask_login)
+app.register_blueprint(main_site_index)
 
 manager = Manager(app)
 
