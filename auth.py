@@ -26,3 +26,37 @@ def login():
                 flash('Unable to log in')
 
     return render_template('/auth/login.html')
+
+
+@auth_flask_login.route('/register', methods=['GET', 'POST'])
+def register():
+    registerForm = forms.SignupForm(request.form)
+    current_app.logger.info(request.form)
+
+    if request.method == 'POST' and registerForm.validate() == False:
+        current_app.logger.info(registerForm.errors)
+        return 'registration error'
+    elif request.method == 'POST' and registerForm.validate():
+        email = request.form['email']
+
+        # create password hash
+        password_hash = flask_bcrypt.generate_password_hash(request.form['password'])
+
+        # prepare user
+        user = User(email, password_hash)
+        print user
+
+        try:
+            user.save()
+            if login_user(user, remember='no'):
+                flash('Logged in')
+                return redirect('/')
+            else:
+                flash('Unable to login')
+        except:
+            flash('Unable to register with given email address')
+            current_app.logger.error('Error on registeration - possible duplicate emails')
+
+    templateData = {'form': registerForm}
+
+    return render_template('/auth/register.html', **templateData)

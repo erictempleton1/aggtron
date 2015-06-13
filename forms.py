@@ -9,7 +9,7 @@ user_form = model_form(models.User, exclude=['password'])
 
 # signup form created from user_form
 class SignupForm(user_form):
-    password = PasswordField('Password', validatiors=[
+    password = PasswordField('Password', validators=[
                              validators.Required(),
                              validators.EqualTo('confirm', message='Passwords must match')
                              ]

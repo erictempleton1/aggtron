@@ -3,14 +3,20 @@
 <h3>Register</h3>
     <form action="" method="POST" role="form">
         {{ form.csrf_token }}
-        <label for="">Email:</label>
-        <input type="email" id="email" name="email" required="required" placeholder="Email">
+        <p>
+            <label for="">Email:</label>
+            <input type="email" id="email" name="email" required="required" placeholder="Email">
+        </p>
 
-        <label for="">Password:</label>
-        <input type="password" id="password" name="password" required="required" placeholder="Password">
-
-        <label for="">Password Again:</label>
-        <input type="password" id="confirm" name="confirm" required="required" placeholder="Password Again">
+        <p>
+            <label for="">Password:</label>
+            <input type="password" id="password" name="password" required="required" placeholder="Password">
+        </p>
+        
+        <p>
+            <label for="">Password Again:</label>
+            <input type="password" id="confirm" name="confirm" required="required" placeholder="Password Again">
+        </p>
 
         <button type="submit">Register</button>
     </form>
