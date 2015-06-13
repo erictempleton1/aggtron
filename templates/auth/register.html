@@ -1,0 +1,18 @@
+<html>
+<body>
+<h3>Register</h3>
+    <form action="" method="POST" role="form">
+        {{ form.csrf_token }}
+        <label for="">Email:</label>
+        <input type="email" id="email" name="email" required="required" placeholder="Email">
+
+        <label for="">Password:</label>
+        <input type="password" id="password" name="password" required="required" placeholder="Password">
+
+        <label for="">Password Again:</label>
+        <input type="password" id="confirm" name="confirm" required="required" placeholder="Password Again">
+
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>
