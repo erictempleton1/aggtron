@@ -4,6 +4,10 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from flask.ext.script import Manager, Server
 from aggtron import app
 
+from auth import auth_flask_login
+
+app.register_blueprint(auth_flask_login)
+
 manager = Manager(app)
 
 manager.add_command('runserver', Server(

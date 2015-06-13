@@ -1,10 +1,10 @@
 import models
 from flask.ext.mongoengine.wtf import model_form
 from wtforms.fields import *
-from flask.ext.mongonengine.wtf.orm import validators
+from flask.ext.mongoengine.wtf.orm import validators
 
 
-user_form = model_form(models.User, exlcude=['password'])
+user_form = model_form(models.User, exclude=['password'])
 
 
 # signup form created from user_form
