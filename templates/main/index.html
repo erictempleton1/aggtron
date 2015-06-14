@@ -4,7 +4,7 @@
 </head>
 <body>
 <h3>Aggtron</h3>
-    {% if not session.logged_in %}
+    {% if not current_user.is_authenticated() %}
         <p>
             <a href="/login">Log in</a>
         </p>
