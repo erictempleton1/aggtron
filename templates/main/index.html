@@ -17,5 +17,8 @@
             <a href="{{ url_for('auth_flask_login.logout') }}">Logout</a>
         </p>
     {% endif %}
+
+    {% block body %}
+    {% endblock %}
 </body>
 </html>
