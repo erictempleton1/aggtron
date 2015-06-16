@@ -20,5 +20,5 @@ class Project(db.Document):
     name = db.StringField(default=True)
     database = db.StringField(default=True)
     created = db.DateTimeField(default=datetime.datetime.now())
-    created_by = db.StringField(default=True)
+    created_by = db.ReferenceField(User)
     #auth = db.EmbeddedDocumentField(AuthPass, default=AuthPass)
