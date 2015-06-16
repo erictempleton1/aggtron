@@ -1,11 +1,11 @@
 import models
+from wtforms import Form
 from flask.ext.mongoengine.wtf import model_form
 from wtforms.fields import *
 from flask.ext.mongoengine.wtf.orm import validators
 
 
 user_form = model_form(models.User, exclude=['password'])
-project_form = model_form(models.Project, exclude=['database', 'created_by'])
 
 
 # signup form created from user_form
@@ -25,7 +25,7 @@ class LoginForm(user_form):
                              ]
                         )
 
-class ProjectForm(project_form):
+class ProjectForm(Form):
     name = TextField('Project Name', validators=[
                      validators.Required()
                      ]
