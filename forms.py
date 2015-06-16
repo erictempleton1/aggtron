@@ -25,3 +25,9 @@ class LoginForm(user_form):
                              ]
                         )
 
+class ProjectForm(project_form):
+    name = TextField('Project Name', valdiators=[
+                     validators.Required()
+                     ]
+                )
+
