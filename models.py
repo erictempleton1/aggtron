@@ -11,14 +11,14 @@ class User(db.Document):
     timestamp = db.DateTimeField(default=datetime.datetime.now())
 
 
+class AuthPass(db.EmbeddedDocument):
+    username = db.StringField(default=True)
+    password = db.StringField(default=True)
+
+
 class Project(db.Document):
-    Name = db.StringField(default=True)
-    Database = db.StringField(default=True)
-    Created = db.DateTimeField(default=datetime.datetime.now())
-    Created_by = db.StringField(default=True)
-    Auth = db.EmbeddedDocumentField(AuthPass, default=AuthPass)
-
-
-class AuthPass(db.EmbdeddedDocument):
-    Username = db.StringField(default=True)
-    Password = db.StringField(default=True)
+    name = db.StringField(default=True)
+    database = db.StringField(default=True)
+    created = db.DateTimeField(default=datetime.datetime.now())
+    created_by = db.StringField(default=True)
+    auth = db.EmbeddedDocumentField(AuthPass, default=AuthPass)

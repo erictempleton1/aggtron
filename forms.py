@@ -5,6 +5,7 @@ from flask.ext.mongoengine.wtf.orm import validators
 
 
 user_form = model_form(models.User, exclude=['password'])
+project_form = model_form(models.Project)
 
 
 # signup form created from user_form
