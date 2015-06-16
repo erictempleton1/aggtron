@@ -3,10 +3,10 @@ from flask import Blueprint, render_template, url_for
 from flask.ext.login import login_required
 
 
-api_auth = Blueprint('api_auth', __name__, template_folder='templates')
+add_project = Blueprint('add_project', __name__, template_folder='templates')
 
 
-@api_auth.route('/auth', methods=['GET', 'POST'])
+@add_project.route('/create', methods=['GET', 'POST'])
 @login_required
 def index():
     return render_template('api_auth.html')
