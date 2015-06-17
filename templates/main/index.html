@@ -13,7 +13,13 @@
         </p>
     {% else %}
         <p>
+            <a href="{{ url_for('main_site_index.index') }}">Home</a>
+        </p>
+        <p>
             <a href="{{ url_for('auth_flask_login.logout') }}">Logout</a>
+        </p>
+        <p>
+            <a href="{{ url_for('add_project.index') }}">Create Project</a>
         </p>
     {% endif %}
 
