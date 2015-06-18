@@ -1,70 +1,19 @@
-import os
 import models
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask.ext.login import (LoginManager, current_user, login_required,
-                             login_user, logout_user, UserMixin, AnonymousUserMixin,
-                             confirm_login, fresh_login_required)
 
 
-class User(UserMixin):
+class User():
 
-    def __init__(self, email=None, password=None, active=True, id=None):
+    def __init__(self, email):
         self.email = email
-        self.password = password
-        self.active = active
-        self.isAdmin = False
-        self.id = None
 
+    def is_authenticated(self):
+        return True
 
-    def save(self):
-        newUser = models.User(email=self.email, password=self.password, active=self.active)
-        newUser.save()
-        print 'new user id = {0}'.format(newUser.id)
-        self.id = newUser.id
-        return self.id
+    def is_active(self):
+        return True
 
+    def is_anonymous(self):
+        return False
 
-    def get_by_email_w_password(self, email):
-        try:
-            dbUser = models.User.objects.get(email=email)
-
-            if dbUser:
-                self.email = dbUser.email
-                self.active = dbUser.active
-                self.password = dbUser.password
-                self.id = dbUser.id
-                return self
-            else:
-                return None
-
-        except:
-            print 'there was an error'
-            return None
-
-
-    def get_mongo_doc(self):
-        if self.id:
-            return models.User.objects.with_id(self.id)
-        else:
-            return None
-
-
-    def get_by_id(self, id):
-        try:
-            dbUser = models.User.objects.with_id(self.id)
-
-            if dbUser:
-                self.email = dbUser.email
-                self.active = dbUser.active
-                self.id = dbUser.id
-                return self
-            else:
-                return None
-
-        except:
-            print 'there was an error'
-            return None
-
-
-class Anonymous(AnonymousUserMixin):
-    name = u'Anonymous'
+    def get_id(self):
+        return self.email

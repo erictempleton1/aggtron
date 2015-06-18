@@ -1,11 +1,13 @@
 import os, datetime
 from flask import current_app, Blueprint, render_template, abort, request, flash, redirect, url_for
 from jinja2 import TemplateNotFound
-from aggtron import login_manager, flask_bcrypt
+from aggtron import login_manager, flask_bcrypt, db, mongo
+from models import User, AuthPass, Project
 from flask.ext.login import (current_user, login_required, login_user, logout_user, confirm_login, fresh_login_required)
 
-import forms
+from forms import LoginForm, SignupForm
 from libs.User import User
+from flask.ext.mongoengine import MongoEngine
 
 
 auth_flask_login = Blueprint('auth_flask_login', __name__, template_folder='templates')
@@ -13,19 +15,17 @@ auth_flask_login = Blueprint('auth_flask_login', __name__, template_folder='temp
 
 @auth_flask_login.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST' and 'email' in request.form:
+    form = LoginForm()
+    if request.method == 'POST' and form.validate():
         email = request.form['email']
-        userObj = User()
-        user = userObj.get_by_email_w_password(email)
+        user = db.user.find_one({'email': emails})
         if user and flask_bcrypt.check_password_hash(user.password, request.form['password']) and user.is_active():
-            remember = request.form.get('remember', 'no') == 'yes'
-
-            if login_user(user, remember=remember):
+            user_obj = User(user)
+            if login_user(user):
                 flash('Logged in')
                 return redirect('/')
             else:
                 flash('Unable to log in')
-
     return render_template('/auth/login.html')
 
 
@@ -77,12 +77,8 @@ def unauthorized_callback():
 
 
 @login_manager.user_loader
-def load_user(id):
-    if id is None:
-        redirect('login')
-    user = User()
-    user.get_by_id(id)
-    if user.is_active():
-        return user
-    else:
+def load_user(email):
+    user = mongo.db.user.find_one({'email': email})
+    if not user:
         return None
+    return unicode(user['_id'])
