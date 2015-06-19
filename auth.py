@@ -1,5 +1,5 @@
 import os, datetime
-from flask import current_app, Blueprint, render_template, abort, request, flash, redirect, url_for
+from flask import current_app, Blueprint, render_template, abort, request, flash, redirect, url_for, request, abort
 from jinja2 import TemplateNotFound
 from aggtron import login_manager, flask_bcrypt, db, mongo
 from models import User, AuthPass, Project
@@ -17,16 +17,16 @@ auth_flask_login = Blueprint('auth_flask_login', __name__, template_folder='temp
 def login():
     form = LoginForm()
     if request.method == 'POST' and form.validate():
-        email = request.form['email']
-        user = db.user.find_one({'email': emails})
-        if user and flask_bcrypt.check_password_hash(user.password, request.form['password']) and user.is_active():
-            user_obj = User(user)
-            if login_user(user):
-                flash('Logged in')
-                return redirect('/')
-            else:
-                flash('Unable to log in')
-    return render_template('/auth/login.html')
+        email = form.email.data
+        user = mongo.db.user.find_one({'email': email})
+        if user and flask_bcrypt.check_password_hash(user['password'], form.password.data):
+            user_obj = User(user['_id'])
+            login_user(user_obj)
+
+            return redirect('/')
+        else:
+            redirect('http://www.google.com')
+    return render_template('/auth/login.html', form=form)
 
 
 @auth_flask_login.route('/register', methods=['GET', 'POST'])
