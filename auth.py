@@ -6,7 +6,6 @@ from models import Users
 from flask.ext.login import (current_user, login_required, login_user, logout_user, confirm_login, fresh_login_required)
 
 from forms import LoginForm, SignupForm
-from libs.User import User
 from flask.ext.mongoengine import MongoEngine
 
 
@@ -17,9 +16,11 @@ auth_flask_login = Blueprint('auth_flask_login', __name__, template_folder='temp
 def login():
     form = LoginForm()
     if request.method == 'POST' and form.validate():
-        email = form.email.data
-        user = mongo.db.user.find_one({'email': email})
-        if user and flask_bcrypt.check_password_hash(user['password'], form.password.data):
+        email = request.form['email']
+        password = request.form['password']
+
+        user = Users.query.filter_by(email=email).first()
+        if user and flask_bcrypt.check_password_hash(user.password, password):
             user_obj = User(user['_id'])
             login_user(user_obj)
 
@@ -73,8 +74,5 @@ def unauthorized_callback():
 
 
 @login_manager.user_loader
-def load_user(email):
-    user = mongo.db.user.find_one({'email': email})
-    if not user:
-        return None
-    return unicode(user['_id'])
+def load_user(id):
+    return User.query.get(int(id))

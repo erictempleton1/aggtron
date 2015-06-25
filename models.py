@@ -17,3 +17,15 @@ class Users(db.Model):
 
     def __repr__(self):
         return '<Email: {0}>'.format(self.email)
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return unicode(self.id)
