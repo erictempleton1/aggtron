@@ -1,6 +1,5 @@
 import os, datetime
 from flask import Blueprint, render_template, url_for, request, redirect
-from aggtron.models import AuthPass, Project
 from forms import ProjectForm
 from libs.User import User
 from flask.ext.login import (current_user, login_required, login_user,

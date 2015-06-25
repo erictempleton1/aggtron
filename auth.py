@@ -1,8 +1,8 @@
 import os, datetime
 from flask import current_app, Blueprint, render_template, abort, request, flash, redirect, url_for, request, abort
 from jinja2 import TemplateNotFound
-from aggtron import login_manager, flask_bcrypt, db, mongo
-from models import User, AuthPass, Project
+from aggtron import login_manager, flask_bcrypt, db
+from models import Users
 from flask.ext.login import (current_user, login_required, login_user, logout_user, confirm_login, fresh_login_required)
 
 from forms import LoginForm, SignupForm
@@ -31,13 +31,11 @@ def login():
 
 @auth_flask_login.route('/register', methods=['GET', 'POST'])
 def register():
-    registerForm = forms.SignupForm(request.form)
+
+    form = SignupForm()
     current_app.logger.info(request.form)
 
-    if request.method == 'POST' and registerForm.validate() == False:
-        current_app.logger.info(registerForm.errors)
-        return 'registration error'
-    elif request.method == 'POST' and registerForm.validate():
+    if request.method == 'POST' and form.validate():
         email = request.form['email']
 
         # create password hash
@@ -58,9 +56,7 @@ def register():
             flash('Unable to register with given email address')
             current_app.logger.error('Error on registeration - possible duplicate emails')
 
-    templateData = {'form': registerForm}
-
-    return render_template('/auth/register.html', **templateData)
+    return render_template('/auth/register.html', form=form)
 
 
 @auth_flask_login.route('/logout')

@@ -1,15 +1,15 @@
 import models
-from wtforms import Form
-from flask.ext.mongoengine.wtf import model_form
+from wtforms import Form, validators
 from wtforms.fields import *
-from flask.ext.mongoengine.wtf.orm import validators
 
-
-user_form = model_form(models.User, exclude=['password'])
 
 
 # signup form created from user_form
-class SignupForm(user_form):
+class SignupForm(Form):
+    email = TextField('Email', validators=[
+                      validators.Required()
+                      ]
+                )
     password = PasswordField('Password', validators=[
                              validators.Required(),
                              validators.EqualTo('confirm', message='Passwords must match')
@@ -19,7 +19,11 @@ class SignupForm(user_form):
 
 
 # login form will provide a password field (WTForm form field)
-class LoginForm(user_form):
+class LoginForm(Form):
+    email = TextField('Email', validators=[
+                      validators.Required()
+                      ]
+                )
     password = PasswordField('Password', validators=[
                              validators.Required()
                              ]
@@ -30,4 +34,3 @@ class ProjectForm(Form):
                      validators.Required()
                      ]
                 )
-
