@@ -1,10 +1,9 @@
 import models
-from wtforms import Form, validators
+from flask.ext.wtf import Form
+from wtforms import validators
 from wtforms.fields import *
 
 
-
-# signup form created from user_form
 class SignupForm(Form):
     email = TextField('Email', validators=[
                       validators.Required()
@@ -18,7 +17,6 @@ class SignupForm(Form):
     confirm = PasswordField('Repeat Password')
 
 
-# login form will provide a password field (WTForm form field)
 class LoginForm(Form):
     email = TextField('Email', validators=[
                       validators.Required()
@@ -28,6 +26,7 @@ class LoginForm(Form):
                              validators.Required()
                              ]
                         )
+
 
 class ProjectForm(Form):
     name = TextField('Project Name', validators=[
