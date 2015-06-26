@@ -21,6 +21,11 @@
         <p>
             <a href="{{ url_for('add_project.index') }}">Create Project</a>
         </p>
+
+        <p>
+        Hello, {{ current_user.email }}
+        </p>
+
     {% endif %}
 
     {% block body %}
