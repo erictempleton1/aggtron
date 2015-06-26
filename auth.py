@@ -13,7 +13,7 @@ auth_flask_login = Blueprint('auth_flask_login', __name__, template_folder='temp
 @auth_flask_login.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    if request.method == 'POST':
+    if form.validate_on_submit():
         email = request.form['email']
         password = request.form['password']
 
