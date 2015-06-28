@@ -18,29 +18,32 @@ def login():
         password = request.form['password']
 
         user = Users.query.filter_by(email=email).first()
-        login_user(user)
-        return redirect('/')
+
+        if flask_bcrypt.check_password_hash(user.password, password):
+            login_user(user)
+            return redirect('/')
 
     return render_template('auth/login.html', form=form)
 
 
+# Todo - fix db lock issue
+# above might also prevent new registrations
 @auth_flask_login.route('/register', methods=['GET', 'POST'])
 def register():
-
     form = SignupForm()
-
-    if request.method == 'POST' and form.validate():
+    if form.validate_on_submit():
         email = request.form['email']
+        password = request.form['password']
 
         # create password hash
-        password_hash = flask_bcrypt.generate_password_hash(request.form['password'])
+        password_hash = flask_bcrypt.generate_password_hash(password)
 
         # prepare user
-        user = User(email, password_hash)
-        print user
+        user = Users(email=email, password=password_hash)
 
         try:
-            user.save()
+            db.session.add(user)
+            db.session.commit()
             if login_user(user, remember='no'):
                 flash('Logged in')
                 return redirect('/')
