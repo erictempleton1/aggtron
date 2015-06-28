@@ -5,13 +5,11 @@ from aggtron import db
 
 class Users(db.Model):
 
-
-    __table_args__ = {'extend_existing': True}
-
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(120))
-
+    projects = db.relationship('Project', backref='users',
+                               lazy='dynamic')
 
     def __init__(self, email, password):
         self.email = email
@@ -31,3 +29,17 @@ class Users(db.Model):
 
     def get_id(self):
         return unicode(self.id)
+
+
+class Project(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120))
+    created_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def _init__(self, name, created_by):
+        self.name = name
+        self.created_by = created_by
+
+    def __repr__(self):
+        return '<Project Name: {0}>'.format(self.name)
