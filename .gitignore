@@ -8,6 +8,10 @@ __pycache__/
 
 __init__.py
 
+migrations/
+
+*.db
+
 # Distribution / packaging
 .Python
 env/
