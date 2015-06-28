@@ -4,6 +4,7 @@
 </head>
 <body>
 <h3>Aggtron</h3>
+    {% block body %}
     {% if not current_user.is_authenticated() %}
         <p>
             <a href="{{ url_for('auth_flask_login.login') }}">Log in</a>
@@ -28,7 +29,6 @@
 
     {% endif %}
 
-    {% block body %}
     {% endblock %}
 </body>
 </html>
