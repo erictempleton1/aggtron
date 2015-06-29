@@ -1,6 +1,7 @@
-<html>
-<body>
+{% extends "main/index.html" %}
 <h3>Login</h3>
+
+{% block body %}
     <form action="" method="POST" role="form">
         {{ form.csrf_token }}
         <p>
@@ -15,5 +16,4 @@
 
         <button type="submit">Login</button>
     </form>
-</body>
-</html>
+{% endblock %}

@@ -12,4 +12,3 @@ def index():
     return render_template('main/index.html')
 
 
-# todo - fix logged in check in template

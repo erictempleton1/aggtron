@@ -21,7 +21,8 @@ def login():
 
         if flask_bcrypt.check_password_hash(user.password, password):
             login_user(user)
-            return redirect('/')
+            flash('Logged In')
+            return redirect('/')    
 
     return render_template('auth/login.html', form=form)
 
@@ -45,7 +46,7 @@ def register():
             db.session.add(user)
             db.session.commit()
             if login_user(user, remember='no'):
-                flash('Logged in')
+                flash('Account Created & Logged in')
                 return redirect('/')
             else:
                 flash('Unable to login')

@@ -1,5 +1,6 @@
-<html>
-<body>
+{% extends "main/index.html" %}
+
+{% block body %}
 <h3>Register</h3>
     <form action="" method="POST" role="form">
         {{ form.csrf_token }}
@@ -20,5 +21,4 @@
 
         <button type="submit">Register</button>
     </form>
-</body>
-</html>
+{% endblock %}
