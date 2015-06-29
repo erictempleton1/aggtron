@@ -12,7 +12,7 @@ class Users(db.Model):
     email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(120))
     projects = db.relationship('Project', backref='users',
-                               lazy='dynamic')
+                               lazy='joined')
 
     def __init__(self, email, password):
         self.email = email

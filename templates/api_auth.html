@@ -4,6 +4,7 @@
 <h3>API Authentication - {{ current_user.email }}</h3>
 
     <form action="" method="POST" role="form">
+        {{ form.csrf_token }}
         <p>
             <label for="">Project Name:</label>
             <input type="text" id="name" name="name" placeholder="Project Name">
