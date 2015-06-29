@@ -17,7 +17,10 @@ def index():
     if form.validate_on_submit():
         project_name = request.form['name']
 
-        project = Project(name=project_name)
+        project = Project(
+                          name=project_name,
+                          created_by=current_user.id
+                        )
         db.session.add(project)
         db.session.commit()
         flash('Project Created')
