@@ -26,5 +26,5 @@ def index():
         flash('Project Created')
         return redirect('/create')
 
-    return render_template('api_auth.html', form=form)
+    return render_template('main/api_auth.html', form=form)
 

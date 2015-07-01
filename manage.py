@@ -7,10 +7,12 @@ from aggtron import app
 from auth import auth_flask_login
 from main_site import main_site_index
 from create_project import add_project
+from build_query import build_query
 
 app.register_blueprint(auth_flask_login)
 app.register_blueprint(main_site_index)
 app.register_blueprint(add_project)
+app.register_blueprint(build_query)
 
 manager = Manager(app)
 

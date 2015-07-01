@@ -1,6 +1,4 @@
-import os, datetime
-from flask import current_app, Blueprint, render_template, abort, request, flash, redirect, url_for, request, abort
-from jinja2 import TemplateNotFound
+from flask import current_app, Blueprint, render_template, request, flash, redirect, url_for
 from aggtron import login_manager, flask_bcrypt, db
 from models import Users
 from flask.ext.login import (current_user, login_required, login_user, logout_user, confirm_login, fresh_login_required)
@@ -27,8 +25,6 @@ def login():
     return render_template('auth/login.html', form=form)
 
 
-# Todo - fix db lock issue
-# above might also prevent new registrations
 @auth_flask_login.route('/register', methods=['GET', 'POST'])
 def register():
     form = SignupForm()
