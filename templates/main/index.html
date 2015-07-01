@@ -38,6 +38,11 @@
         Hello, {{ current_user.email }}
         </p>
 
+        <h4>
+        {% for proj in projects %}
+            {{ proj.name }}
+        {% endfor %}    
+
     {% endif %}
 
     {% endblock %}
