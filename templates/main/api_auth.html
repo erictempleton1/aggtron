@@ -16,15 +16,13 @@
     <form action="" method="POST" role="form">
         {{ form.csrf_token }}
         <p>
-            <label for="">Project Name:</label>
+            <label for="">Project Name: </label>
             <input type="text" id="name" name="name" placeholder="Project Name">
         </p>
         <p>
-            <select name="api_type">
-            {% for choice in form.api_type %}
-            <option value="{{ form.choice }}">{{ form.choice }}</option>
-            </select>
-            {% endfor %}
+            <label for="">API Type:</label>
+            {{ form.api_type }}
+        </p>    
 
         <button type="submit">Save Project</button>
     </form>
