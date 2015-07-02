@@ -16,9 +16,11 @@ def index():
     form = ProjectForm()
     if form.validate_on_submit():
         project_name = request.form['name']
+        api_type = request.form['api_type']
 
         project = Project(
                           name=project_name,
+                          api_type=api_type,
                           created_by=current_user.id
                         )
         db.session.add(project)

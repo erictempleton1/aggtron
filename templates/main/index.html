@@ -41,7 +41,8 @@
         <h4>Projects</h4>
         {% for proj in projects %}
             <p>
-                <a href="{{url_for('build_query.main', pid=proj.id) }}">{{ proj.name }}</a>
+                <a href="{{url_for('build_query.main', pid=proj.id) }}">{{ proj.name }} </a>
+                ({{ proj.api_type}}) Created: {{ proj.created_on }}
             </p>
         {% endfor %}    
 

@@ -41,6 +41,8 @@ class Project(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
+    api_type = db.Column(db.String(120))
+    created_on = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     created_by = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def _init__(self, name, created_by):
