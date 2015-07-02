@@ -17,3 +17,8 @@ class LoginForm(Form):
 
 class ProjectForm(Form):
     name = TextField('Project Name', validators=[validators.Required()])
+    api_type = SelectField(u'Select API', choices=[
+                           ('twitt', 'Twitter'),
+                           ('insta', 'Instagram'),
+                           ('ga', 'Google Analytics')
+                           ])
