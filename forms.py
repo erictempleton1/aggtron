@@ -20,5 +20,6 @@ class ProjectForm(Form):
     api_type = SelectField(u'Select API', choices=[
                            ('Twitter', 'Twitter'),
                            ('Instagram', 'Instagram'),
-                           ('Google Analytics', 'Google Analytics')
+                           ('Google Analytics', 'Google Analytics'),
+                           ('Github', 'Github')
                            ])
