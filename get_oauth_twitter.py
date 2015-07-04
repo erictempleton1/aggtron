@@ -48,8 +48,11 @@ def callback():
                             callback_uri=callback_uri
                             )
 
-    access_token_url = request.url
-    return twitter.fetch_access_token(access_token_url)
+    response_url = request.url
+    twitter.parse_authorization_response(response_url)
+    #auth_resp = dict(twitter.fetch_access_token(access_token_url))
+    json_resp = jsonify(twitter.fetch_access_token(access_token_url))
+    return json_resp
 
 
 
