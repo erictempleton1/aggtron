@@ -1,4 +1,5 @@
 import config
+import urlparse
 from aggtron import db
 from flask.json import jsonify
 from models import Project, Users, AuthInfo
@@ -18,7 +19,7 @@ base_url = 'https://api.twitter.com/1/'
 request_token_url = 'https://twitter.com/oauth/request_token'
 access_token_url = 'https://twitter.com/oauth/access_token'
 authorize_url = 'https://api.twitter.com/oauth/authenticate'
-callback_uri = 'http://www.example.com/oauth'
+callback_uri = 'http://localhost:5000/twitter/callback'
 consumer_key = twitter_consumer_key,
 consumer_secret = twitter_consumer_secret
 
@@ -26,15 +27,29 @@ consumer_secret = twitter_consumer_secret
 @get_oauth_twitter.route('/twitter/oauth', methods=['GET'])
 @login_required
 def demo():
+
     twitter = OAuth1Session(
                             client_key=twitter_consumer_key,
                             client_secret=twitter_consumer_secret,
                             callback_uri=callback_uri
                             )
 
-    token = twitter.fetch_request_token(request_token_url)
+    twitter.fetch_request_token(request_token_url)
 
-    return jsonify(token)
+    return redirect(twitter.authorization_url(authorize_url))
+
+
+@get_oauth_twitter.route('/twitter/callback', methods=['GET'])
+@login_required
+def callback():
+    twitter = OAuth1Session(
+                            client_key=twitter_consumer_key,
+                            client_secret=twitter_consumer_secret,
+                            callback_uri=callback_uri
+                            )
+
+    access_token_url = request.url
+    return twitter.fetch_access_token(access_token_url)
 
 
 
