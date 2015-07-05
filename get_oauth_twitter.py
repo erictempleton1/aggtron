@@ -48,11 +48,30 @@ def callback():
                             callback_uri=callback_uri
                             )
 
+    # return full url
     response_url = request.url
+
+    # parse returned url
     twitter.parse_authorization_response(response_url)
-    #auth_resp = dict(twitter.fetch_access_token(access_token_url))
-    json_resp = jsonify(twitter.fetch_access_token(access_token_url))
-    return json_resp
+
+    auth_resp = dict(twitter.fetch_access_token(access_token_url))
+
+    auth_info = AuthInfo(
+                         oauth_token=auth_resp['oauth_token'],
+                         oauth_token_secret=auth_resp['oauth_token_secret'],
+                         project_name=1
+                         )
+
+    try:
+        db.session.add(auth_info)
+        db.session.commit()
+        flash('Authentication info saved')
+        return redirect('/')
+
+    except:
+        flash('An Error has occured')
+        return redirect('/')    
+
 
 
 
