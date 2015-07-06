@@ -49,10 +49,9 @@ class Project(db.Model):
                                 lazy='joined')
 
 
-    def __init__(self, name, api_type, created_on, created_by):
+    def __init__(self, name, api_type, created_by):
         self.name = name
         self.api_type = api_type
-        self.created_on = created_on
         self.created_by = created_by
 
     def __repr__(self):
@@ -71,10 +70,10 @@ class AuthInfo(db.Model):
     project_name = db.Column(db.Integer, db.ForeignKey('project.id'))
 
 
-    def __init__(self, auth_token, refresh_token, project):
-        self.auth_token = auth_token
-        self.refresh_token = refresh_token
-        self.project = project
+    def __init__(self, oauth_token, oauth_token_secret, project_name):
+        self.oauth_token = oauth_token
+        self.oauth_token_secret = oauth_token_secret
+        self.project_name = project_name
 
     def __repr__(self):
-        return '<Auth Token: {0}>'.format(self.auth_token)    
+        return '<OAuth Token: {0}>'.format(self.oauth_token)    

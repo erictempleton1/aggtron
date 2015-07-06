@@ -69,8 +69,7 @@ def callback():
         return redirect('/')
 
     except:
-        flash('An Error has occured')
-        return redirect('/')    
+        flash('An Error has occured')    
 
 
 
