@@ -1,6 +1,13 @@
 {% extends "main/index.html" %}
 
 {% block body %}
-<h3>Build Queries // {{ project.name }}</h3>
+
+{% if proj_auth.oauth_token %}
+<h3>Build Queries // {{ project.name }} (Authenticated)</h3>
+{% else %}
+<h3>Build Queries // {{ project.name }} (Please authenticate</h3>
+{% endif %}
+
+
 
 {% endblock %}
