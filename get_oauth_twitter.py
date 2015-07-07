@@ -59,16 +59,19 @@ def callback(pid):
     auth_resp = dict(twitter.fetch_access_token(access_token_url))
 
     # prevent duplicates from being stored by checking and deleting
-    check_auth = AuthInfo.query.filter_by(project_name=pid).first()
+    check_auth = AuthInfo.query.filter_by(project_name=pid, api_name='Twitter').first()
     if check_auth is None:
         auth_info = AuthInfo(
+                             api_name='Twitter',
                              oauth_token=auth_resp['oauth_token'],
                              oauth_token_secret=auth_resp['oauth_token_secret'],
                              project_name=pid
                              )
     else:
+        # delete auth info if it already exists for this API
         AuthInfo.query.filter_by(project_name=pid).delete()
         auth_info = AuthInfo(
+                             api_name='Twitter',
                              oauth_token=auth_resp['oauth_token'],
                              oauth_token_secret=auth_resp['oauth_token_secret'],
                              project_name=pid

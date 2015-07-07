@@ -71,7 +71,8 @@ class AuthInfo(db.Model):
     project_name = db.Column(db.Integer, db.ForeignKey('project.id'))
 
 
-    def __init__(self, oauth_token, oauth_token_secret, project_name):
+    def __init__(self, api_name, oauth_token, oauth_token_secret, project_name):
+        self.api_name = api_name
         self.oauth_token = oauth_token
         self.oauth_token_secret = oauth_token_secret
         self.project_name = project_name
