@@ -19,15 +19,15 @@ base_url = 'https://api.twitter.com/1/'
 request_token_url = 'https://twitter.com/oauth/request_token'
 access_token_url = 'https://twitter.com/oauth/access_token'
 authorize_url = 'https://api.twitter.com/oauth/authenticate'
-callback_uri = 'http://localhost:5000/twitter/callback'
 consumer_key = twitter_consumer_key,
 consumer_secret = twitter_consumer_secret
 
 
-@get_oauth_twitter.route('/twitter/oauth', methods=['GET'])
+@get_oauth_twitter.route('/<int:pid>/twitter/oauth', methods=['GET'])
 @login_required
-def demo():
+def demo(pid):
 
+    callback_uri = 'http://localhost:5000/{0}/twitter/callback'.format(pid)
     twitter = OAuth1Session(
                             client_key=twitter_consumer_key,
                             client_secret=twitter_consumer_secret,
@@ -39,9 +39,11 @@ def demo():
     return redirect(twitter.authorization_url(authorize_url))
 
 
-@get_oauth_twitter.route('/twitter/callback', methods=['GET'])
+@get_oauth_twitter.route('/<int:pid>/twitter/callback', methods=['GET'])
 @login_required
-def callback():
+def callback(pid):
+
+    callback_uri = 'http://localhost:5000/{0}/twitter/callback'.format(pid)
     twitter = OAuth1Session(
                             client_key=twitter_consumer_key,
                             client_secret=twitter_consumer_secret,
@@ -56,11 +58,22 @@ def callback():
 
     auth_resp = dict(twitter.fetch_access_token(access_token_url))
 
-    auth_info = AuthInfo(
-                         oauth_token=auth_resp['oauth_token'],
-                         oauth_token_secret=auth_resp['oauth_token_secret'],
-                         project_name=1
-                         )
+    # prevent duplicates from being stored by checking and deleting
+    check_auth = AuthInfo.query.filter_by(project_name=pid).first()
+    if check_auth is None:
+        auth_info = AuthInfo(
+                             oauth_token=auth_resp['oauth_token'],
+                             oauth_token_secret=auth_resp['oauth_token_secret'],
+                             project_name=pid
+                             )
+    else:
+        AuthInfo.query.filter_by(project_name=pid).delete()
+        auth_info = AuthInfo(
+                             oauth_token=auth_resp['oauth_token'],
+                             oauth_token_secret=auth_resp['oauth_token_secret'],
+                             project_name=pid
+                             )
+
 
     try:
         db.session.add(auth_info)

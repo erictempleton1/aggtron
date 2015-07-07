@@ -64,6 +64,7 @@ class AuthInfo(db.Model):
     __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True)
+    api_name = db.Column(db.String())
     oauth_token = db.Column(db.String())
     oauth_token_secret = db.Column(db.String())
     created_on = db.Column(db.DateTime, default=datetime.datetime.utcnow)
