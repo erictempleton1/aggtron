@@ -25,7 +25,7 @@ consumer_secret = twitter_consumer_secret
 
 @get_oauth_twitter.route('/<int:pid>/twitter/oauth', methods=['GET'])
 @login_required
-def demo(pid):
+def request_token(pid):
 
     callback_uri = 'http://localhost:5000/{0}/twitter/callback'.format(pid)
     twitter = OAuth1Session(
@@ -82,7 +82,7 @@ def callback(pid):
         db.session.add(auth_info)
         db.session.commit()
         flash('Authentication info saved')
-        return redirect('/')
+        return redirect(url_for('build_query.main', pid=pid))
 
     except:
         flash('An Error has occured')
