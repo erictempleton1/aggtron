@@ -2,12 +2,10 @@ import os, sys
 top_dir = os.path.join(os.path.dirname(__file__), '../../')
 sys.path.append(top_dir)
 
-import aggtron
-from aggtron import db, app
-from flask import Flask
 import unittest
-import tempfile
+from aggtron import app, db
 from aggtron.models import Users, Project
+from flask import Flask, Blueprint, request
 from flask.ext.login import login_user, current_user
 
 
@@ -29,6 +27,12 @@ class ConnectTestCase(unittest.TestCase):
 
         print u.email
         self.assertEqual('eric1@eric1.com', u.email)
+
+    def test_main(self):
+        agg = self.app.get('/')
+        print agg
+        print agg.data
+        assert 'Aggtron' not in agg.data  
 
     def tearDown(self):
         db.session.remove()
