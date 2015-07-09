@@ -9,6 +9,8 @@ from flask import Flask, Blueprint, request, url_for
 from flask.ext.login import login_user, current_user
 
 
+# use requests module instead?
+
 class ConnectTestCase(unittest.TestCase):
 
 
@@ -29,10 +31,10 @@ class ConnectTestCase(unittest.TestCase):
         self.assertEqual('eric1@eric1.com', u.email) 
 
     def test_main(self):
-        resp = self.client.get('/')
+        resp = self.client.get('/login', base_url='http://localhost')
         print resp
         print resp.data
-        assert 'Aggtron' not in resp.data  
+        assert 'Aggtron' not in resp.data
 
     def tearDown(self):
         db.session.remove()
