@@ -5,7 +5,7 @@ sys.path.append(top_dir)
 import unittest
 from aggtron import app, db
 from aggtron.models import Users, Project
-from flask import Flask, Blueprint, request
+from flask import Flask, Blueprint, request, url_for
 from flask.ext.login import login_user, current_user
 
 
@@ -15,7 +15,7 @@ class ConnectTestCase(unittest.TestCase):
     def setUp(self):
         app.config['TESTING'] = True
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/erictempleton/Documents/Projects/myenv/aggtron/aggtron_test.db'
-        self.app = app.test_client()
+        self.client = app.test_client()
         db.create_all()
 
     def test_create_user(self):
@@ -26,13 +26,13 @@ class ConnectTestCase(unittest.TestCase):
         u = Users.query.filter_by(email='eric1@eric1.com').first()
 
         print u.email
-        self.assertEqual('eric1@eric1.com', u.email)
+        self.assertEqual('eric1@eric1.com', u.email) 
 
     def test_main(self):
-        agg = self.app.get('/')
-        print agg
-        print agg.data
-        assert 'Aggtron' not in agg.data  
+        resp = self.client.get('/')
+        print resp
+        print resp.data
+        assert 'Aggtron' not in resp.data  
 
     def tearDown(self):
         db.session.remove()
