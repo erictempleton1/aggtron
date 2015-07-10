@@ -1,5 +1,5 @@
 from flask import current_app, Blueprint, render_template, request, flash, redirect, url_for
-from aggtron import login_manager, flask_bcrypt, db
+from app import login_manager, flask_bcrypt, db
 from models import Users
 from flask.ext.login import (current_user, login_required, login_user, logout_user, confirm_login, fresh_login_required)
 from forms import LoginForm, SignupForm

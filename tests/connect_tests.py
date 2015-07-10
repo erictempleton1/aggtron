@@ -31,7 +31,11 @@ class ConnectTestCase(unittest.TestCase):
         self.assertEqual('eric1@eric1.com', u.email) 
 
     def test_main(self):
-        resp = self.client.get('/login', base_url='http://localhost')
+        ctx = app.test_request_context()
+        ctx.push()
+        client = app.test_client()
+
+        resp = client.get('/')
         print resp
         print resp.data
         assert 'Aggtron' not in resp.data

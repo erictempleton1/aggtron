@@ -1,6 +1,6 @@
 import config
 import urlparse
-from aggtron import db
+from app import db
 from flask.json import jsonify
 from models import Project, Users, AuthInfo
 from requests_oauthlib import OAuth1Session

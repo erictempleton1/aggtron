@@ -1,6 +1,6 @@
 import datetime
 from flask import url_for
-from aggtron import db
+from app import db
 
 
 class Users(db.Model):
