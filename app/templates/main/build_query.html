@@ -2,13 +2,17 @@
 
 {% block body %}
 
-{% if proj_auth.oauth_token %}
+
+{% if proj_auth.oauth_token and proj_auth %}
+
 <h3>Build Queries // {{ project.name }} (Authenticated)</h3>
+<strong>Recent tweet:</strong> {{ basic_query }}
+
 {% else %}
-<h3>Build Queries // {{ project.name }} <a href="{{ url_for('get_oauth_twitter.request_token', pid=project.id) }}">(Please authenticate)</h3>
+
+<h3>Build Queries // {{ project.name }} <a href="{{ url_for('get_oauth_twitter.request_token', pid=project.id) }}">(Please authenticate)</a></h3>
+
 {% endif %}
 
-
-<strong>Recent tweet:</strong> {{ basic_query }}
 
 {% endblock %}
