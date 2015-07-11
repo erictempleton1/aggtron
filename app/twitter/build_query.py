@@ -40,7 +40,7 @@ def main(pid):
         r = requests.get(url=url, auth=query)
         basic_query = r.json()[0]['text']
     except:
-        basic_query = 'Error: http status code: {0}'.format(r.status_code)    
+        basic_query = 'Error: unable to complete request'   
 
     return render_template(
                            'main/build_query.html',
