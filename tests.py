@@ -6,7 +6,7 @@ class AggtronTestCase(unittest.TestCase):
 
 
     def setUp(self):
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/erictempleton/Documents/Projects/myenv/aggtron/aggtron_test.db'
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/erictempleton/Documents/Projects/myenv/aggtron_test.db'
         self.client = app.test_client()
         db.create_all()
 
