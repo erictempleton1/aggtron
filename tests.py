@@ -24,6 +24,20 @@ class AggtronTestCase(unittest.TestCase):
 
         rv = self.client.get('/register')
         assert 'Register' in rv.data
+
+    def login(self, username, password):
+        return self.client.post('/login', data=dict(
+            username=username,
+            password=password
+            ), follow_redirects=True)
+
+    def logout(self):
+        return self.client.get('/logout', follow_redirects=True)    
+
+    def test_login_logout(self):
+        rv = self.login('eric@eric.com', 'eric')
+        print rv.data
+        assert 'Logged in' in rv.data       
              
 
 if __name__ == '__main__':
