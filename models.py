@@ -89,7 +89,7 @@ class TwitterUserTimelineQuery(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
-    include_rts = db.Column(db.Boolean(), default=True)
+    include_rts = db.Column(db.String(), default=True)
     created_on = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     created_by = db.Column(db.Integer)  
     project_name = db.Column(db.Integer, db.ForeignKey('project.id'))

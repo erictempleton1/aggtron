@@ -1,10 +1,11 @@
 import config
 import requests
+from app import db
 from requests_oauthlib import OAuth1
 from forms import TwitterUserTimeline
-from models import Users, Project, AuthInfo
+from models import Users, Project, AuthInfo, TwitterUserTimelineQuery
 from flask.ext.login import current_user, login_required
-from flask import Blueprint, render_template, request, flash, redirect
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 
 
 build_query = Blueprint('build_query', __name__, template_folder='templates')
@@ -16,6 +17,7 @@ def main(pid):
 
     project = Project.query.filter_by(id=pid, created_by=current_user.id).first_or_404()
     proj_auth = AuthInfo.query.filter_by(project_name=project.id).first()
+    proj_queries = TwitterUserTimelineQuery.query.filter_by(project_name=project.id)
 
     if proj_auth:
       # check to make sure auth creds are in the db
@@ -47,7 +49,8 @@ def main(pid):
                            'main/build_query.html',
                            project=project,
                            proj_auth=proj_auth,
-                           basic_query=basic_query
+                           basic_query=basic_query,
+                           proj_queries=proj_queries
                            )
 
 
@@ -57,9 +60,19 @@ def build(pid):
     form = TwitterUserTimeline()
     if form.validate_on_submit():
         query_title = request.form['query_name']
+        include_rts = request.form['include_rts']
 
+        new_query = TwitterUserTimelineQuery(
+                                             name=query_title,
+                                             include_rts=include_rts,
+                                             created_by=current_user.id,
+                                             project_name=pid
+                                             )
+        db.session.add(new_query)
+        db.session.commit()
+        flash('Query Created')
         # placeholder for db save
-        return redirect('/<pid>/queries')
+        return redirect(url_for('build_query.main', pid=pid))
 
     return render_template('twitter/new_query.html', form=form)    
     
