@@ -45,8 +45,9 @@ class Project(db.Model):
     api_type = db.Column(db.String(120))
     created_on = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     created_by = db.Column(db.Integer, db.ForeignKey('users.id'))
-    authinfo = db.relationship('AuthInfo', backref='project',
-                                lazy='joined')
+    authinfo = db.relationship('AuthInfo', backref='project', lazy='dynamic')
+    twitter_query = db.relationship('TwitterUserTimelineQuery', backref='project', lazy='dynamic')
+
 
 
     def __init__(self, name, api_type, created_by):
@@ -78,4 +79,28 @@ class AuthInfo(db.Model):
         self.project_name = project_name
 
     def __repr__(self):
-        return '<OAuth Token: {0}>'.format(self.oauth_token)    
+        return '<OAuth Token: {0}>'.format(self.oauth_token)
+
+
+class TwitterUserTimelineQuery(db.Model):
+
+    __tablename__ = 'twitterusertimelinequery'
+    __table_args__ = {'extend_existing': True} 
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+    include_rts = db.Column(db.Boolean(), default=True)
+    created_on = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    created_by = db.Column(db.Integer)  
+    project_name = db.Column(db.Integer, db.ForeignKey('project.id'))
+
+
+    def __init__(self, name, include_rts, created_by, project_name):
+        self.name = name
+        self.include_rts = include_rts
+        self.created_by = created_by
+        self.project_name = project_name
+
+    def __repr__(self):
+        return '<Query Name: {0}>'.format(self.name) 
+

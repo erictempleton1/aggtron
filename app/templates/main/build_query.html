@@ -6,6 +6,10 @@
 {% if proj_auth.oauth_token and proj_auth %}
 
 <h3>Build Queries // {{ project.name }} (Authenticated)</h3>
+<p>
+    <a href="{{ url_for('build_query.build', pid=project.id) }}">Create New Query</a>
+</p>    
+
 <strong>Recent tweet:</strong> {{ basic_query }}
 
 {% else %}

@@ -23,3 +23,10 @@ class ProjectForm(Form):
                            ('Google Analytics', 'Google Analytics'),
                            ('Github', 'Github')
                            ])
+
+
+class TwitterUserTimeline(Form):
+    query_name = TextField('Query Name', validators=[validators.Required()])
+    include_rts = BooleanField('Include RTs')
+
+    
