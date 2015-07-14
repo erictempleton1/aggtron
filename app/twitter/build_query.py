@@ -74,6 +74,11 @@ def build(pid):
         # placeholder for db save
         return redirect(url_for('build_query.main', pid=pid))
 
-    return render_template('twitter/new_query.html', form=form)    
+    return render_template('twitter/new_query.html', form=form)
+
+
+# TODO add disable or delete buttons for queries
+# TODO add delete button for projects
+# TODO add username for auth'd twitter account        
     
           
