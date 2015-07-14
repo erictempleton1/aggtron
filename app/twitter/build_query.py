@@ -17,7 +17,7 @@ def main(pid):
 
     project = Project.query.filter_by(id=pid, created_by=current_user.id).first_or_404()
     proj_auth = AuthInfo.query.filter_by(project_name=project.id).first()
-    proj_queries = TwitterUserTimelineQuery.query.filter_by(project_name=project.id)
+    proj_queries = TwitterUserTimelineQuery.query.filter_by(project_name=project.id, created_by=current_user.id)
 
     if proj_auth:
       # check to make sure auth creds are in the db
@@ -60,7 +60,7 @@ def build(pid):
     form = TwitterUserTimeline()
     if form.validate_on_submit():
         query_title = request.form['query_name']
-        include_rts = request.form['include_rts']
+        include_rts = request.form.get('include_rts')
 
         new_query = TwitterUserTimelineQuery(
                                              name=query_title,

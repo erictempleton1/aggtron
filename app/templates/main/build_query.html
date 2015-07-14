@@ -13,15 +13,15 @@
     <a href="{{ url_for('build_query.build', pid=project.id) }}">Create New Query</a>
 </p>
 
+<h3>Current Queries</h3>
+{% for query in proj_queries %}
+    <p>{{ query.name }} | Created on: {{ query.created_on }} | Include RTs: {{ query.include_rts }} | Active: {{ query.active }}<p>
+{% endfor %} 
+
 {% else %}
 
 <h3>Build Queries // {{ project.name }} <a href="{{ url_for('get_oauth_twitter.request_token', pid=project.id) }}">(Please authenticate)</a></h3>
-
-<h3>Current Queries</h3>
-{% for query in proj_queries %}
-    {{ query.name }}
-{% endfor %}  
-
+ 
 
 {% endif %}
 
