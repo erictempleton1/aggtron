@@ -5,9 +5,10 @@
 
 {% if proj_auth.oauth_token and proj_auth %}
 
-<h3>Build Queries // {{ project.name }} (Authenticated) <a href="{{ url_for('get_oauth_twitter.request_token', pid=project.id) }}">(Re-Authenticate)</a></h3>    
+<h3>Build Queries // {{ project.name }} (Authenticated as: {{ basic_query[0]['user']['screen_name'] }} ) 
+<a href="{{ url_for('get_oauth_twitter.request_token', pid=project.id) }}">(Re-Authenticate)</a></h3>    
 
-<strong>Recent tweet:</strong> {{ basic_query }}
+<strong>Recent tweet:</strong> {{ basic_query[0]['text'] }} ({{ basic_query[0]['id'] }})
 
 <p>
     <a href="{{ url_for('build_query.build', pid=project.id) }}">Create New Query</a>

@@ -41,7 +41,7 @@ def main(pid):
     try:
         # make a basic query to confirm connection
         r = requests.get(url=url, auth=query)
-        basic_query = r.json()[0]['id']
+        basic_query = r.json()
     except:
         basic_query = 'Error: unable to complete request'   
 
@@ -78,7 +78,4 @@ def build(pid):
 
 
 # TODO add disable or delete buttons for queries
-# TODO add delete button for projects
-# TODO add username for auth'd twitter account        
-    
-          
+# TODO add delete button for queries?
