@@ -37,7 +37,6 @@ def main(pid):
         # prompt user to authenticate if no auth creds are found
         proj_auth = False
 
-
     try:
         # make a basic query to confirm connection
         r = requests.get(url=url, auth=query)
