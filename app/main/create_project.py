@@ -25,7 +25,7 @@ def index():
         db.session.add(project)
         db.session.commit()
         flash('Project Created')
-        return redirect('/create')
+        return redirect(url_for('main_site_index.index'))
 
     return render_template('main/api_auth.html', form=form)
 
