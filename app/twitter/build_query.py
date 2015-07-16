@@ -71,11 +71,27 @@ def build(pid):
         db.session.add(new_query)
         db.session.commit()
         flash('Query Created')
-        # placeholder for db save
         return redirect(url_for('build_query.main', pid=pid))
 
     return render_template('twitter/new_query.html', form=form)
 
 
+@build_query.route('/<int:pid>/<int:qid>/query-status-timeline', methods=['GET'])
+@login_required
+def change_status(qid, pid):
+    existing_query = TwitterUserTimelineQuery.query.filter_by(
+                                                              id=qid,
+                                                              created_by=current_user.id).first_or_404()
+
+    if existing_query.enabled:
+        existing_query.enabled = False
+        db.session.commit()
+    else:
+        existing_query.enabled = True
+        db.session.commit()    
+    return redirect(url_for('build_query.main', pid=pid))
+
 # TODO add disable or delete buttons for queries
 # TODO add delete button for queries?
+# TODO add template logic for enable/disable
+# TODO fix redirect for create project to goto main page
