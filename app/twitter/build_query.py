@@ -11,10 +11,10 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 build_query = Blueprint('build_query', __name__, template_folder='templates')
 
 
-@build_query.route('/<int:pid>/queries', methods=['GET'])
+@build_query.route('/<int:pid>/twitter/queries', methods=['GET'])
 @login_required
 def main(pid):
-
+    """ main page for twitter queries """
     project = Project.query.filter_by(id=pid, created_by=current_user.id).first_or_404()
     proj_auth = AuthInfo.query.filter_by(project_name=project.id).first()
     proj_queries = TwitterUserTimelineQuery.query.filter_by(project_name=project.id, created_by=current_user.id)
@@ -53,9 +53,10 @@ def main(pid):
                            )
 
 
-@build_query.route('/<int:pid>/twitter/build-query', methods=['GET', 'POST'])
+@build_query.route('/<int:pid>/twitter/timeline-query', methods=['GET', 'POST'])
 @login_required
 def build(pid):
+    """ create a new query to save a user's timeline """
     form = TwitterUserTimeline()
     if form.validate_on_submit():
         query_title = request.form['query_name']
@@ -78,6 +79,7 @@ def build(pid):
 @build_query.route('/<int:pid>/<int:qid>/query-status-timeline', methods=['GET'])
 @login_required
 def change_status(qid, pid):
+    """ check to see if a query is enabled or disabled"""
     existing_query = TwitterUserTimelineQuery.query.filter_by(
                                                               id=qid,
                                                               created_by=current_user.id).first_or_404()
@@ -90,7 +92,5 @@ def change_status(qid, pid):
         db.session.commit()    
     return redirect(url_for('build_query.main', pid=pid))
 
-# TODO add disable or delete buttons for queries
+
 # TODO add delete button for queries?
-# TODO add template logic for enable/disable
-# TODO fix redirect for create project to goto main page

@@ -11,7 +11,7 @@
 <strong>Recent tweet:</strong> {{ basic_query[0]['text'] }} ({{ basic_query[0]['id'] }})
 
 <p>
-    <a href="{{ url_for('build_query.build', pid=project.id) }}">Create New Query</a>
+    <a href="{{ url_for('build_query.build', pid=project.id) }}">Create New          Timeline Query</a>
 </p>
 
 <h3>Current Queries</h3>
@@ -25,7 +25,7 @@
 
     <p>{{ query.name }} | Created on: {{ query.created_on }} | Include RTs: {{ query.include_rts }} | Active: {{ query.enabled }} 
     <a href="{{ url_for('build_query.change_status', qid=query.id, pid=project.id) }}">(Enable)</a><p>
-    
+
     {% endif %}
 {% endfor %} 
 
