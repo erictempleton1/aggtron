@@ -17,7 +17,7 @@ def login():
 
         user = Users.query.filter_by(email=email).first()
 
-        if flask_bcrypt.check_password_hash(user.password, password):
+        if user and flask_bcrypt.check_password_hash(user.password, password):
             login_user(user)
             flash('Logged In')
             return redirect('/')    
