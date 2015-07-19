@@ -14,6 +14,10 @@
     <a href="{{ url_for('build_query.build', pid=project.id) }}">Create New          Timeline Query</a>
 </p>
 
+<p>
+    <a href="#">Create New Mentions Query</a>
+</a>    
+
 <h3>Current Queries</h3>
 {% for query in proj_queries %}
     {% if query.enabled %}

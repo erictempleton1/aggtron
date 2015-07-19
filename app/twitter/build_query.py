@@ -93,4 +93,5 @@ def change_status(qid, pid):
     return redirect(url_for('build_query.main', pid=pid))
 
 
+# TODO add user mentions query pages
 # TODO add delete button for queries?
