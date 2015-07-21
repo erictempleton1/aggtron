@@ -15,15 +15,15 @@
 </p>
 
 <p>
-    <a href="#">Create New Mentions Query</a>
+    <a href="{{ url_for('build_timeline_query.build_mentions', pid=project.id) }}">Create New Mentions Query</a>
 </a>    
 
-<h3>Current Queries</h3>
-{% for query in proj_queries %}
+<h3>Current Timeline Queries</h3>
+{% for query in timeline_queries %}
     {% if query.enabled %}
 
     <p>{{ query.name }} | Created on: {{ query.created_on }} | Include RTs: {{ query.include_rts }} | Active: {{ query.enabled }} 
-    <a href="{{ url_for('build_timeline_query.change_status', qid=query.id, pid=project.id) }}">(Disable)</a><p>
+    <a href="{{ url_for('build_timeline_query.change_status', qid=query.id, pid=project.id) }}">(Disable)</a></p>
 
     {% else %}
 
@@ -31,9 +31,22 @@
     <a href="{{ url_for('build_timeline_query.change_status', qid=query.id, pid=project.id) }}">(Enable)</a><p>
 
     {% endif %}
-{% endfor %} 
+{% endfor %}     
 
-{% else %}
+ <h3>Current Mentions Queries</h3>
+ {% for query in mentions_queries %}
+    {% if query.endabled %}
+
+    <p>{{ query.name }} | Created on: {{ query.created_on }} | Active: {{ query.enabled }} <a href="#">(Disable)</a></p> 
+
+    {% else %}
+
+    <p>{{ query.name }} | Created on: {{ query.created_on }} | Active: {{ query.enabled }} <a href="#">(Enable)</a></p> 
+
+    {% endif %}
+{% endfor %}
+
+{% else %}    
 
 <h3>Build Queries // {{ project.name }} 
 <a href="{{ url_for('get_oauth_twitter.request_token', pid=project.id) }}">(Please authenticate)</a></h3>

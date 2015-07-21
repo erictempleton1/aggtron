@@ -2,10 +2,11 @@ import config
 import requests
 from app import db
 from requests_oauthlib import OAuth1
-from forms import TwitterUserTimeline
-from models import Users, Project, AuthInfo, TwitterUserTimelineQuery
+from forms import TwitterUserTimeline, TwitterMentionsTimeline
 from flask.ext.login import current_user, login_required
 from flask import Blueprint, render_template, request, flash, redirect, url_for
+from models import Users, Project, AuthInfo, TwitterUserTimelineQuery, TwitterMentionsTimelineQuery
+
 
 
 build_timeline_query = Blueprint('build_timeline_query', __name__, template_folder='templates')
@@ -15,9 +16,24 @@ build_timeline_query = Blueprint('build_timeline_query', __name__, template_fold
 @login_required
 def main(pid):
     """ main page for twitter queries """
+    # get the current project
     project = Project.query.filter_by(id=pid, created_by=current_user.id).first_or_404()
+
+    # get the authorization for current project
     proj_auth = AuthInfo.query.filter_by(project_name=project.id).first()
-    proj_queries = TwitterUserTimelineQuery.query.filter_by(project_name=project.id, created_by=current_user.id)
+
+    # return all timeline queries
+    timeline_queries = TwitterUserTimelineQuery.query.filter_by(
+                                                                project_name=project.id,
+                                                                created_by=current_user.id
+                                                                )
+
+    # return all mentions queries
+    mentions_queries = TwitterMentionsTimelineQuery.query.filter_by(
+                                                                    project_name=project.id,
+                                                                    created_by=current_user.id
+                                                                    )
+
 
     if proj_auth:
       # check to make sure auth creds are in the db
@@ -49,8 +65,31 @@ def main(pid):
                            project=project,
                            proj_auth=proj_auth,
                            basic_query=basic_query,
-                           proj_queries=proj_queries
+                           timeline_queries=timeline_queries,
+                           mentions_queries=mentions_queries
                            )
+
+
+@build_timeline_query.route('/<int:pid>/twitter/mentions-query', methods=['GET', 'POST'])
+@login_required
+def build_mentions(pid):
+    """ created a new query to save a user's mentions """
+    form = TwitterMentionsTimeline()
+    if form.validate_on_submit():
+        query_title = request.form['query_name']
+
+        new_query = TwitterMentionsTimelineQuery(
+                                                 name=query_title,
+                                                 created_by=current_user.id,
+                                                 project_name=pid
+                                                 )
+        db.session.add(new_query)
+        db.session.commit()
+        flash('Twitter Mentions Query Created')
+        return redirect(url_for('build_timeline_query.main', pid=pid))
+
+    return render_template('twitter/new_mentions_query.html', form=form)    
+
 
 
 @build_timeline_query.route('/<int:pid>/twitter/timeline-query', methods=['GET', 'POST'])
@@ -70,10 +109,10 @@ def build(pid):
                                              )
         db.session.add(new_query)
         db.session.commit()
-        flash('Query Created')
+        flash('Twitter Timeline Query Created')
         return redirect(url_for('build_timeline_query.main', pid=pid))
 
-    return render_template('twitter/new_query.html', form=form)
+    return render_template('twitter/new_timeline_query.html', form=form)
 
 
 @build_timeline_query.route('/<int:pid>/<int:qid>/query-status-timeline', methods=['GET'])

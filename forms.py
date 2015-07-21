@@ -29,4 +29,8 @@ class TwitterUserTimeline(Form):
     query_name = TextField('Query Name', validators=[validators.Required()])
     include_rts = BooleanField('Include RTs')
 
+
+class TwitterMentionsTimeline(Form):
+    query_name = TextField('Query Name', validators=[validators.Required()])    
+
     

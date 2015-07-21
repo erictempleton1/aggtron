@@ -46,8 +46,8 @@ class Project(db.Model):
     created_on = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     created_by = db.Column(db.Integer, db.ForeignKey('users.id'))
     authinfo = db.relationship('AuthInfo', backref='project', lazy='dynamic')
-    twitter_query = db.relationship('TwitterUserTimelineQuery', backref='project', lazy='dynamic')
-
+    twitter_timeline_query = db.relationship('TwitterUserTimelineQuery', backref='project', lazy='dynamic')
+    twitter_mentions_query = db.relationship('TwitterMentionsTimelineQuery', backref='project', lazy='dynamic')
 
 
     def __init__(self, name, api_type, created_by):
@@ -89,6 +89,7 @@ class TwitterUserTimelineQuery(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
+    query_type = db.Column(db.String(), default='twitter user timeline')
     include_rts = db.Column(db.String())
     created_on = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     created_by = db.Column(db.Integer)
@@ -104,5 +105,29 @@ class TwitterUserTimelineQuery(db.Model):
         self.project_name = project_name
 
     def __repr__(self):
-        return '<Query Name: {0}>'.format(self.name) 
+        return '<Query Name: {0}>'.format(self.name)
+
+
+class TwitterMentionsTimelineQuery(db.Model):
+
+    __tablename__ = 'twittermentionstimelinequery'
+    __table_args__ = {'extend_existing': True}
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+    query_type = db.Column(db.String(), default='twitter mentions timeline')
+    created_on = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    created_by = db.Column(db.Integer)
+    enabled = db.Column(db.Boolean, default=True)
+    last_run = db.Column(db.DateTime, default=None)
+    project_name = db.Column(db.Integer, db.ForeignKey('project.id'))
+
+
+    def __init__(self, name, created_by, project_name):
+        self.name = name
+        self.created_by = created_by
+        self.project_name = project_name
+
+    def __repr__(self):
+        return '<Query Name {0}>'.format(self.name)       
 
