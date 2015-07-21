@@ -8,10 +8,10 @@ from flask.ext.login import current_user, login_required
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 
 
-build_query = Blueprint('build_query', __name__, template_folder='templates')
+build_timeline_query = Blueprint('build_timeline_query', __name__, template_folder='templates')
 
 
-@build_query.route('/<int:pid>/twitter/queries', methods=['GET'])
+@build_timeline_query.route('/<int:pid>/twitter/queries', methods=['GET'])
 @login_required
 def main(pid):
     """ main page for twitter queries """
@@ -53,7 +53,7 @@ def main(pid):
                            )
 
 
-@build_query.route('/<int:pid>/twitter/timeline-query', methods=['GET', 'POST'])
+@build_timeline_query.route('/<int:pid>/twitter/timeline-query', methods=['GET', 'POST'])
 @login_required
 def build(pid):
     """ create a new query to save a user's timeline """
@@ -71,12 +71,12 @@ def build(pid):
         db.session.add(new_query)
         db.session.commit()
         flash('Query Created')
-        return redirect(url_for('build_query.main', pid=pid))
+        return redirect(url_for('build_timeline_query.main', pid=pid))
 
     return render_template('twitter/new_query.html', form=form)
 
 
-@build_query.route('/<int:pid>/<int:qid>/query-status-timeline', methods=['GET'])
+@build_timeline_query.route('/<int:pid>/<int:qid>/query-status-timeline', methods=['GET'])
 @login_required
 def change_status(qid, pid):
     """ check to see if a query is enabled or disabled"""
@@ -90,7 +90,7 @@ def change_status(qid, pid):
     else:
         existing_query.enabled = True
         db.session.commit()    
-    return redirect(url_for('build_query.main', pid=pid))
+    return redirect(url_for('build_timeline_query.main', pid=pid))
 
 
 # TODO add user mentions query pages

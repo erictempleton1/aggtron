@@ -82,7 +82,7 @@ def callback(pid):
         db.session.add(auth_info)
         db.session.commit()
         flash('Authentication info saved')
-        return redirect(url_for('build_query.main', pid=pid))
+        return redirect(url_for('build_timeline_query.main', pid=pid))
 
     except:
         flash('An Error has occured')
