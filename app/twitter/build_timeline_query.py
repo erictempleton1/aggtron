@@ -128,6 +128,7 @@ def change_status_timeline(qid, pid):
         db.session.commit()    
     return redirect(url_for('build_timeline_query.main', pid=pid))
 
-# rework disable/enable query to apply to all queries?
+# TODO rework disable/enable query to apply to all queries?
 # TODO add user mentions query pages
 # TODO add delete button for queries?
+# TODO might need to re-think schema layout
