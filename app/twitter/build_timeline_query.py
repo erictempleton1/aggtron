@@ -33,8 +33,6 @@ def main(pid):
                                                                     project_name=project.id,
                                                                     created_by=current_user.id
                                                                     )
-
-
     if proj_auth:
       # check to make sure auth creds are in the db
       consumer_key = config.TWITTER_CONSUMER_KEY
@@ -91,7 +89,6 @@ def build_mentions(pid):
     return render_template('twitter/new_mentions_query.html', form=form)    
 
 
-
 @build_timeline_query.route('/<int:pid>/twitter/timeline-query', methods=['GET', 'POST'])
 @login_required
 def build(pid):
@@ -117,8 +114,8 @@ def build(pid):
 
 @build_timeline_query.route('/<int:pid>/<int:qid>/query-status-timeline', methods=['GET'])
 @login_required
-def change_status(qid, pid):
-    """ check to see if a query is enabled or disabled"""
+def change_status_timeline(qid, pid):
+    """ check to see if timeline query is enabled or disabled"""
     existing_query = TwitterUserTimelineQuery.query.filter_by(
                                                               id=qid,
                                                               created_by=current_user.id).first_or_404()

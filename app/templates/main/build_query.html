@@ -23,12 +23,12 @@
     {% if query.enabled %}
 
     <p>{{ query.name }} | Created on: {{ query.created_on }} | Include RTs: {{ query.include_rts }} | Active: {{ query.enabled }} 
-    <a href="{{ url_for('build_timeline_query.change_status', qid=query.id, pid=project.id) }}">(Disable)</a></p>
+    <a href="{{ url_for('build_timeline_query.change_status_timeline', qid=query.id, pid=project.id) }}">(Disable)</a></p>
 
     {% else %}
 
     <p>{{ query.name }} | Created on: {{ query.created_on }} | Include RTs: {{ query.include_rts }} | Active: {{ query.enabled }} 
-    <a href="{{ url_for('build_timeline_query.change_status', qid=query.id, pid=project.id) }}">(Enable)</a><p>
+    <a href="{{ url_for('build_timeline_query.change_status_timeline', qid=query.id, pid=project.id) }}">(Enable)</a><p>
 
     {% endif %}
 {% endfor %}     
