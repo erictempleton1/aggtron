@@ -1,6 +1,7 @@
 import unittest
 from app import app, db
 from flask.ext.login import login_user
+from flask.ext.testing import TestCase
 
 
 
