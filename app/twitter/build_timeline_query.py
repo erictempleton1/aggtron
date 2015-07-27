@@ -117,8 +117,8 @@ def build(pid):
 def change_status_timeline(qid, pid):
     """ check to see if timeline query is enabled or disabled"""
     existing_query = TwitterUserTimelineQuery.query.filter_by(
-                                                              id=qid,
-                                                              created_by=current_user.id).first_or_404()
+                                                          id=qid,
+                                                          created_by=current_user.id).first_or_404()
 
     if existing_query.enabled:
         existing_query.enabled = False
@@ -128,6 +128,22 @@ def change_status_timeline(qid, pid):
         db.session.commit()    
     return redirect(url_for('build_timeline_query.main', pid=pid))
 
+@build_timeline_query.route('/<int:pid>/<int:qid>/query-status-mentions', methods=['GET'])
+@login_required
+def change_status_mentions(qid, pid):
+    """ check to see if mentions query is enabled or disabled"""
+    existing_query = TwitterMentionsTimlineQuery(query.filter_by(
+                                                 id=qid,
+                                                 created_by=current_user.id).first_or_404()
+    if exiting_query.enabled:
+        existing_query.enabled = False
+        db.session.commit()
+    else:
+        existing_query.enabled = True
+        db.session.commit()
+    return redirect(url_for('build_timeline_query.main', pid=pid))                                                   
+
+# TODO need to add change_status_mentions in template
 # TODO rework disable/enable query to apply to all queries?
 # TODO add user mentions query pages
 # TODO add delete button for queries?
