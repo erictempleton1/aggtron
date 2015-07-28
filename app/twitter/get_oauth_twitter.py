@@ -76,8 +76,6 @@ def callback(pid):
                              oauth_token_secret=auth_resp['oauth_token_secret'],
                              project_name=pid
                              )
-
-
     try:
         db.session.add(auth_info)
         db.session.commit()
