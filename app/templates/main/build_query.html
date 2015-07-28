@@ -35,13 +35,15 @@
 
  <h3>Current Mentions Queries</h3>
  {% for query in mentions_queries %}
-    {% if query.endabled %}
+    {% if query.enabled %}
 
-    <p>{{ query.name }} | Created on: {{ query.created_on }} | Active: {{ query.enabled }} <a href="#">(Disable)</a></p> 
+    <p>{{ query.name }} | Created on: {{ query.created_on }} | Active: {{ query.enabled }} 
+    <a href="{{ url_for('build_timeline_query.change_status_mentions', qid=query.id, pid=project.id) }}">(Disable)</a></p> 
 
     {% else %}
 
-    <p>{{ query.name }} | Created on: {{ query.created_on }} | Active: {{ query.enabled }} <a href="#">(Enable)</a></p> 
+    <p>{{ query.name }} | Created on: {{ query.created_on }} | Active: {{ query.enabled }} 
+    <a href="{{ url_for('build_timeline_query.change_status_mentions', qid=query.id, pid=project.id) }}">(Enable)</a></p> 
 
     {% endif %}
 {% endfor %}

@@ -132,10 +132,10 @@ def change_status_timeline(qid, pid):
 @login_required
 def change_status_mentions(qid, pid):
     """ check to see if mentions query is enabled or disabled"""
-    existing_query = TwitterMentionsTimlineQuery(query.filter_by(
+    existing_query = TwitterMentionsTimelineQuery.query.filter_by(
                                                  id=qid,
                                                  created_by=current_user.id).first_or_404()
-    if exiting_query.enabled:
+    if existing_query.enabled:
         existing_query.enabled = False
         db.session.commit()
     else:
