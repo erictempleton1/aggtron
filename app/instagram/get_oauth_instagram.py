@@ -15,17 +15,24 @@ get_oauth_instagram = Blueprint('get_oauth_instagram', __name__, template_folder
 instagram_client_id = config.INSTAGRAM_CLIENT_ID
 instagram_client_secret = config.INSTAGRAM_CLIENT_SECRET
 redirect_uri = 'http://localhost:5000/instagram/oauth/callback'
+authorize_url = 'https://api.instagram.com/oauth/authorize/'
+
 
 
 @get_oauth_instagram.route('/<int:pid>/instagram/oauth', methods=['GET'])
 @login_required
 def request_token(pid):
 
-    authorize_url = 'https://api.instagram.com/oauth/authorize/'
-
     oauth = OAuth2Session(client_id=instagram_client_id, redirect_uri=redirect_uri)
 
-    return redirect(oauth.authorization_url(authorize_url))
+    authorization_url, state = oauth.authorization_url(authorize_url)
+
+    session['oauth_state'] = state
+
+    return redirect(authorization_url)
+
+# https://api.instagram.com/oauth/authorize?response_type=code&client_id=9f57bc381624478ab0f182bf0b3e83ae&redirect_uri=http%3A%2F%2Flocalhost%3A5000%2Finstagram%2Foauth%2Fcallback&state=RqDty8IXUfRIM0j7w0LhxoVYsSk0a7    
+# https://api.instagram.com/oauth/authorize/?response_type=code&client_id=9f57bc381624478ab0f182bf0b3e83ae&redirect_uri=http%3A%2F%2Flocalhost%3A5000%2Finstagram%2Foauth%2Fcallback&state=pSTgfs6TwiLxSDpTS8ViZylsIRO3e3
 
 # example response url -
 # http://localhost:5000/instagram/oauth/callback?pid=1&code=1b5c96d1fdac407290a3d3eb11f56dea
@@ -46,4 +53,5 @@ def callback():
             }
 
     insta_url = requests.post(request_token_uri, params)
-    return insta_url.url       
+    return insta_url.url
+        
