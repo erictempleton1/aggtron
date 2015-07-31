@@ -29,11 +29,8 @@ def request_token(pid):
 
     session['oauth_state'] = state
 
-    return redirect(authorization_url)
-
-# https://api.instagram.com/oauth/authorize?response_type=code&client_id=9f57bc381624478ab0f182bf0b3e83ae&redirect_uri=http%3A%2F%2Flocalhost%3A5000%2Finstagram%2Foauth%2Fcallback&state=RqDty8IXUfRIM0j7w0LhxoVYsSk0a7    
-# https://api.instagram.com/oauth/authorize/?response_type=code&client_id=9f57bc381624478ab0f182bf0b3e83ae&redirect_uri=http%3A%2F%2Flocalhost%3A5000%2Finstagram%2Foauth%2Fcallback&state=pSTgfs6TwiLxSDpTS8ViZylsIRO3e3
-
+    return redirect(authorization_url
+                    
 # example response url -
 # http://localhost:5000/instagram/oauth/callback?pid=1&code=1b5c96d1fdac407290a3d3eb11f56dea
 
