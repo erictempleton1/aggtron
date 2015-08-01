@@ -36,5 +36,6 @@ def request_token(pid):
 @get_oauth_instagram.route('/instagram/oauth/callback', methods=['GET'])
 @login_required
 def callback():
-    return 'hello'
+    code = request.args.get('code')
+    return code
         
