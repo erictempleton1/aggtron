@@ -17,7 +17,6 @@ instagram_client_secret = config.INSTAGRAM_CLIENT_SECRET
 authorize_url = 'https://api.instagram.com/oauth/authorize/'
 
 
-
 @get_oauth_instagram.route('/<int:pid>/instagram/oauth', methods=['GET'])
 @login_required
 def request_token(pid):
@@ -37,5 +36,42 @@ def request_token(pid):
 @login_required
 def callback():
     code = request.args.get('code')
-    return code
-        
+    redirect_uri = 'http://localhost:5000/instagram/oauth/callback?pid={0}'.format(request.args.get('pid'))
+    code_url = 'https://api.instagram.com/oauth/access_token'
+
+    params = {
+                'client_id': instagram_client_id,
+                'client_secret': instagram_client_secret,
+                'grant_type': 'authorization_code',
+                'redirect_uri': redirect_uri,
+                'code': code
+            }
+
+    r = requests.post(code_url, data=params)
+    access_token = r.json()['access_token']
+
+    check_auth = AuthInfo.query.filter_by(project_name=pid, api_name='Instagram').first()
+    if check_auth is None:
+        auth_info = AuthInfo(
+                            api_name='Instagram',
+                            oauth_token=access_token,
+                            oauth_token_secret=None,
+                            project_name=pid
+                            )
+    else:
+        # delete auth info if it already exists for this API
+        AuthInfo.query.filter_by(project_name=pid).delete()
+        auth_info = AuthInfo(
+                            api_name='Instagram',
+                            oauth_token=access_token,
+                            oauth_token_secret=None,
+                            project_name=pid
+                            )
+    try:
+        db.session.add(auth_info)
+        db.session.commit()
+        flash('Authentication info saved')
+        return redirect('/') # TODO change later
+    except:
+        flash('An error has occured')
+        return redirect('/')
