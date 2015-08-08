@@ -16,8 +16,11 @@ build_timeline_query = Blueprint('build_timeline_query', __name__, template_fold
 @login_required
 def main(pid):
     """ main page for twitter queries """
-    # get the current project
-    project = Project.query.filter_by(id=pid, created_by=current_user.id).first_or_404()
+    # get the current project, and confirm API type
+    project = Project.query.filter_by(id=pid,
+                                      created_by=current_user.id,
+                                      api_type='Twitter'
+                                      ).first_or_404()
 
     # get the authorization for current project
     proj_auth = AuthInfo.query.filter_by(project_name=project.id).first()
