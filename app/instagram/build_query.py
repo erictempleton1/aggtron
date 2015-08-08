@@ -17,4 +17,6 @@ def main(pid):
                                       created_by=current_user.id,
                                       api_type='Instagram'
                                       ).first_or_404()
-    return render_template('instagram/user_feed.html')
+    return render_template(
+                           'instagram/user_feed.html',
+                           project=project)

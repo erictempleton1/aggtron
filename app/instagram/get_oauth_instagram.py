@@ -36,7 +36,8 @@ def request_token(pid):
 @login_required
 def callback():
     code = request.args.get('code')
-    redirect_uri = 'http://localhost:5000/instagram/oauth/callback?pid={0}'.format(request.args.get('pid'))
+    pid = request.args.get('pid')
+    redirect_uri = 'http://localhost:5000/instagram/oauth/callback?pid={0}'.format(pid)
     code_url = 'https://api.instagram.com/oauth/access_token'
 
     params = {
@@ -71,7 +72,7 @@ def callback():
         db.session.add(auth_info)
         db.session.commit()
         flash('Authentication info saved')
-        return redirect('/') # TODO change later
+        return redirect(url_for('build_query.main', pid=pid))
     except:
         flash('An error has occured')
         return redirect('/')
