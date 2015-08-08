@@ -1,6 +1,18 @@
 {% extends "main/index.html" %}
 
 {% block body %}
-<h3>Build Queries // {{ project.name }}</h3>
+
+
+{% if proj_auth.oauth_token and proj_auth %}
+
+<h3>Build Queries // {{ project.name }} (Authenticated) ({{ proj_auth.oauth_token }})</h3>
+
+{% else %}
+
+<h3>Build Queries // {{ project.name }}
+<a href="{{ url_for('get_oauth_instagram.request_token', pid=project.id) }}">(Please authenticate)</a></h3>
+
+{% endif %}
+
 
 {% endblock %}

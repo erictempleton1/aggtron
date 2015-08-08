@@ -17,6 +17,14 @@ def main(pid):
                                       created_by=current_user.id,
                                       api_type='Instagram'
                                       ).first_or_404()
+
+    proj_auth = AuthInfo.query.filter_by(project_name=project.id).first()
+
+    # placeholder for query to get all instagram queries
+    # need to add model
+
     return render_template(
                            'instagram/user_feed.html',
-                           project=project)
+                           project=project,
+                           proj_auth=proj_auth
+                           )
