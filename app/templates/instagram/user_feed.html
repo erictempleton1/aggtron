@@ -5,7 +5,8 @@
 
 {% if proj_auth.oauth_token and proj_auth %}
 
-<h3>Build Queries // {{ project.name }} (Authenticated) ({{ proj_auth.oauth_token }})</h3>
+<h3>Build Queries // {{ project.name }} (Authenticated)
+<a href="{{ url_for('get_oauth_instagram.request_token', pid=project.id) }}">(Re-authenticate)</a> ({{ proj_auth.oauth_token }})</h3>
 
 {% else %}
 

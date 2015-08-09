@@ -28,3 +28,11 @@ def main(pid):
                            project=project,
                            proj_auth=proj_auth
                            )
+
+@build_query.route('/<int:pid>/instagram/user-query', methods=['GET', 'POST'])
+def build_user_query(pid):
+    return 'user info query'
+
+@build_query.route('/<int:pid>/instagram/feed-query', methods=['GET','POST'])
+def build_feed_query(pid):
+    return 'user feed query'     
