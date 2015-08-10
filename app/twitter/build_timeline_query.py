@@ -2,8 +2,8 @@ import config
 import requests
 from app import db
 from requests_oauthlib import OAuth1
-from forms import TwitterUserTimeline, TwitterMentionsTimeline
 from flask.ext.login import current_user, login_required
+from forms import TwitterUserTimeline, TwitterMentionsTimeline
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from models import Users, Project, AuthInfo, TwitterUserTimelineQuery, TwitterMentionsTimelineQuery
 
@@ -74,7 +74,7 @@ def main(pid):
 @build_timeline_query.route('/<int:pid>/twitter/mentions-query', methods=['GET', 'POST'])
 @login_required
 def build_mentions(pid):
-    """ created a new query to save a user's mentions """
+    """ create a new query to save a user's mentions """
     form = TwitterMentionsTimeline()
     if form.validate_on_submit():
         query_title = request.form['query_name']

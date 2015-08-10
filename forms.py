@@ -34,3 +34,9 @@ class TwitterMentionsTimeline(Form):
     query_name = TextField('Query Name', validators=[validators.Required()])    
 
     
+class InstagramUserInfo(Form):
+    query_name = TextField('Query Name', validators=[validators.Required()])
+
+
+class InstagramUserFeed(Form):
+    query_name = TextField('Query Name', valdiators=[validators.Required()])    

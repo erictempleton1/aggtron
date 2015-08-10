@@ -2,6 +2,7 @@ import config
 import requests
 from app import db
 from models import Users, Project, AuthInfo
+from forms import InstagramUserInfo, InstagramUserFeed
 from flask.ext.login import current_user, login_required
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 
