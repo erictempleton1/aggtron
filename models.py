@@ -131,3 +131,25 @@ class TwitterMentionsTimelineQuery(db.Model):
     def __repr__(self):
         return '<Query Name {0}>'.format(self.name)       
 
+
+class InstagramUserFeedQuery(db.Model):
+    
+    __tablename__ = 'instagramuserfeedquery'
+    __table_args__ = {'extend_existing': True}
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+    query_type = db.Column(db.String(), default='instagram user feed')
+    created_on = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    created_by = db.Column(db.Integer)
+    enabled = db.Column(db.Boolean, default=True)
+    last_run = db.Column(db.DateTime, default=None)
+    project_name = db.Column(db.Integer, db.ForeignKey('project.id'))
+
+    def __init__(self, name, created_by, project_name):
+        self.name = name
+        self.created_by = created_by
+        self.project_name = project_name
+
+    def __repr__(self):
+        return '<Query Name {0}>'.format(self.name)  
