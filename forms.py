@@ -39,4 +39,4 @@ class InstagramUserInfo(Form):
 
 
 class InstagramUserFeed(Form):
-    query_name = TextField('Query Name', valdiators=[validators.Required()])    
+    query_name = TextField('Query Name', validators=[validators.Required()])    

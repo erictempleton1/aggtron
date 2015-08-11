@@ -8,6 +8,14 @@
 <h3>Build Queries // {{ project.name }} (Authenticated)
 <a href="{{ url_for('get_oauth_instagram.request_token', pid=project.id) }}">(Re-authenticate)</a> ({{ proj_auth.oauth_token }})</h3>
 
+<p>
+    <a href="{{ url_for('build_query.build_user_query', pid=project.id) }}">Create New User Info Query</a>
+</p>
+
+<p>
+    <a href="{{ url_for('build_query.build_feed_query', pid=project.id) }}">Create New Feed Query</a>
+</p>        
+
 {% else %}
 
 <h3>Build Queries // {{ project.name }}

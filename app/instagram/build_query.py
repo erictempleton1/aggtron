@@ -32,8 +32,24 @@ def main(pid):
 
 @build_query.route('/<int:pid>/instagram/user-query', methods=['GET', 'POST'])
 def build_user_query(pid):
-    return 'user info query'
+    form = InstagramUserInfo()
+    if form.validate_on_submit():
+        query_title = request.form['query_name']
+
+        # add code for db save here
+
+        flash('Instagram user info query created')
+        return redirect(url_for('build_query.main', pid=pid))
+    return render_template('instagram/user_info_query.html', form=form)
 
 @build_query.route('/<int:pid>/instagram/feed-query', methods=['GET','POST'])
 def build_feed_query(pid):
-    return 'user feed query'     
+    form = InstagramUserFeed()
+    if form.validate_on_submit():
+        query_title = request.form['query_name']
+
+        # add code for db save here
+
+        flash('Instagram user feed query created')
+        return redirect(url_for('build_query.main', pid=pid))    
+    return render_template('instagram/user_feed_query.html', form=form)

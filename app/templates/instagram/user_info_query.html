@@ -1,0 +1,16 @@
+{% extends "main/index.html" %}
+
+{% block body %}
+
+<h3>Create User Info Query</h3>
+
+<form action="" method="POST" role="form">
+    {{ form.csrf_token }}
+    <p>
+        <label for="">Query Name: </label>
+            {{ form.query_name }}
+    </p>
+    <button type="submit">Save Query</button>
+</form>
+
+{% endblock %}            
