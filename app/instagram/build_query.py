@@ -42,8 +42,13 @@ def build_user_query(pid):
     if form.validate_on_submit():
         query_title = request.form['query_name']
 
-        # add code for db save here
-
+        new_query = InstagramUserInfoQuery(
+                                           name=query_title,
+                                           created_by=current_user.id,
+                                           project_name=pid
+                                           )
+        db.session.add(new_query)
+        db.session.commit()
         flash('Instagram user info query created')
         return redirect(url_for('build_query.main', pid=pid))
     return render_template('instagram/user_info_query.html', form=form)
