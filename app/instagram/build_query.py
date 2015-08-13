@@ -1,10 +1,10 @@
 import config
 import requests
 from app import db
-from models import Users, Project, AuthInfo
 from forms import InstagramUserInfo, InstagramUserFeed
 from flask.ext.login import current_user, login_required
 from flask import Blueprint, render_template, request, flash, redirect, url_for
+from models import Users, Project, AuthInfo, InstagramUserFeedQuery, InstagramUserTimelineQuery
 
 
 build_query = Blueprint('build_query', __name__, template_folder='templates')
