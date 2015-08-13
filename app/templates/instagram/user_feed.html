@@ -14,7 +14,29 @@
 
 <p>
     <a href="{{ url_for('build_query.build_feed_query', pid=project.id) }}">Create New Feed Query</a>
-</p>        
+</p>
+
+
+<h3>Current User Timeline Queries</h3>
+{% for query in user_info_queries %}
+    {% if query.enabled %}
+
+    <p>
+        {{ query.name }} | Created on: {{ query.created_on }} | Active: {{ query.enabled }}
+        <a href="#">(Disable)</a>
+    </p>
+
+    {% else %}
+
+    <p>
+        {{ query.name }} | Created on: {{ query.created_on }} | Active: {{ query.enabled }}
+        <a href="#">(Enable)</a>
+    </p>
+
+    {% endif %}
+{% endfor %} 
+
+
 
 {% else %}
 

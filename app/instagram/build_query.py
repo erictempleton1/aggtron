@@ -4,7 +4,7 @@ from app import db
 from forms import InstagramUserInfo, InstagramUserFeed
 from flask.ext.login import current_user, login_required
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from models import Users, Project, AuthInfo, InstagramUserFeedQuery, InstagramUserTimelineQuery
+from models import Users, Project, AuthInfo, InstagramUserFeedQuery, InstagramUserInfoQuery
 
 
 build_query = Blueprint('build_query', __name__, template_folder='templates')
@@ -21,13 +21,19 @@ def main(pid):
 
     proj_auth = AuthInfo.query.filter_by(project_name=project.id).first()
 
+    user_info_queries = InstagramUserInfoQuery.query.filter_by(
+                                                          project_name=project.id,
+                                                          created_by=current_user.id
+                                                          )
+
     # placeholder for query to get all instagram queries
     # need to add model
 
     return render_template(
                            'instagram/user_feed.html',
                            project=project,
-                           proj_auth=proj_auth
+                           proj_auth=proj_auth,
+                           user_info_queries=user_info_queries
                            )
 
 @build_query.route('/<int:pid>/instagram/user-query', methods=['GET', 'POST'])

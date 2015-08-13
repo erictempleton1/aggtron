@@ -154,14 +154,14 @@ class InstagramUserFeedQuery(db.Model):
     def __repr__(self):
         return '<Query Name {0}>'.format(self.name)
 
-class InstagramUserTimelineQuery(db.Model):
+class InstagramUserInfoQuery(db.Model):
     
-    __tablename__ = 'instagramusertimelinequery'
+    __tablename__ = 'instagramuserinfoquery'
     __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
-    query_type = db.Column(db.String(), default='instagram user timeline')
+    query_type = db.Column(db.String(), default='instagram user info')
     created_on = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     created_by = db.Column(db.Integer)
     enabled = db.Column(db.Boolean, default=True)
@@ -175,4 +175,3 @@ class InstagramUserTimelineQuery(db.Model):
 
     def __repr__(self):
         return '<Query Name {0}>'.format(self.name)
-                   
