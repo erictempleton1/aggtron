@@ -26,6 +26,11 @@ def main(pid):
                                                           created_by=current_user.id
                                                           )
 
+    user_feed_queries = InstagramUserFeedQuery.query.filter_by(
+                                                               project_name=project.id,
+                                                               created_by=current_user.id
+                                                               )
+
     # placeholder for query to get all instagram queries
     # need to add model
 
@@ -33,7 +38,8 @@ def main(pid):
                            'instagram/user_feed.html',
                            project=project,
                            proj_auth=proj_auth,
-                           user_info_queries=user_info_queries
+                           user_info_queries=user_info_queries,
+                           user_feed_queries=user_feed_queries
                            )
 
 @build_query.route('/<int:pid>/instagram/user-query', methods=['GET', 'POST'])
@@ -59,8 +65,13 @@ def build_feed_query(pid):
     if form.validate_on_submit():
         query_title = request.form['query_name']
 
-        # add code for db save here
-
+        new_query = InstagramUserFeedQuery(
+                                           name=query_title,
+                                           created_by=current_user.id,
+                                           project_name=pid
+                                           )
+        db.session.add(new_query)
+        db.session.commit()
         flash('Instagram user feed query created')
         return redirect(url_for('build_query.main', pid=pid))    
     return render_template('instagram/user_feed_query.html', form=form)
