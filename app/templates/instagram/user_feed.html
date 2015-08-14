@@ -34,7 +34,26 @@
     </p>
 
     {% endif %}
-{% endfor %} 
+{% endfor %}
+
+<h3>Current User Feed Queries</h3>
+{% for query in user_feed_queries %}
+    {% if query.enabled %}
+
+    <p>
+        {{ query.name }} | Created on: {{ query.created_on }} | Active: {{ query.enabled }}
+        <a href="#">(Disable)</a>
+    </p>
+    
+    {% else %}
+
+    <p>
+        {{ query.name }} | Created on: {{ query.created_on }} | Active: {{ query.enabled }}
+        <a href="#">(Enable)</a>
+    </p>
+    
+    {% endif %}
+{% endfor %}            
 
 
 
