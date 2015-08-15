@@ -43,6 +43,7 @@ def main(pid):
                            )
 
 @build_query.route('/<int:pid>/instagram/user-query', methods=['GET', 'POST'])
+@login_required
 def build_user_query(pid):
     form = InstagramUserInfo()
     if form.validate_on_submit():
@@ -60,6 +61,7 @@ def build_user_query(pid):
     return render_template('instagram/user_info_query.html', form=form)
 
 @build_query.route('/<int:pid>/instagram/feed-query', methods=['GET','POST'])
+@login_required
 def build_feed_query(pid):
     form = InstagramUserFeed()
     if form.validate_on_submit():
@@ -75,3 +77,24 @@ def build_feed_query(pid):
         flash('Instagram user feed query created')
         return redirect(url_for('build_query.main', pid=pid))    
     return render_template('instagram/user_feed_query.html', form=form)
+
+@build_query.route('/<int:pid>/<int:qid>/query-status-info', methods=['GET'])
+@login_required
+def change_status_info(qid, pid):
+    """ check to see if user info query is enabled or disabled """
+    existing_query = InstagramUserInfoQuery.query.filter_by(
+                                                            id=qid,
+                                                            created_by=current_user.id
+                                                            ).first_or_404()
+
+    if existing_query.enabled:
+        existing_query.enabled = False
+        db.session.commit()
+        flash('Query disabled')
+    else:
+        existing_query.enabled = True
+        db.session.commit() 
+        flash('Query enabled')
+    return redirect(url_for('build_query.main', pid=pid)) 
+
+          
