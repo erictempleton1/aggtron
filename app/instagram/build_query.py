@@ -9,6 +9,7 @@ from models import Users, Project, AuthInfo, InstagramUserFeedQuery, InstagramUs
 
 build_query = Blueprint('build_query', __name__, template_folder='templates')
 
+
 @build_query.route('/<int:pid>/instagram/queries', methods=['GET'])
 @login_required
 def main(pid):
@@ -19,20 +20,22 @@ def main(pid):
                                       api_type='Instagram'
                                       ).first_or_404()
 
+    # load authorization info for given project
     proj_auth = AuthInfo.query.filter_by(project_name=project.id).first()
 
+    # return all user info queries for template
     user_info_queries = InstagramUserInfoQuery.query.filter_by(
                                                           project_name=project.id,
                                                           created_by=current_user.id
                                                           )
 
+    # return all user feed queries for template
     user_feed_queries = InstagramUserFeedQuery.query.filter_by(
                                                                project_name=project.id,
                                                                created_by=current_user.id
                                                                )
 
-    # placeholder for query to get all instagram queries
-    # need to add model
+    # placeholder for basic query to Instagram API
 
     return render_template(
                            'instagram/user_feed.html',
@@ -45,6 +48,7 @@ def main(pid):
 @build_query.route('/<int:pid>/instagram/user-query', methods=['GET', 'POST'])
 @login_required
 def build_user_query(pid):
+    """ form to create a new user info query """
     form = InstagramUserInfo()
     if form.validate_on_submit():
         query_title = request.form['query_name']
@@ -63,6 +67,7 @@ def build_user_query(pid):
 @build_query.route('/<int:pid>/instagram/feed-query', methods=['GET','POST'])
 @login_required
 def build_feed_query(pid):
+    """ form to created a new user feed query """
     form = InstagramUserFeed()
     if form.validate_on_submit():
         query_title = request.form['query_name']
@@ -86,7 +91,6 @@ def change_status_info(qid, pid):
                                                             id=qid,
                                                             created_by=current_user.id
                                                             ).first_or_404()
-
     if existing_query.enabled:
         existing_query.enabled = False
         db.session.commit()
@@ -105,7 +109,6 @@ def change_status_feed(qid, pid):
                                                             id=qid,
                                                             created_by=current_user.id
                                                             ).first_or_404()
-
     if existing_query.enabled:
         existing_query.enabled = False
         db.session.commit()
