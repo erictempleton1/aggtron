@@ -126,9 +126,11 @@ def change_status_timeline(qid, pid):
     if existing_query.enabled:
         existing_query.enabled = False
         db.session.commit()
+        flash('Query disabled')
     else:
         existing_query.enabled = True
-        db.session.commit()    
+        db.session.commit()
+        flash('Query enabled')
     return redirect(url_for('build_timeline_query.main', pid=pid))
 
 @build_timeline_query.route('/<int:pid>/<int:qid>/query-status-mentions', methods=['GET'])
