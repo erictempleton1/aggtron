@@ -8,7 +8,6 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from models import Users, Project, AuthInfo, TwitterUserTimelineQuery, TwitterMentionsTimelineQuery
 
 
-
 build_timeline_query = Blueprint('build_timeline_query', __name__, template_folder='templates')
 
 
