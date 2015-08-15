@@ -58,10 +58,15 @@ def build_user_query(pid):
                                            created_by=current_user.id,
                                            project_name=pid
                                            )
-        db.session.add(new_query)
-        db.session.commit()
-        flash('Instagram user info query created')
-        return redirect(url_for('build_query.main', pid=pid))
+        try:
+            db.session.add(new_query)
+            db.session.commit()
+            flash('Instagram user info query created')
+            return redirect(url_for('build_query.main', pid=pid))
+        except:
+            flash('An error occured')
+            return redirect(url_for('build_query.main', pid=pid))
+
     return render_template('instagram/user_info_query.html', form=form)
 
 @build_query.route('/<int:pid>/instagram/feed-query', methods=['GET','POST'])
@@ -77,10 +82,15 @@ def build_feed_query(pid):
                                            created_by=current_user.id,
                                            project_name=pid
                                            )
-        db.session.add(new_query)
-        db.session.commit()
-        flash('Instagram user feed query created')
-        return redirect(url_for('build_query.main', pid=pid))    
+        try:
+            db.session.add(new_query)
+            db.session.commit()
+            flash('Instagram user feed query created')
+            return redirect(url_for('build_query.main', pid=pid))
+        except:
+            flash('An error occured')
+            return redirect(url_for('build_query.main', pid=pid))
+
     return render_template('instagram/user_feed_query.html', form=form)
 
 @build_query.route('/<int:pid>/<int:qid>/query-status-info', methods=['GET'])
@@ -91,14 +101,19 @@ def change_status_info(qid, pid):
                                                             id=qid,
                                                             created_by=current_user.id
                                                             ).first_or_404()
-    if existing_query.enabled:
-        existing_query.enabled = False
-        db.session.commit()
-        flash('Query disabled')
-    else:
-        existing_query.enabled = True
-        db.session.commit() 
-        flash('Query enabled')
+    try:
+        # check query status and update
+        if existing_query.enabled:
+                existing_query.enabled = False
+                db.session.commit()
+                flash('Query disabled')
+        else:
+            existing_query.enabled = True
+            db.session.commit() 
+            flash('Query enabled')
+    except:
+        flash('An error occured')
+
     return redirect(url_for('build_query.main', pid=pid)) 
 
 @build_query.route('/<int:pid>/<int:qid>/query-status-feed', methods=['GET'])
@@ -109,12 +124,17 @@ def change_status_feed(qid, pid):
                                                             id=qid,
                                                             created_by=current_user.id
                                                             ).first_or_404()
-    if existing_query.enabled:
-        existing_query.enabled = False
-        db.session.commit()
-        flash('Query disabled')
-    else:
-        existing_query.enabled = True
-        db.session.commit()
-        flash('Query disabled')
+    try:
+        # check query status and update
+        if existing_query.enabled:
+            existing_query.enabled = False
+            db.session.commit()
+            flash('Query disabled')
+        else:
+            existing_query.enabled = True
+            db.session.commit()
+            flash('Query disabled')
+    except:
+        flash('An error occured')
+
     return redirect(url_for('build_query.main', pid=pid))                                                                      
