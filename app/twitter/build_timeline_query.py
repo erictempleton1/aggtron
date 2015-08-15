@@ -84,10 +84,14 @@ def build_mentions(pid):
                                                  created_by=current_user.id,
                                                  project_name=pid
                                                  )
-        db.session.add(new_query)
-        db.session.commit()
-        flash('Twitter Mentions Query Created')
-        return redirect(url_for('build_timeline_query.main', pid=pid))
+        try:
+            db.session.add(new_query)
+            db.session.commit()
+            flash('Twitter Mentions Query Created')
+            return redirect(url_for('build_timeline_query.main', pid=pid))
+        except:
+            flash('An error occured')    
+            return redirect(url_for('build_timeline_query.main', pid=pid))
 
     return render_template('twitter/new_mentions_query.html', form=form)    
 
@@ -107,11 +111,15 @@ def build(pid):
                                              created_by=current_user.id,
                                              project_name=pid
                                              )
-        db.session.add(new_query)
-        db.session.commit()
-        flash('Twitter Timeline Query Created')
-        return redirect(url_for('build_timeline_query.main', pid=pid))
-
+        try:
+            db.session.add(new_query)
+            db.session.commit()
+            flash('Twitter Timeline Query Created')
+            return redirect(url_for('build_timeline_query.main', pid=pid))
+        except:
+            flash('An error occured')
+            return redirect(url_for('build_timeline_query.main', pid=pid))
+    
     return render_template('twitter/new_timeline_query.html', form=form)
 
 
@@ -121,16 +129,21 @@ def change_status_timeline(qid, pid):
     """ check to see if timeline query is enabled or disabled"""
     existing_query = TwitterUserTimelineQuery.query.filter_by(
                                                           id=qid,
-                                                          created_by=current_user.id).first_or_404()
+                                                          created_by=current_user.id
+                                                          ).first_or_404()
+    try:
+        # check query status and update
+        if existing_query.enabled:
+            existing_query.enabled = False
+            db.session.commit()
+            flash('Query disabled')
+        else:
+            existing_query.enabled = True
+            db.session.commit()
+            flash('Query enabled')
+    except:
+        flash('An error occured')
 
-    if existing_query.enabled:
-        existing_query.enabled = False
-        db.session.commit()
-        flash('Query disabled')
-    else:
-        existing_query.enabled = True
-        db.session.commit()
-        flash('Query enabled')
     return redirect(url_for('build_timeline_query.main', pid=pid))
 
 @build_timeline_query.route('/<int:pid>/<int:qid>/query-status-mentions', methods=['GET'])
@@ -140,12 +153,17 @@ def change_status_mentions(qid, pid):
     existing_query = TwitterMentionsTimelineQuery.query.filter_by(
                                                  id=qid,
                                                  created_by=current_user.id).first_or_404()
-    if existing_query.enabled:
-        existing_query.enabled = False
-        db.session.commit()
-    else:
-        existing_query.enabled = True
-        db.session.commit()
+    try:
+        # check query status and update
+        if existing_query.enabled:
+            existing_query.enabled = False
+            db.session.commit()
+        else:
+            existing_query.enabled = True
+            db.session.commit()
+    except:
+        flash('An error occured')
+
     return redirect(url_for('build_timeline_query.main', pid=pid))                                                   
 
 # TODO need to add change_status_mentions in template
