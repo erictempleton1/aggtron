@@ -97,4 +97,21 @@ def change_status_info(qid, pid):
         flash('Query enabled')
     return redirect(url_for('build_query.main', pid=pid)) 
 
-          
+@build_query.route('/<int:pid>/<int:qid>/query-status-feed', methods=['GET'])
+@login_required
+def change_status_feed(qid, pid):
+    """ check to see if user feed query is enabled or disabled """
+    existing_query = InstagramUserFeedQuery.query.filter_by(
+                                                            id=qid,
+                                                            created_by=current_user.id
+                                                            ).first_or_404()
+
+    if existing_query.enabled:
+        existing_query.enabled = False
+        db.session.commit()
+        flash('Query disabled')
+    else:
+        existing_query.enabled = True
+        db.session.commit()
+        flash('Query disabled')
+    return redirect(url_for('build_query.main', pid=pid))                                                                      
