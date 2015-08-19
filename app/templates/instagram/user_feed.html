@@ -5,12 +5,17 @@
 
 {% if proj_auth.oauth_token and proj_auth %}
 
-<h3>Build Queries // {{ project.name }} (Authenticated)
+<h3>Build Queries // {{ project.name }} (Authenticated as {{ basic_query['data'][0]['user']['username'] }})
+ 
 <a href="{{ url_for('get_oauth_instagram.request_token', pid=project.id) }}">(Re-authenticate)</a> ({{ proj_auth.oauth_token }})</h3>
 
 <p>
-    {{ basic_query }}
-</p>    
+    <strong>Recent post:</strong> {{ basic_query['data'][0]['caption']['text'] }}
+</p>
+
+<p>
+    <img src="{{ basic_query['data'][0]['images']['thumbnail']['url'] }}">
+</p>   
 
 <p>
     <a href="{{ url_for('build_query.build_user_query', pid=project.id) }}">Create New User Info Query</a>
