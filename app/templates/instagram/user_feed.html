@@ -9,6 +9,10 @@
 <a href="{{ url_for('get_oauth_instagram.request_token', pid=project.id) }}">(Re-authenticate)</a> ({{ proj_auth.oauth_token }})</h3>
 
 <p>
+    {{ basic_query }}
+</p>    
+
+<p>
     <a href="{{ url_for('build_query.build_user_query', pid=project.id) }}">Create New User Info Query</a>
 </p>
 

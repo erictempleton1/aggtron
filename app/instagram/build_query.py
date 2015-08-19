@@ -36,11 +36,27 @@ def main(pid):
                                                                )
 
     # placeholder for basic query to Instagram API
+    if proj_auth:
+        feed_url = 'https://api.instagram.com/v1/users/self/media/recent/'
+
+        params = {
+                    'access_token': proj_auth.oauth_token,
+                    'count': 1
+                }
+        try:
+            r = requests.get(feed_url, params=params)
+            basic_query = r.json()
+        except:
+            basic_query = 'Error: unable to complete request'    
+    else:
+        proj_auth = False    
+
 
     return render_template(
                            'instagram/user_feed.html',
                            project=project,
                            proj_auth=proj_auth,
+                           basic_query=basic_query,
                            user_info_queries=user_info_queries,
                            user_feed_queries=user_feed_queries
                            )
