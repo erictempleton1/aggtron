@@ -153,4 +153,9 @@ def change_status_feed(qid, pid):
     except:
         flash('An error occured')
 
-    return redirect(url_for('build_query.main', pid=pid))                                                                      
+    return redirect(url_for('build_query.main', pid=pid))
+
+@build_query.route('/<int:pid>/<int:qid>/delete-query', methods=['POST'])
+@login_required
+def remove_query(qid, pid):
+    return 'delete query placeholder'                                                                       
