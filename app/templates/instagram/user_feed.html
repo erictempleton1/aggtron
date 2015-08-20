@@ -5,7 +5,7 @@
 
 {% if proj_auth.oauth_token and proj_auth %}
 
-<h3>Build Queries // {{ project.name }} (Authenticated as {{ basic_query['data'][0]['user']['username'] }})
+<h3>Build Queries // {{ project.name }} (Authenticated as: {{ basic_query['data'][0]['user']['username'] }})
  
 <a href="{{ url_for('get_oauth_instagram.request_token', pid=project.id) }}">(Re-authenticate)</a> ({{ proj_auth.oauth_token }})</h3>
 
