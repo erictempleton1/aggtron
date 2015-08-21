@@ -155,7 +155,32 @@ def change_status_feed(qid, pid):
 
     return redirect(url_for('build_query.main', pid=pid))
 
-@build_query.route('/<int:pid>/<int:qid>/delete-query', methods=['POST'])
+@build_query.route('/<int:pid>/<int:qid>/delete-user-query', methods=['GET'])
 @login_required
-def remove_query(qid, pid):
-    return 'delete query placeholder'                                                                       
+def remove_user_query(qid, pid):
+    """ delete specific user info query """
+    try:
+        InstagramUserInfoQuery.query.filter_by(
+                                               id=qid,
+                                               created_by=current_user.id
+                                               ).delete()
+        flash('Query deleted')
+    except:
+        flash('An error occured. Unable to delete query')
+
+    return redirect(url_for('build_query.main', pid=pid))
+
+@build_query.route('/<int:pid>/<int:qid>/delete-feed-query', methods=['GET'])
+@login_required
+def remove_feed_query(qid, pid):
+    """ delete specific user feed query """
+    try:
+        InstagramUserFeedQuery.query.filter_by(
+                                               id=qid,
+                                               created_by=current_user.id
+                                               ).delete()
+        flash('Query deleted')
+    except:
+        flash('An error occured. Unable to delete query')
+
+    return redirect(url_for('build_query.main', pid=pid))                                                                                                                      
