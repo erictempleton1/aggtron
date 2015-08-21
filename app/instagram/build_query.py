@@ -183,4 +183,6 @@ def remove_feed_query(qid, pid):
     except:
         flash('An error occured. Unable to delete query')
 
-    return redirect(url_for('build_query.main', pid=pid))                                                                                                                      
+    return redirect(url_for('build_query.main', pid=pid))  
+    
+# delete url is not deleting queries                                                                                                                        
