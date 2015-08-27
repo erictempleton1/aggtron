@@ -42,14 +42,15 @@ def main(pid):
         params = {
                     'access_token': proj_auth.oauth_token,
                     'count': 1
-                }
-        try:
-            r = requests.get(feed_url, params=params)
-            basic_query = r.json()
-        except:
-            basic_query = 'Error: unable to complete request'    
+                }   
     else:
-        proj_auth = False    
+        proj_auth = False
+
+    try:
+        r = requests.get(feed_url, params=params)
+        basic_query = r.json()
+    except:
+        basic_query = 'Error: unable to complete request'        
 
 
     return render_template(

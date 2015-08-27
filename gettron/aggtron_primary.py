@@ -11,15 +11,21 @@ metadata = MetaData(bind=engine)
 Session = sessionmaker()
 Session.configure(bind=engine)
 
-# reflect the table we need to use
+
+# reflect the table for projects
 class Project(Base):
     __table__ = Table('project', metadata, autoload=True)
+
+
+class TwitterUserTimelineQuery(Base):
+    __table__ = Table('twitterusertimelinequery', metadata, autoload=True)
+
 
 # create the session to use declared tables
 session = Session()
 
 # basic query to get all of the data from the declared table
-project_query = session.query(Project).all()
+project_query = session.query(TwitterUserTimelineQuery).all()
 
 # list project names from above query
 for x in project_query:
