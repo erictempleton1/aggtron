@@ -4,7 +4,8 @@ from sqlalchemy.ext.declarative import declarative_base
 
 # create engine and get metadata
 Base = declarative_base()
-engine = create_engine('sqlite:////home/erictempleton/Documents/Projects/myenv/aggtron/aggtron.db', echo=True)
+engine = create_engine('sqlite:////home/erictempleton/Documents/Projects/myenv/aggtron/aggtron.db', echo=False)
+
 metadata = MetaData(bind=engine)
 
 # set session config
@@ -23,6 +24,8 @@ class TwitterUserTimelineQuery(Base):
 
 # create the session to use declared tables
 session = Session()
+
+print metadata.tables.keys()
 
 # basic query to get all of the data from the declared table
 project_query = session.query(TwitterUserTimelineQuery).all()
