@@ -18,5 +18,3 @@ class UserInfo(Base):
 
 # create the session to use declared tables
 session = Session()
-
-print metadata.tables.keys()
