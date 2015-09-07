@@ -12,7 +12,12 @@ class AggInstagramUserInfo(Base):
     __tablename__ = 'agginstagramuserinfo'
 
     id = Column(Integer, primary_key=True)
+
+    # project and query id from aggtron
     project_id = Column(Integer)
+    query_id = Column(Integer)
+
+    # data from instagram API query response
     user_id = Column(Integer)
     username = Column(String(250))
     full_name = Column(String(250))
