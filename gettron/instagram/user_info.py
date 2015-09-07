@@ -1,6 +1,6 @@
-
-from sqlalchemy import create_engine, Table, MetaData
 from sqlalchemy.orm import sessionmaker
+from user_info_model import AggInstagramUserInfo
+from sqlalchemy import create_engine, Table, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 
 # create engine and get metadata
@@ -20,6 +20,10 @@ class UserInfo(Base):
 
 class AuthInfo(Base):
     __table__ = Table('authinfo', metadata, autoload=True)
+
+
+class ProjectInfo(Base):
+    __table__ = Table('project', metadata, autoload=True)
 
 
 # create the session to use declared tables
