@@ -74,11 +74,21 @@ def main(pid):
 @login_required
 def build_mentions(pid):
     """ create a new query to save a user's mentions """
+      # get the current project, and confirm API type
+    project = Project.query.filter_by(id=pid,
+                                      created_by=current_user.id,
+                                      api_type='Twitter'
+                                      ).first_or_404()
+
+    # get the authorization for current project
+    proj_auth = AuthInfo.query.filter_by(project_name=project.id).first()
+
     form = TwitterMentionsTimeline()
     if form.validate_on_submit():
         query_title = request.form['query_name']
 
         new_query = TwitterMentionsTimelineQuery(
+                                                 auth_id=proj_auth.id,
                                                  name=query_title,
                                                  created_by=current_user.id,
                                                  project_name=pid
@@ -99,12 +109,22 @@ def build_mentions(pid):
 @login_required
 def build(pid):
     """ create a new query to save a user's timeline """
+    # get the current project, and confirm API type
+    project = Project.query.filter_by(id=pid,
+                                      created_by=current_user.id,
+                                      api_type='Twitter'
+                                      ).first_or_404()
+
+    # get the authorization for current project
+    proj_auth = AuthInfo.query.filter_by(project_name=project.id).first()
+
     form = TwitterUserTimeline()
     if form.validate_on_submit():
         query_title = request.form['query_name']
         include_rts = request.form.get('include_rts')
 
         new_query = TwitterUserTimelineQuery(
+                                             auth_id=proj_auth.id,
                                              name=query_title,
                                              include_rts=include_rts,
                                              created_by=current_user.id,
