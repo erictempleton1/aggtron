@@ -12,6 +12,7 @@ class AggInstagramUserInfo(Base):
     __tablename__ = 'agginstagramuserinfo'
 
     id = Column(Integer, primary_key=True)
+    project_id = Column(Integer)
     user_id = Column(Integer)
     username = Column(String(250))
     full_name = Column(String(250))
