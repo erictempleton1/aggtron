@@ -88,6 +88,7 @@ class TwitterUserTimelineQuery(db.Model):
     __table_args__ = {'extend_existing': True} 
 
     id = db.Column(db.Integer, primary_key=True)
+    auth_id = db.Column(db.Integer)
     name = db.Column(db.String())
     query_type = db.Column(db.String(), default='twitter user timeline')
     include_rts = db.Column(db.String())
@@ -99,6 +100,7 @@ class TwitterUserTimelineQuery(db.Model):
 
 
     def __init__(self, name, include_rts, created_by, project_name):
+        self.auth_id = auth_id
         self.name = name
         self.include_rts = include_rts
         self.created_by = created_by
@@ -114,6 +116,7 @@ class TwitterMentionsTimelineQuery(db.Model):
     __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True)
+    auth_id = db.Column(db.Integer)
     name = db.Column(db.String())
     query_type = db.Column(db.String(), default='twitter mentions timeline')
     created_on = db.Column(db.DateTime, default=datetime.datetime.utcnow)
@@ -124,6 +127,7 @@ class TwitterMentionsTimelineQuery(db.Model):
 
 
     def __init__(self, name, created_by, project_name):
+        self.auth_id = auth_id
         self.name = name
         self.created_by = created_by
         self.project_name = project_name
@@ -138,6 +142,7 @@ class InstagramUserFeedQuery(db.Model):
     __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True)
+    auth_id = db.Column(db.Integer)
     name = db.Column(db.String())
     query_type = db.Column(db.String(), default='instagram user feed')
     created_on = db.Column(db.DateTime, default=datetime.datetime.utcnow)
@@ -147,6 +152,7 @@ class InstagramUserFeedQuery(db.Model):
     project_name = db.Column(db.Integer, db.ForeignKey('project.id'))
 
     def __init__(self, name, created_by, project_name):
+        self.auth_id = auth_id
         self.name = name
         self.created_by = created_by
         self.project_name = project_name
@@ -160,6 +166,7 @@ class InstagramUserInfoQuery(db.Model):
     __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True)
+    auth_id = db.Column(db.Integer)
     name = db.Column(db.String())
     query_type = db.Column(db.String(), default='instagram user info')
     created_on = db.Column(db.DateTime, default=datetime.datetime.utcnow)
@@ -169,6 +176,7 @@ class InstagramUserInfoQuery(db.Model):
     project_name = db.Column(db.Integer, db.ForeignKey('project.id'))
 
     def __init__(self, name, created_by, project_name):
+        self.auth_id = auth_id
         self.name = name
         self.created_by = created_by
         self.project_name = project_name
