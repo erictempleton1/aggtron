@@ -99,7 +99,7 @@ class TwitterUserTimelineQuery(db.Model):
     project_name = db.Column(db.Integer, db.ForeignKey('project.id'))
 
 
-    def __init__(self, name, include_rts, created_by, project_name):
+    def __init__(self, auth_id, name, include_rts, created_by, project_name):
         self.auth_id = auth_id
         self.name = name
         self.include_rts = include_rts
@@ -126,7 +126,7 @@ class TwitterMentionsTimelineQuery(db.Model):
     project_name = db.Column(db.Integer, db.ForeignKey('project.id'))
 
 
-    def __init__(self, name, created_by, project_name):
+    def __init__(self, auth_id, name, created_by, project_name):
         self.auth_id = auth_id
         self.name = name
         self.created_by = created_by
@@ -151,7 +151,7 @@ class InstagramUserFeedQuery(db.Model):
     last_run = db.Column(db.DateTime, default=None)
     project_name = db.Column(db.Integer, db.ForeignKey('project.id'))
 
-    def __init__(self, name, created_by, project_name):
+    def __init__(self, auth_id, name, created_by, project_name):
         self.auth_id = auth_id
         self.name = name
         self.created_by = created_by
@@ -175,7 +175,7 @@ class InstagramUserInfoQuery(db.Model):
     last_run = db.Column(db.DateTime, default=None)
     project_name = db.Column(db.Integer, db.ForeignKey('project.id'))
 
-    def __init__(self, name, created_by, project_name):
+    def __init__(self, auth_id, name, created_by, project_name):
         self.auth_id = auth_id
         self.name = name
         self.created_by = created_by

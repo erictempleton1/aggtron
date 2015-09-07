@@ -29,5 +29,5 @@ class ProjectInfo(Base):
 # create the session to use declared tables
 session = Session()
 
-for x in session.query(UserInfo):
-    print x.name
+for x in session.query(AuthInfo):
+    print x.api_name, x.oauth_token

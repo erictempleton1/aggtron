@@ -66,11 +66,21 @@ def main(pid):
 @login_required
 def build_user_query(pid):
     """ form to create a new user info query """
+    # get the current project, and confirm API type
+    project = Project.query.filter_by(id=pid,
+                                      created_by=current_user.id,
+                                      api_type='Instagram'
+                                      ).first_or_404()
+
+    # load authorization info for given project
+    proj_auth = AuthInfo.query.filter_by(project_name=project.id).first()
+
     form = InstagramUserInfo()
     if form.validate_on_submit():
         query_title = request.form['query_name']
 
         new_query = InstagramUserInfoQuery(
+                                           auth_id=proj_auth.id,
                                            name=query_title,
                                            created_by=current_user.id,
                                            project_name=pid
@@ -90,11 +100,21 @@ def build_user_query(pid):
 @login_required
 def build_feed_query(pid):
     """ form to created a new user feed query """
+    # get the current project, and confirm API type
+    project = Project.query.filter_by(id=pid,
+                                      created_by=current_user.id,
+                                      api_type='Instagram'
+                                      ).first_or_404()
+
+    # load authorization info for given project
+    proj_auth = AuthInfo.query.filter_by(project_name=project.id).first()
+
     form = InstagramUserFeed()
     if form.validate_on_submit():
         query_title = request.form['query_name']
 
         new_query = InstagramUserFeedQuery(
+                                           auth_id=proj_auth.id,
                                            name=query_title,
                                            created_by=current_user.id,
                                            project_name=pid
