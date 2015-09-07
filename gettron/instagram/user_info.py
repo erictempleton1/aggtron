@@ -24,10 +24,14 @@ class AuthInfo(Base):
 
 class ProjectInfo(Base):
     __table__ = Table('project', metadata, autoload=True)
-
+ 
 
 # create the session to use declared tables
 session = Session()
 
-for x in session.query(AuthInfo):
-    print x.api_name, x.oauth_token
+
+def query_auth_ids():
+    auth_ids = [x.auth_id for x in session.query(UserInfo)]
+    return auth_ids
+
+print query_auth_ids()    
