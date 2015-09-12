@@ -45,6 +45,10 @@ class TestInstagramQuery(unittest.TestCase):
         #print info_query
         self.assertTrue(info_query)
 
+    def test_query_id(self):
+        print query_auth_ids()
+        self.assertTrue(len(query_auth_ids()) > 0)    
+
     def tearDown(self):
         self.session.close()
 
