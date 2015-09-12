@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, Table, MetaData
 
+from user_info import query_auth_ids
 from user_info_model import AggInstagramUserInfo
 
 
