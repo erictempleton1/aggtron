@@ -1,4 +1,5 @@
 import unittest
+import requests
 
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base

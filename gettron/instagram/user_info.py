@@ -29,9 +29,21 @@ class ProjectInfo(Base):
 # create the session to use declared tables
 session = Session()
 
+def get_project_info():
+    # get all instagram projects
+    # might not be needed
+    proj_ids = [x.id for x in session.query(ProjectInfo).filter(ProjectInfo.api_type == 'Instagram')]
+    return proj_ids
 
 def query_auth_ids():
-    auth_ids = [x.auth_id for x in session.query(UserInfo)]
+    auth_ids = [x.id for x in session.query(AuthInfo)]
     return auth_ids
 
-print query_auth_ids()    
+def get_queries():
+    insta_queries = [x.id for x in session.query(UserInfo)]
+    return insta_queries
+
+print query_auth_ids()
+print get_project_info()
+print get_queries()
+
