@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, Table, MetaData
 
-from user_info import GetUserInfo, query_auth_ids
+from user_info import GetUserInfo
 from user_info_model import AggInstagramUserInfo
 
 
@@ -47,17 +47,13 @@ class TestInstagramQuery(unittest.TestCase):
         #print info_query
         self.assertTrue(info_query)
 
-    def test_query_id(self):
-        print query_auth_ids()
-        self.assertTrue(len(query_auth_ids()) > 0)
-
     def test_query_auth_len(self):
         """
         need to be sure that there are the same number of query ids
         as there are auth ids.
         """
         info = GetUserInfo()
-        self.assertEqual(len(info.query_ids()), len(info.auth_ids()))      
+        self.assertEqual(len(info.query_ids()), len(info.auth_ids()))            
 
     def tearDown(self):
         self.session.close()

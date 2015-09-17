@@ -68,7 +68,7 @@ class GetUserInfo(object):
             # if the id does not exist for some reason
             json_result = False
             print e    # switch to logging later
-        return json_result
+        yield json_result
 
     def get_token(self, auth_id):
         """ query for the access token from the auth info table """
@@ -88,7 +88,7 @@ class GetUserInfo(object):
                 access_token = self.get_token(query.auth_id)
 
                 # get json response
-                insta_info = self.base_request(access_token)
+                insta_info = self.base_request(access_token).next()
 
                 insta_user_info = AggInstagramUserInfo(
                                                        project_id=None,
@@ -105,4 +105,8 @@ class GetUserInfo(object):
                                                     )
                 session.add(insta_user_info)
                 session.commit()
+
+    def query_info_table(self):
+        usernames = [x.query_id for x in session.query(AggInstagramUserInfo)]
+        return usernames    
             
