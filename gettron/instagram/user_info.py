@@ -44,20 +44,26 @@ class GetUserInfo(object):
         self.info_url = 'https://api.instagram.com/v1/users/self/'
 
     def query_ids(self):
-        """ get all query ids from query table """
+        """ 
+        get all query ids from query table.
+        mostly for testing purposes.
+        """
         return [query.id for query in self.queries]
 
     def auth_ids(self):
-        """ get all auth ids from query table """
+        """
+        get all auth ids from query table. 
+        mostly for testing purposes.
+        """
         return [query.auth_id for query in self.queries]
 
-    def insta_request(self, access_token):
+    def base_request(self, access_token):
         """ set up request to instagram api """
         params = {'access_token': access_token}
 
         try:
             r = requests.get(self.info_url, params=params)
-            json_result = r.json()
+            json_result = r.json()['data']
         except AttributeError, e:
             # if the id does not exist for some reason
             json_result = False
@@ -69,7 +75,7 @@ class GetUserInfo(object):
         access_token = session.query(AuthInfo).filter_by(id=auth_id).first()
         return access_token.oauth_token       
 
-    def make_request(self):
+    def save_request(self):
         """
         make request to instagram api for user information.
         generator returns data in json format
@@ -81,6 +87,22 @@ class GetUserInfo(object):
                 # first get the access token
                 access_token = self.get_token(query.auth_id)
 
-                # return json api results
-                yield self.insta_request(access_token)
+                # get json response
+                insta_info = self.base_request(access_token)
+
+                insta_user_info = AggInstagramUserInfo(
+                                                       project_id=None,
+                                                       query_id=query.id,
+                                                       user_id=insta_info['id'],
+                                                       username=insta_info['username'],
+                                                       full_name=insta_info['full_name'],
+                                                       profile_picture=insta_info['profile_picture'],
+                                                       user_bio=insta_info['bio'],
+                                                       user_website=insta_info['website'],
+                                                       user_media=insta_info['counts']['media'],
+                                                       user_follows=insta_info['counts']['follows'],
+                                                       user_followers=insta_info['counts']['follows']
+                                                    )
+                session.add(insta_user_info)
+                session.commit()
             
