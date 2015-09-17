@@ -91,7 +91,6 @@ class GetUserInfo(object):
                 insta_info = self.base_request(access_token).next()
 
                 insta_user_info = AggInstagramUserInfo(
-                                                       project_id=None,
                                                        query_id=query.id,
                                                        user_id=insta_info['id'],
                                                        username=insta_info['username'],
@@ -104,9 +103,12 @@ class GetUserInfo(object):
                                                        user_followers=insta_info['counts']['follows']
                                                     )
                 session.add(insta_user_info)
+
+                # placeholder for last run date save
+
                 session.commit()
 
     def query_info_table(self):
-        usernames = [x.query_id for x in session.query(AggInstagramUserInfo)]
-        return usernames    
+        usernames = [x.user_bio for x in session.query(AggInstagramUserInfo)]
+        return usernames  
             

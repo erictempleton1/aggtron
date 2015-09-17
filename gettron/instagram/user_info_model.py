@@ -1,6 +1,8 @@
+import datetime
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 
 
 Base = declarative_base()
@@ -14,7 +16,6 @@ class AggInstagramUserInfo(Base):
     id = Column(Integer, primary_key=True)
 
     # project and query id from aggtron
-    project_id = Column(Integer)
     query_id = Column(Integer)
 
     # data from instagram API query response
@@ -27,6 +28,7 @@ class AggInstagramUserInfo(Base):
     user_media = Column(Integer)
     user_follows = Column(Integer)
     user_followers = Column(Integer)
+    date = Column(DateTime, default=datetime.datetime.utcnow)
 
     def __repr__(self):
         return '<Username: {0}>'.format(self.username)
