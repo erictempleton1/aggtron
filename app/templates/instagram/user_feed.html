@@ -31,7 +31,7 @@
     {% if query.enabled %}
 
     <p>
-        {{ query.name }} | Created on: {{ query.created_on }} | Active: {{ query.enabled }}
+        {{ query.name }} | Created on: {{ query.created_on }} | Last Run: {{ query.last_run}} | Active: {{ query.enabled }}
         <a href="{{ url_for('build_query.change_status_info', qid=query.id, pid=project.id) }}">(Disable)</a>
         <a href="{{ url_for('build_query.remove_user_query', qid=query.id, pid=project.id) }}">(Delete)</a>
     </p>
@@ -39,7 +39,7 @@
     {% else %}
 
     <p>
-        {{ query.name }} | Created on: {{ query.created_on }} | Active: {{ query.enabled }}
+        {{ query.name }} | Created on: {{ query.created_on }} | Last Run: {{ query.last_run}} | Active: {{ query.enabled }}
         <a href="{{ url_for('build_query.change_status_info', qid=query.id, pid=project.id) }}">(Enable)</a>
         <a href="{{ url_for('build_query.remove_user_query', qid=query.id, pid=project.id) }}">(Delete)</a>
     </p>
@@ -52,7 +52,7 @@
     {% if query.enabled %}
 
     <p>
-        {{ query.name }} | Created on: {{ query.created_on }} | Active: {{ query.enabled }}
+        {{ query.name }} | Created on: {{ query.created_on }} | Last Run: {{ query.last_run}} | Active: {{ query.enabled }}
         <a href="{{ url_for('build_query.change_status_feed', qid=query.id, pid=project.id) }}">(Disable)</a>
         <a href="{{ url_for('build_query.remove_feed_query', qid=query.id, pid=project.id) }}">(Delete)</a>
     </p>
@@ -60,7 +60,7 @@
     {% else %}
 
     <p>
-        {{ query.name }} | Created on: {{ query.created_on }} | Active: {{ query.enabled }}
+        {{ query.name }} | Created on: {{ query.created_on }} | Last Run: {{ query.last_run}} | Active: {{ query.enabled }}
         <a href="{{ url_for('build_query.change_status_feed', qid=query.id, pid=project.id) }}">(Enable)</a>
         <a href="{{ url_for('build_query.remove_feed_query', qid=query.id, pid=project.id) }}">(Delete)</a>
     </p>
