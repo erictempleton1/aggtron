@@ -1,6 +1,8 @@
 import requests
-from sqlalchemy.orm import sessionmaker
+import datetime
 from user_info_model import AggInstagramUserInfo
+
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, Table, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -104,11 +106,16 @@ class GetUserInfo(object):
                                                     )
                 session.add(insta_user_info)
 
-                # placeholder for last run date save
+                # update last run
+                query.last_run = datetime.datetime.utcnow()
 
-                session.commit()
+                try:
+                    session.commit()
+                except:
+                    print 'Unable to save query: {0}'.format(query.name)    # switch logging later   
 
     def query_info_table(self):
-        usernames = [x.user_bio for x in session.query(AggInstagramUserInfo)]
-        return usernames  
+        """ extra query for testing """
+        usernames = [x.user_follows for x in session.query(AggInstagramUserInfo)]
+        return usernames
             
