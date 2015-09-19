@@ -30,7 +30,6 @@ class TestInstagramQuery(unittest.TestCase):
 
     def test_save(self):
         new_info = AggInstagramUserInfo(
-                                        project_id=1,
                                         query_id=2,
                                         user_id=1,
                                         full_name='eric',
@@ -53,7 +52,11 @@ class TestInstagramQuery(unittest.TestCase):
         as there are auth ids.
         """
         info = GetUserInfo()
-        self.assertEqual(len(info.query_ids()), len(info.auth_ids()))            
+        self.assertEqual(len(info.query_ids()), len(info.auth_ids()))
+
+    def test_get_token(self):
+        auth_token = GetUserInfo()
+        self.assertTrue(auth_token.get_token(1))               
 
     def tearDown(self):
         self.session.close()

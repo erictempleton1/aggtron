@@ -75,7 +75,7 @@ class GetUserInfo(object):
     def get_token(self, auth_id):
         """ query for the access token from the auth info table """
         access_token = session.query(AuthInfo).filter_by(id=auth_id).first()
-        return access_token.oauth_token       
+        return access_token.oauth_token 
 
     def save_request(self):
         """
