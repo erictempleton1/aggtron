@@ -89,7 +89,13 @@ class TestInstagramQuery(unittest.TestCase):
 
     def test_get_token(self):
         auth_token = GetUserInfo()
-        self.assertTrue(auth_token.get_token(1))               
+        self.assertTrue(auth_token.get_token(1))
+
+    def test_base_request(self):
+        info = GetUserInfo()
+        auth_token = config.INSTAGRAM_TEST_TOKEN
+        base_req = info.base_request(auth_token)
+        self.assertTrue('username' in base_req.next())                 
 
     def tearDown(self):
         self.session.close()
