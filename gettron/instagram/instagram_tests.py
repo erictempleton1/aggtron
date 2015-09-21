@@ -1,19 +1,49 @@
-import unittest
 import requests
+import unittest, datetime
 
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, Table, MetaData
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 
 from user_info import GetUserInfo
-from user_info_model import AggInstagramUserInfo
 
+import sys
+sys.path.insert(0, '../..')
+import config
 
 
 # global app scope
 Session = sessionmaker()
-engine = create_engine('sqlite:////home/erictempleton/Documents/Projects/myenv/aggtron/aggtron.db', echo=True)
-    
+engine = create_engine('sqlite:////home/erictempleton/Documents/Projects/myenv/aggtron/aggtron_test.db', echo=True)
+Base = declarative_base()
+
+
+class AggInstagramUserInfo(Base):
+    """ re-create user info table for testing """
+
+    __tablename__ = 'agginstagramuserinfo'
+
+    id = Column(Integer, primary_key=True)
+
+    # project and query id from aggtron
+    query_id = Column(Integer)
+
+    # data from instagram API query response
+    user_id = Column(Integer)
+    username = Column(String(250))
+    full_name = Column(String(250))
+    profile_picture = Column(String)
+    user_bio = Column(String)
+    user_website = Column(String)
+    user_media = Column(Integer)
+    user_follows = Column(Integer)
+    user_followers = Column(Integer)
+    date = Column(DateTime, default=datetime.datetime.utcnow)
+
+    def __repr__(self):
+        return '<Username: {0}>'.format(self.username)
+
 
 class TestInstagramQuery(unittest.TestCase):
 
@@ -27,6 +57,10 @@ class TestInstagramQuery(unittest.TestCase):
 
         # bind an individual Session to the connection
         self.session = Session(bind=self.connection)
+
+        # create db and tables
+        # ignored by default if db and table already exists
+        Base.metadata.create_all(engine)
 
     def test_save(self):
         new_info = AggInstagramUserInfo(
@@ -43,7 +77,6 @@ class TestInstagramQuery(unittest.TestCase):
         self.session.add(new_info)
         self.session.commit()
         info_query = self.session.query(AggInstagramUserInfo)
-        #print info_query
         self.assertTrue(info_query)
 
     def test_query_auth_len(self):
@@ -65,8 +98,9 @@ class TestInstagramQuery(unittest.TestCase):
         self.trans.rollback()
 
         # return connection to the engine
-        self.connection.close()        
+        self.connection.close()      
 
 
 if __name__ == '__main__':
     unittest.main()
+
