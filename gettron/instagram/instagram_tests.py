@@ -88,14 +88,20 @@ class TestInstagramQuery(unittest.TestCase):
         self.assertEqual(len(info.query_ids()), len(info.auth_ids()))
 
     def test_get_token(self):
+        """
+        test to be sure something is returned from auth token query
+        """
         auth_token = GetUserInfo()
         self.assertTrue(auth_token.get_token(1))
 
     def test_base_request(self):
+        """
+        test basic user info request to API
+        """
         info = GetUserInfo()
         auth_token = config.INSTAGRAM_TEST_TOKEN
         base_req = info.base_request(auth_token)
-        self.assertTrue('username' in base_req.next())                 
+        self.assertTrue('username' in base_req.next())             
 
     def tearDown(self):
         self.session.close()
