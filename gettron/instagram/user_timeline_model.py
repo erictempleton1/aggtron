@@ -1,6 +1,7 @@
 import datetime
 
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 
@@ -35,3 +36,9 @@ class AggInstagramUserTimeline(Base):
     def __repr__(self):
         return '<Caption: {0}>'.format(self.caption)
 
+
+# bind session and create table 
+# if it doesn't exist
+session = sessionmaker()
+session.configure(bind=engine)
+Base.metadata.create_all(engine)

@@ -1,6 +1,7 @@
 import datetime
 
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 
@@ -32,3 +33,8 @@ class AggInstagramUserInfo(Base):
 
     def __repr__(self):
         return '<Username: {0}>'.format(self.username)
+
+
+session = sessionmaker()
+session.configure(bind=engine)
+Base.metadata.create_all(engine)        
