@@ -19,11 +19,17 @@ class AggInstagramUserTimeline(Base):
     query_id = Column(Integer)
 
     # data from instagram API query response
+    img_text = Column(String)
     comment_count = Column(Integer)
     created_time = Column(Integer)
     img_filter = Column(String)
     img_thumb_url = Column(String)
     img_std_url = Column(String)
+    img_likes = Column(Integer)
+    longitude = Column(Integer)
+    lattitude = Column(Integer)
+    location_name = Column(String)
+    img_tag = Column(String)
 
 
     def __repr__(self):
