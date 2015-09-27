@@ -40,7 +40,6 @@ session = Session()
 
 class GetUserInfo(object):
 
-
     def __init__(self):
         self.queries = session.query(UserInfo)
         self.info_url = 'https://api.instagram.com/v1/users/self/'
