@@ -48,7 +48,7 @@ class GetTimelineInfo(object):
 
         try:
             r = requests.get(url, params=params)
-            yield r.json()
+            return r.json()
         except AttributeError, e:
             # if the id does not exist for some reason
             print 'Unable to complete request'
@@ -79,10 +79,38 @@ class GetTimelineInfo(object):
                 # make the initial request
                 insta_resp = self.base_request(access_token, query_url)
 
+                # so we can keep track of where we are
                 count = 0
 
+                # url for next page provided in API results
+                next_url = insta_resp['pagination']['next_url']
+
                 # get the first page of results
-                for res in insta_resp:
+                for res in insta_resp['data']:
                     count += 1
                     print count
-                    print res
+
+                    # get the instagram post text...some are blank
+                    try:
+                        print res['caption']['text']
+                    except TypeError:
+                        print 'No caption'    
+
+                while next_url is not None:
+
+                    # start a new request using the next_url defined above
+                    new_request = self.base_request(access_token, next_url)
+
+                    for res in new_request['data']:
+                        count += 1
+                        print count
+                        try:
+                            print res['caption']['text']
+                        except TypeError:
+                            print 'No caption'
+
+                    # break out of the loop when there is no next_url        
+                    try:
+                        next_url = new_request['pagination']['next_url']
+                    except KeyError:
+                        break    
