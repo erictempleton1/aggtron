@@ -90,11 +90,17 @@ class GetTimelineInfo(object):
                     count += 1
                     print count
 
-                    # get the instagram post text...some are blank
+                    # account for possible missing values
                     try:
-                        print res['caption']['text']
+                        img_text = res['caption']['text']
                     except TypeError:
-                        print 'No caption'    
+                        img_text = 'NA'
+
+                    try:
+                        location_name = res['location']['name']
+                    except TypeError:
+                        location_name = 'NA'       
+  
 
                 while next_url is not None:
 
@@ -105,12 +111,12 @@ class GetTimelineInfo(object):
                         count += 1
                         print count
                         try:
-                            print res['caption']['text']
+                            print ' '.join(res['tags'])
                         except TypeError:
-                            print 'No caption'
+                            print 'NA'
 
                     # break out of the loop when there is no next_url        
                     try:
                         next_url = new_request['pagination']['next_url']
                     except KeyError:
-                        break    
+                        break   
