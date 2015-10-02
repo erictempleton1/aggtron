@@ -99,7 +99,10 @@ class GetTimelineInfo(object):
                     try:
                         location_name = res['location']['name']
                     except TypeError:
-                        location_name = 'NA'       
+                        location_name = 'NA'
+
+                    print img_text
+                    print location_name           
   
 
                 while next_url is not None:
@@ -111,9 +114,17 @@ class GetTimelineInfo(object):
                         count += 1
                         print count
                         try:
-                            print ' '.join(res['tags'])
+                            img_text = res['caption']['text']
                         except TypeError:
-                            print 'NA'
+                            img_text = 'NA'
+
+                        try:
+                            location_name = res['location']['name']
+                        except TypeError:
+                            location_name = 'NA'
+
+                        print img_text
+                        print location_name     
 
                     # break out of the loop when there is no next_url        
                     try:
