@@ -101,8 +101,16 @@ class GetTimelineInfo(object):
                     except TypeError:
                         location_name = 'NA'
 
-                    print img_text
-                    print location_name           
+                    created_time = res['created_time']
+                    img_filter = res['filter']
+                    img_thumb_url = res['images']['thumbnail']
+                    img_std_url = res['images']['standard_resolution']
+                    img_likes = res['likes']
+                    longitude = res['location']['longitude']
+                    lattitude = res['location']['latitude']
+                    location_name = res['location']['name']
+                    img_tag = res['tags']
+
   
 
                 while next_url is not None:
@@ -123,8 +131,7 @@ class GetTimelineInfo(object):
                         except TypeError:
                             location_name = 'NA'
 
-                        print img_text
-                        print location_name     
+
 
                     # break out of the loop when there is no next_url        
                     try:

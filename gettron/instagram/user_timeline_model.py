@@ -31,6 +31,7 @@ class AggInstagramUserTimeline(Base):
     lattitude = Column(Integer)
     location_name = Column(String)
     img_tag = Column(String)
+    date = Column(DateTime, default=datetime.datetime.utcnow)
 
 
     def __repr__(self):
