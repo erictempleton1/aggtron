@@ -101,14 +101,20 @@ class GetTimelineInfo(object):
                     except TypeError:
                         location_name = 'NA'
 
+                    try:
+                        longitude = res['location']['longitude']
+                        latitude = res['location']['latitude']
+                        location_name = res['location']['name']
+                    except TypeError:
+                        longitude = 'NA'
+                        latitude = 'NA'
+                        location_name = 'NA'     
+
                     created_time = res['created_time']
                     img_filter = res['filter']
-                    img_thumb_url = res['images']['thumbnail']
-                    img_std_url = res['images']['standard_resolution']
-                    img_likes = res['likes']
-                    longitude = res['location']['longitude']
-                    latitude = res['location']['latitude']
-                    location_name = res['location']['name']
+                    img_thumb_url = res['images']['thumbnail']['url']
+                    img_std_url = res['images']['standard_resolution']['url']
+                    img_likes = res['likes']['count']
                     img_tag = res['tags']
 
                     print created_time
@@ -139,7 +145,31 @@ class GetTimelineInfo(object):
                         except TypeError:
                             location_name = 'NA'
 
+                        try:
+                            longitude = res['location']['longitude']
+                            latitude = res['location']['latitude']
+                            location_name = res['location']['name']
+                        except TypeError:
+                            longitude = 'NA'
+                            latitude = 'NA'
+                            location_name = 'NA'
 
+                        created_time = res['created_time']
+                        img_filter = res['filter']
+                        img_thumb_url = res['images']['thumbnail']['url']
+                        img_std_url = res['images']['standard_resolution']['url']
+                        img_likes = res['likes']['count']
+                        img_tag = res['tags']    
+
+                        print created_time
+                        print img_filter
+                        print img_thumb_url
+                        print img_std_url
+                        print img_likes
+                        print longitude
+                        print latitude
+                        print location_name
+                        print img_tag        
 
                     # break out of the loop when there is no next_url        
                     try:
