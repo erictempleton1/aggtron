@@ -107,11 +107,19 @@ class GetTimelineInfo(object):
                     img_std_url = res['images']['standard_resolution']
                     img_likes = res['likes']
                     longitude = res['location']['longitude']
-                    lattitude = res['location']['latitude']
+                    latitude = res['location']['latitude']
                     location_name = res['location']['name']
                     img_tag = res['tags']
 
-  
+                    print created_time
+                    print img_filter
+                    print img_thumb_url
+                    print img_std_url
+                    print img_likes
+                    print longitude
+                    print latitude
+                    print location_name
+                    print img_tag
 
                 while next_url is not None:
 
