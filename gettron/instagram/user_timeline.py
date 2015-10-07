@@ -112,20 +112,34 @@ class GetTimelineInfo(object):
 
                     created_time = res['created_time']
                     img_filter = res['filter']
-                    img_thumb_url = res['images']['thumbnail']['url']
-                    img_std_url = res['images']['standard_resolution']['url']
                     img_likes = res['likes']['count']
-                    img_tag = res['tags']
+                    comment_count = res['comments']['count']
 
-                    print created_time
-                    print img_filter
-                    print img_thumb_url
-                    print img_std_url
-                    print img_likes
-                    print longitude
-                    print latitude
-                    print location_name
-                    print img_tag
+                    # tags are sent as a list in the response, and are always one word
+                    # joining them by a space allows them to be saves and parsed later
+                    img_tag = ' '.join(res['tags'])
+
+                    # first part of url is the same, so no need to save it
+                    img_thumb_url = res['images']['thumbnail']['url'][34:]
+                    img_std_url = res['images']['standard_resolution']['url'][34:]
+
+                    insta_user_timeline = AggInstagramUserTimeline(
+                                                       img_text=img_text,
+                                                       comment_count=comment_count,
+                                                       created_time=created_time,
+                                                       img_filter=img_filter,
+                                                       img_thumb_url=img_thumb_url,
+                                                       img_std_url=img_std_url,
+                                                       longitude=longitude,
+                                                       lattitude=latitude,
+                                                       location_name=location_name
+                                                    )
+                    
+                    # update last run
+                    query.last_run = datetime.datetime.utcnow()
+
+                    session.add(insta_user_timeline)
+                    session.commit()
 
                 while next_url is not None:
 
@@ -155,21 +169,27 @@ class GetTimelineInfo(object):
                             location_name = 'NA'
 
                         created_time = res['created_time']
+                        comment_count = res['comments']['count']
                         img_filter = res['filter']
-                        img_thumb_url = res['images']['thumbnail']['url']
-                        img_std_url = res['images']['standard_resolution']['url']
+                        img_thumb_url = res['images']['thumbnail']['url'][34:]
+                        img_std_url = res['images']['standard_resolution']['url'][34:]
                         img_likes = res['likes']['count']
-                        img_tag = res['tags']    
+                        img_tag = ' '.join(res['tags']) 
 
-                        print created_time
-                        print img_filter
-                        print img_thumb_url
-                        print img_std_url
-                        print img_likes
-                        print longitude
-                        print latitude
-                        print location_name
-                        print img_tag        
+                        insta_user_timeline = AggInstagramUserTimeline(
+                                                       img_text=img_text,
+                                                       comment_count=comment_count,
+                                                       created_time=created_time,
+                                                       img_filter=img_filter,
+                                                       img_thumb_url=img_thumb_url,
+                                                       img_std_url=img_std_url,
+                                                       longitude=longitude,
+                                                       lattitude=latitude,
+                                                       location_name=location_name
+                                                    )
+
+                        session.add(insta_user_timeline)
+                        session.commit()
 
                     # break out of the loop when there is no next_url        
                     try:
