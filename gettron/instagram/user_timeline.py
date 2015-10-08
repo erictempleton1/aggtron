@@ -48,7 +48,7 @@ class GetTimelineInfo(object):
 
         try:
             r = requests.get(url, params=params)
-            return r.json()
+            yield r.json()
         except AttributeError, e:
             # if the id does not exist for some reason
             print 'Unable to complete request'
