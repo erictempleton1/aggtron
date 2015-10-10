@@ -110,6 +110,10 @@ class GetTimelineInfo(object):
                 # update last run
                 query.last_run = datetime.datetime.utcnow()
                 session.commit()
-                
-        print 'queries: {0}'.format(queries)        
+
+    def save_results(self):
+        """
+        loop over all queries and save
+        """
+        pass                    
 
