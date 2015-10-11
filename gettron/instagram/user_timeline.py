@@ -59,61 +59,52 @@ class GetTimelineInfo(object):
         access_token = session.query(AuthInfo).filter_by(id=auth_id).first()
         return access_token.oauth_token    
 
-    def make_request(self):
+    def make_request(self, access_token):
         """
         make request to instagram api for user timeline.
         uses next url for page through results
         """
-        # loop over all queries in user timeline table
-        for query in self.queries:
-            queries = 0
-            queries += 1
-            if query.enabled:
 
-                # first get the access token
-                access_token = self.get_token(query.auth_id)
+        insta_resp = self.base_request(
+                                       access_token,
+                                       self.timeline_url
+                                    )
 
-                # set query url
-                query_url = self.timeline_url
+        # url for next page provided in API results
+        next_url = insta_resp['pagination']['next_url']
 
-                # make the initial request
-                insta_resp = self.base_request(access_token, query_url)
+        # get the first page of results
+        for res in insta_resp['data']:
+            yield res
 
-                # url for next page provided in API results
-                next_url = insta_resp['pagination']['next_url']
+        while next_url is not None:
 
-                # so we can keep track of where we are
-                count = 0
+            # start a new request using the next_url defined above
+            new_request = self.base_request(access_token, next_url)
 
-                # get the first page of results
-                for res in insta_resp['data']:
-                    count += 1
-                    print count
-                    yield res
-    
-                while next_url is not None:
+            for res in new_request['data']:
+                yield res
 
-                    # start a new request using the next_url defined above
-                    new_request = self.base_request(access_token, next_url)
-
-                    for res in new_request['data']:
-                        count += 1
-                        print count
-                        yield res
-
-                    # break out of the loop when there is no next_url        
-                    try:
-                        next_url = new_request['pagination']['next_url']
-                    except KeyError:
-                        break
-
-                # update last run
-                query.last_run = datetime.datetime.utcnow()
-                session.commit()
+            # break out of the loop when there is no next_url        
+            try:
+                next_url = new_request['pagination']['next_url']
+            except KeyError:
+                break
 
     def save_results(self):
         """
         loop over all queries and save
         """
-        pass                    
+        count = 0
+        for query in self.queries:
+            if query.enabled:
 
+                # first get the access token
+                access_token = self.get_token(query.auth_id)
+                
+                insta_json = self.make_request(access_token)
+
+                for resp in insta_json:
+                    count += 1
+                    print count
+                    print resp
