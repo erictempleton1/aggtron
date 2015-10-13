@@ -125,6 +125,30 @@ class GetTimelineInfo(object):
                     comment_count = resp['comments']['count']
                     created_time = resp['created_time']
                     img_filter = resp['filter']
-                    img_thumb_url = resp['images']['thumbnail']['url']
-                    img_stand_url = resp['images']['standard_resolution']['url']
+                    img_thumb_url = resp['images']['thumbnail']['url'][47:]  # drop http
+                    img_std_url = resp['images']['standard_resolution']['url'][47:]
+                    img_likes = resp['likes']['count']
                     img_tag = ' '.join(resp['tags'])   # split list into one word strings
+
+                    insta_save = AggInstagramUserTimeline(
+                                                          query_id=query.id,
+                                                          img_text=img_text,
+                                                          comment_count=comment_count,
+                                                          created_time=created_time,
+                                                          img_filter=img_filter,
+                                                          img_thumb_url=img_thumb_url,
+                                                          img_std_url=img_std_url,
+                                                          img_likes=img_likes,
+                                                          longitude=longitude,
+                                                          lattitude=latitude,
+                                                          location_name=location_name,
+                                                          img_tag=img_tag
+                                                        )
+                    # add all to session
+                    session.add(insta_save)
+            
+            # set last run date in query model
+            query.last_run = datetime.datetime.utcnow()
+
+            # commit to db
+            session.commit()
