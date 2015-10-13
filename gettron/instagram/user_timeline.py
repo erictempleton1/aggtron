@@ -89,7 +89,7 @@ class GetTimelineInfo(object):
             try:
                 next_url = new_request['pagination']['next_url']
             except KeyError:
-                break
+                break                
 
     def save_results(self):
         """
@@ -107,4 +107,24 @@ class GetTimelineInfo(object):
                 for resp in insta_json:
                     count += 1
                     print count
-                    print resp
+                    
+                    try:
+                        img_text = resp['caption']['text']
+                    except TypeError:
+                        img_text = 'NA'
+
+                    try:
+                        longitude = resp['location']['latitude']
+                        latitude = resp['location']['longitude']
+                        location_name = resp['location']['name']
+                    except TypeError:
+                        longitude = 'NA'
+                        latitude = 'NA'
+                        location_name = 'NA'        
+
+                    comment_count = resp['comments']['count']
+                    created_time = resp['created_time']
+                    img_filter = resp['filter']
+                    img_thumb_url = resp['images']['thumbnail']['url']
+                    img_stand_url = resp['images']['standard_resolution']['url']
+                    img_tag = ' '.join(resp['tags'])   # split list into one word strings
