@@ -125,7 +125,7 @@ class TestUserTimeline(unittest.TestCase):
 
             insta_save = AggInstagramUserTimeline(
                                                   query_id=1,
-                                                  img_text=img_text,
+                                                  img_text='Test Text',
                                                   comment_count=comment_count,
                                                   created_time=created_time,
                                                   img_filter=img_filter,
@@ -139,8 +139,13 @@ class TestUserTimeline(unittest.TestCase):
                                                 )
             self.session.add(insta_save)
 
-        self.session.commit()                                                
-                   
+        self.session.commit()
+
+        results = [post for post in self.session.query(AggInstagramUserTimeline)]
+
+        # test to be sure results are actually saved
+        self.assertTrue(len(results) >= 1)
+
     def tearDown(self):
         self.session.close()
 
@@ -152,4 +157,4 @@ class TestUserTimeline(unittest.TestCase):
 
 
 if __name__ == '__main__':
-        unittest.main()       
+    unittest.main()  
