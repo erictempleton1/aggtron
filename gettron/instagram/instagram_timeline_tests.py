@@ -68,7 +68,6 @@ class TestUserTimeline(unittest.TestCase):
         self.timeline_url = 'https://api.instagram.com/v1/users/self/media/recent/'
         self.access_token = config.INSTAGRAM_TEST_TOKEN
 
-
         # create db and tables
         # ignored by default if db and table already exists
         Base.metadata.create_all(engine)
@@ -140,7 +139,7 @@ class TestUserTimeline(unittest.TestCase):
                                                 )
             self.session.add(insta_save)
 
-            self.session.commit()                                                
+        self.session.commit()                                                
                    
     def tearDown(self):
         self.session.close()
