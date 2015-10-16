@@ -35,7 +35,7 @@ class AggInstagramUserTimeline(Base):
 
 
     def __repr__(self):
-        return '<Caption: {0}>'.format(self.caption)
+        return '<Img Text: {0}>'.format(self.img_text)
 
 
 # bind session and create table 

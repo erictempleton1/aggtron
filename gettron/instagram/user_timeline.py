@@ -42,6 +42,9 @@ class GetTimelineInfo(object):
         self.queries = session.query(UserTimeline)
         self.timeline_url = 'https://api.instagram.com/v1/users/self/media/recent/'
 
+    def query_results(self):
+        return session.query(AggInstagramUserTimeline)
+
     def base_request(self, access_token, url):
         """ set up request to instagram api """
         params = {'access_token': access_token}
@@ -95,7 +98,6 @@ class GetTimelineInfo(object):
         """
         loop over all queries and save
         """
-        count = 0
         for query in self.queries:
             if query.enabled:
 
