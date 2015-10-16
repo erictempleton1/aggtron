@@ -1,5 +1,8 @@
+import sys
+import cProfile
 import requests
-import unittest, datetime
+import unittest
+import datetime
 
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -96,7 +99,48 @@ class TestUserTimeline(unittest.TestCase):
         self.assertTrue('tags' in make_req.next())
 
     def test_save_results(self):
-        pass
+        insta_json = self.insta.make_request(self.access_token)
+
+        for resp in insta_json:
+            try:
+                img_text = resp['caption']['text']
+            except TypeError:
+                img_text = 'NA'
+
+            try:
+                longitude = resp['location']['latitude']
+                latitude = resp['location']['longitude']
+                location_name = resp['location']['name']
+            except TypeError:
+                longitude = 'NA'
+                latitude = 'NA'
+                location_name = 'NA'
+
+            comment_count = resp['comments']['count']
+            created_time = resp['created_time']
+            img_filter = resp['filter']
+            img_thumb_url = resp['images']['thumbnail']['url'][47:]
+            img_std_url = resp['images']['standard_resolution']['url'][47:]
+            img_likes = resp['likes']['count']
+            img_tag = ' '.join(resp['tags'])
+
+            insta_save = AggInstagramUserTimeline(
+                                                  query_id=1,
+                                                  img_text=img_text,
+                                                  comment_count=comment_count,
+                                                  created_time=created_time,
+                                                  img_filter=img_filter,
+                                                  img_thumb_url=img_thumb_url,
+                                                  img_std_url=img_std_url,
+                                                  img_likes=img_likes,
+                                                  longitude=longitude,
+                                                  lattitude=latitude,
+                                                  location_name=location_name,
+                                                  img_tag=img_tag
+                                                )
+            self.session.add(insta_save)
+
+            self.session.commit()                                                
                    
     def tearDown(self):
         self.session.close()
@@ -109,4 +153,4 @@ class TestUserTimeline(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()        
+        unittest.main()       
