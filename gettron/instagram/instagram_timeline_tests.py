@@ -125,7 +125,7 @@ class TestUserTimeline(unittest.TestCase):
 
             insta_save = AggInstagramUserTimeline(
                                                   query_id=1,
-                                                  img_text='Test Text',
+                                                  img_text=img_text,
                                                   comment_count=comment_count,
                                                   created_time=created_time,
                                                   img_filter=img_filter,
