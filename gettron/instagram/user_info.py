@@ -1,6 +1,6 @@
 import requests
 import datetime
-from user_info_model import AggInstagramUserInfo
+from models.user_info_model import AggInstagramUserInfo
 
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, Table, MetaData

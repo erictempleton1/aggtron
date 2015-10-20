@@ -1,6 +1,6 @@
 import requests
 import datetime
-from user_timeline_model import AggInstagramUserTimeline
+from models.user_timeline_model import AggInstagramUserTimeline
 
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, Table, MetaData
