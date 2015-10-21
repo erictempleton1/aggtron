@@ -6,11 +6,11 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, Table, MetaData
 from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 
-from user_info import GetUserInfo
-
 import sys
-sys.path.insert(0, '../..')
+sys.path.insert(0, '../../..')
+sys.path.insert(0, '../')
 import config
+from user_info import GetUserInfo
 
 
 # global app scope
