@@ -1,5 +1,6 @@
 import requests
-import unittest, datetime
+import unittest
+import datetime
 
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -8,8 +9,8 @@ from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 
 import sys
 sys.path.insert(0, '../../..')
-sys.path.insert(0, '../')
 import config
+sys.path.insert(0, '../')
 from user_info import GetUserInfo
 
 
