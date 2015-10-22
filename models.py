@@ -109,6 +109,31 @@ class TwitterUserTimelineQuery(db.Model):
     def __repr__(self):
         return '<Query Name: {0}>'.format(self.name)
 
+class TwitterUserInfoQuery(db.Model):
+
+    __tablename__ = 'twitteruserinfoquery'
+    __table_args__ = {'extend_existing': True}
+
+    id = db.Column(db.Integer, primary_key=True)
+    auth_id = db.Column(db.Integer)
+    name = db.Column(db.String())
+    query_type = db.Column(db.String(), default='twitter user info')
+    created_on = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    created_by = db.Column(db.Integer)
+    enabled = db.Column(db.Boolean, default=True)
+    last_run = db.Column(db.DateTime, default=True)
+    project_name = db.Column(db.Integer, db.ForeignKey('project.id'))
+
+
+    def __init__(self, auth_id, name, created_by, project_name):
+        self.auth_id = auth_id
+        self.name = name
+        self.created_by = created_by
+        self.project_name = project_name
+
+    def __repr__(self):
+        return '<Query Name {0}>'.format(self.name)         
+
 
 class TwitterMentionsTimelineQuery(db.Model):
 
