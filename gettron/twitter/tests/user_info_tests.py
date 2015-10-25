@@ -64,7 +64,7 @@ class TestTwitterQuery(unittest.TestCase):
         info = GetUserInfo()
         auth_token = config.TWITTER_TEST_TOKEN
         base_req = info.base_request(auth_token)
-        print base_req    
+        print base_req.next()
 
     def tearDown(self):
         self.session.close()
