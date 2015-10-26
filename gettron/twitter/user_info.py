@@ -1,5 +1,6 @@
-import requests
 import datetime
+import requests
+from requests_oauthlib import OAuth1
 from models.user_info_model import AggTwitterUserInfo
 
 from sqlalchemy.orm import sessionmaker
@@ -54,12 +55,17 @@ class GetUserInfo(object):
         """
         return [query.auth_ids for query in self.queries]
 
-    def base_request(self, access_token):
+    def base_request(self, access_key, access_secret):
         """ set up request to twitter api """
-        params = {'access_token': access_token}
+        oauth_params = OAuth1(
+                              config.TWITTER_CONSUMER_KEY,
+                              config.TWITTER_CONSUMER_SECRET,
+                              access_key,
+                              access_secret
+                            )
 
         try:
-            r = requests.get(self.info_url, params=params)
+            r = requests.get(self.info_url, auth=oauth_params)
             json_result = r.json()   
         except AttributeError, e:
             # if the id does not exsit for some reason
@@ -71,4 +77,3 @@ class GetUserInfo(object):
         """ query for the access token from auth info table """
         access_token = session.query(AuthInfo).filter_by(id=auth_id).first()
         return access_token.oauth_token
-                             

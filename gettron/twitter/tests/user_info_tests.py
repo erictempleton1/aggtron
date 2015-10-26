@@ -62,8 +62,10 @@ class TestTwitterQuery(unittest.TestCase):
     def test_base_request(self):
         """ test basic request to the twitter API """
         info = GetUserInfo()
-        auth_token = config.TWITTER_TEST_TOKEN
-        base_req = info.base_request(auth_token)
+        base_req = info.base_request(
+                                     config.TWITTER_TEST_KEY,
+                                     config.TWITTER_TEST_KEY_SECRET
+                                    )
         print base_req.next()
 
     def tearDown(self):
