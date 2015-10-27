@@ -40,7 +40,7 @@ class GetUserInfo(object):
 
     def __init__(self):
         self.queries = session.query(UserInfo)
-        self.info_url = 'https://api.twitter.com/1.1/users/lookup.json?include_entities=true'
+        self.info_url = u'https://api.twitter.com/1.1/statuses/user_timeline.json?count=1'
 
     def query_ids(self):
         """
