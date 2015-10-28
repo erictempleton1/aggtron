@@ -59,14 +59,21 @@ class TestTwitterQuery(unittest.TestCase):
         # ignored by default if db and table already exists
         Base.metadata.create_all(engine)
 
+        self.user_info = GetUserInfo()
+
     def test_base_request(self):
         """ test basic request to the twitter API """
-        info = GetUserInfo()
-        base_req = info.base_request(
+        base_req = self.user_info.base_request(
                                      config.TWITTER_TEST_KEY,
                                      config.TWITTER_TEST_KEY_SECRET
                                     )
         print base_req.next()
+
+    def test_get_token(self):
+        """
+        test to be sure something is returned from auth token query
+        """
+        self.assertTrue(self.user_info.get_token(1))  
 
     def tearDown(self):
         self.session.close()
