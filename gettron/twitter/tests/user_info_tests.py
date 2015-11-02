@@ -67,7 +67,9 @@ class TestTwitterQuery(unittest.TestCase):
                                      config.TWITTER_TEST_KEY,
                                      config.TWITTER_TEST_KEY_SECRET
                                     )
-        print base_req.next()
+        json_resp = base_req.next()
+        print json_resp
+        self.assertTrue(json_resp)
 
     def test_get_token(self):
         """
