@@ -72,6 +72,15 @@ class GetUserInfo(object):
             json_result = False
             print e
         yield json_result
+
+    def get_access_keys(self, auth_id):
+        """ query for access keys and save to dict """
+        # todo - need to test
+        access_keys = {}
+        access_req = session.query(AuthInfo).filter_by(auth_id).first()
+        access_keys['access_key'] = access_req.oauth_token
+        access_keys['access_secret'] = access_req.oauth_token_secret
+        return access_keys    
     
     def get_token(self, auth_id):
         """ query for the access token from auth info table """
