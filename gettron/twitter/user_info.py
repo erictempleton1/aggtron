@@ -42,19 +42,6 @@ class GetUserInfo(object):
         self.queries = session.query(UserInfo)
         self.info_url = u'https://api.twitter.com/1.1/account/verify_credentials.json'
 
-    def query_ids(self):
-        """
-        get all query ids from query table.
-        mostly for testing purposes
-        """
-
-    def auth_ids(self):
-        """
-        get all auth ids from query table.
-        mostly for testing purposes.
-        """
-        return [query.auth_ids for query in self.queries]
-
     def base_request(self, access_key, access_secret):
         """ set up request to twitter api """
         oauth_params = OAuth1(
@@ -63,7 +50,6 @@ class GetUserInfo(object):
                               access_key,
                               access_secret
                             )
-
         try:
             r = requests.get(self.info_url, auth=oauth_params)
             json_result = r.json()   
@@ -71,18 +57,9 @@ class GetUserInfo(object):
             # if the id does not exsit for some reason
             json_result = False
             print e
-        yield json_result
-
-    def get_access_keys(self, auth_id):
-        """ query for access keys and save to dict """
-        # todo - need to test
-        access_keys = {}
-        access_req = session.query(AuthInfo).filter_by(auth_id).first()
-        access_keys['access_key'] = access_req.oauth_token
-        access_keys['access_secret'] = access_req.oauth_token_secret
-        return access_keys    
+        yield json_result   
     
-    def get_token(self, auth_id):
+    def get_tokens(self, auth_id):
         """ query for the access token from auth info table """
         access_token = session.query(AuthInfo).filter_by(id=auth_id).first()
-        return access_token.oauth_token
+        return access_token
