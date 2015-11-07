@@ -60,23 +60,28 @@ class TestTwitterQuery(unittest.TestCase):
         Base.metadata.create_all(engine)
 
         self.user_info = GetUserInfo()
+        self.base_req = self.user_info.base_request(
+                                                    config.TWITTER_TEST_KEY,
+                                                    config.TWITTER_TEST_KEY_SECRET
+                                                )
+        self.json_resp = self.base_req.next()
 
     def test_base_request(self):
         """ test basic request to the twitter API """
-        base_req = self.user_info.base_request(
-                                     config.TWITTER_TEST_KEY,
-                                     config.TWITTER_TEST_KEY_SECRET
-                                    )
-        json_resp = base_req.next()
-        print json_resp
-        self.assertTrue(json_resp)
+        print self.json_resp
+        self.assertTrue(self.json_resp)
 
     def test_get_token(self):
         """
         test to be sure something is returned from auth token query
         """
-        self.assertTrue(self.user_info.get_token(1))  
+        self.assertTrue(self.user_info.get_tokens(1))
 
+    def test_get_results(self):
+        fav_count = self.json_resp['entities']['favorites_count']
+        print fav_count
+        self.assertTrue(fav_count)
+        
     def tearDown(self):
         self.session.close()
 

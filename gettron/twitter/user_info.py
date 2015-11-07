@@ -40,7 +40,7 @@ class GetUserInfo(object):
 
     def __init__(self):
         self.queries = session.query(UserInfo)
-        self.info_url = u'https://api.twitter.com/1.1/account/verify_credentials.json'
+        self.info_url = 'https://api.twitter.com/1.1/account/verify_credentials.json?skip_status=true'
 
     def base_request(self, access_key, access_secret):
         """ set up request to twitter api """
