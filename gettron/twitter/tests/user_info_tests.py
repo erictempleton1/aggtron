@@ -78,9 +78,14 @@ class TestTwitterQuery(unittest.TestCase):
         self.assertTrue(self.user_info.get_tokens(1))
 
     def test_get_results(self):
-        fav_count = self.json_resp['entities']['favorites_count']
-        print fav_count
-        self.assertTrue(fav_count)
+        resp_data = self.json_resp
+        print resp_data['followers_count']
+        print resp_data['id']
+        print resp_data['listed_count']
+        print resp_data['favorites_count']
+        print resp_data['friends_count']
+        print resp_data['statuses_count']
+        self.assertTrue(resp_data)
         
     def tearDown(self):
         self.session.close()
