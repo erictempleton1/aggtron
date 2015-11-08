@@ -82,7 +82,7 @@ class TestTwitterQuery(unittest.TestCase):
         print resp_data['followers_count']
         print resp_data['id']
         print resp_data['listed_count']
-        print resp_data['favorites_count']
+        print resp_data['favourites_count']
         print resp_data['friends_count']
         print resp_data['statuses_count']
         self.assertTrue(resp_data)
