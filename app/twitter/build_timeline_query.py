@@ -5,7 +5,10 @@ from requests_oauthlib import OAuth1
 from flask.ext.login import current_user, login_required
 from forms import TwitterUserTimeline, TwitterMentionsTimeline
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from models import Users, Project, AuthInfo, TwitterUserTimelineQuery, TwitterMentionsTimelineQuery
+from models import (Users, Project, AuthInfo,
+                    TwitterUserTimelineQuery,
+                    TwitterMentionsTimelineQuery,
+                    TwitterUserInfoQuery)
 
 
 build_timeline_query = Blueprint('build_timeline_query', __name__, template_folder='templates')
@@ -68,6 +71,12 @@ def main(pid):
                            timeline_queries=timeline_queries,
                            mentions_queries=mentions_queries
                            )
+
+@build_timeline_query.route('/<int:pid>/twitter/info-query', methods=['GET', 'POST'])
+@login_required
+def build_user_info(pid):
+    """ create a new query to save the user's profile info """
+    pass    
 
 
 @build_timeline_query.route('/<int:pid>/twitter/mentions-query', methods=['GET', 'POST'])
