@@ -24,6 +24,8 @@ class ProjectForm(Form):
                            ('Github', 'Github')
                            ])
 
+class TwitterUserInfo(Form):
+    query_name = TextField('Query Name', validators=[validators.Required()])
 
 class TwitterUserTimeline(Form):
     query_name = TextField('Query Name', validators=[validators.Required()])

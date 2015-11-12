@@ -3,7 +3,7 @@ import requests
 from app import db
 from requests_oauthlib import OAuth1
 from flask.ext.login import current_user, login_required
-from forms import TwitterUserTimeline, TwitterMentionsTimeline
+from forms import TwitterUserTimeline, TwitterMentionsTimeline, TwitterUserInfo
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from models import (Users, Project, AuthInfo,
                     TwitterUserTimelineQuery,
@@ -76,7 +76,32 @@ def main(pid):
 @login_required
 def build_user_info(pid):
     """ create a new query to save the user's profile info """
-    pass    
+    project = Project.query.filter_by(id=pid,
+                                      created_by=current_user.id,
+                                      api_type='Twitter'
+                                      ).first_or_404()
+    # get the authorization for the current project
+    proj_auth = Auth.query.filter_by(project_name=project.id).first()
+
+    form = TwitterUserInfo()
+    if form.validate_on_submit():
+        query_title = request.form['query_name']
+
+        new_query = TwitterUserInfoQuery(id=pid,
+                                         created_by=current_user.id,
+                                         api_type='Twitter'
+                                         )
+        try:
+            db.session.add(new_query)
+            db.session.commit()
+            flash('User Info Query Created')
+            return redirect(url_for('build_timeline_query.main', pid=pid))
+        except Exception as error:
+            flash('An error occured {0}'.format(error))
+            return redirect(url_for('build_timeline_query.main', pid=pid))
+
+    return render_template('twitter/new_user_info_query.html', form=form)
+    # todo - create html file above     
 
 
 @build_timeline_query.route('/<int:pid>/twitter/mentions-query', methods=['GET', 'POST'])
