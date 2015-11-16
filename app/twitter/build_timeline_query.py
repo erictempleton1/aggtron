@@ -38,6 +38,12 @@ def main(pid):
                                                                     project_name=project.id,
                                                                     created_by=current_user.id
                                                                     )
+    # return all user info queries
+    user_info_queries = TwitterUserInfoQuery.query.filter_by(
+                                                             project_name=project.id,
+                                                             create_by=current_user.id
+                                                             )
+
     if proj_auth:
       # check to make sure auth creds are in the db
       consumer_key = config.TWITTER_CONSUMER_KEY
@@ -70,6 +76,7 @@ def main(pid):
                            basic_query=basic_query,
                            timeline_queries=timeline_queries,
                            mentions_queries=mentions_queries
+                           user_info_queries=user_info_queries
                            )
 
 @build_timeline_query.route('/<int:pid>/twitter/info-query', methods=['GET', 'POST'])
@@ -81,7 +88,7 @@ def build_user_info(pid):
                                       api_type='Twitter'
                                       ).first_or_404()
     # get the authorization for the current project
-    proj_auth = Auth.query.filter_by(project_name=project.id).first()
+    proj_auth = AuthInfo.query.filter_by(project_name=project.id).first()
 
     form = TwitterUserInfo()
     if form.validate_on_submit():
@@ -101,8 +108,6 @@ def build_user_info(pid):
             return redirect(url_for('build_timeline_query.main', pid=pid))
 
     return render_template('twitter/new_user_info_query.html', form=form)
-    # todo - create html file above     
-
 
 @build_timeline_query.route('/<int:pid>/twitter/mentions-query', methods=['GET', 'POST'])
 @login_required

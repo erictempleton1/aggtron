@@ -11,7 +11,7 @@
 <strong>Recent tweet:</strong> {{ basic_query[0]['text'] }} ({{ basic_query[0]['id'] }})
 
 <p>
-    <a href="#">Create New User Info Query</a>
+    <a href="{{ url_for('build_timeline_query.build_user_info', pid=project.id) }}">Create New User Info Query</a>
 </p>
 
 <p>
