@@ -47,7 +47,22 @@
     {% else %}
 
     <p>{{ query.name }} | Created on: {{ query.created_on }} | Active: {{ query.enabled }} 
-    <a href="{{ url_for('build_timeline_query.change_status_mentions', qid=query.id, pid=project.id) }}">(Enable)</a></p> 
+    <a href="{{ url_for('build_timeline_query.change_status_mentions', qid=query.id, pid=project.id) }}">(Enable)</a></p>
+
+    {% endif %}
+{% endfor %}
+
+<h3>Current User Info Queries </h3>
+{% for query in user_info_queries %}
+    {% if query.enabled %}
+
+        <p>{{ query.name }} | Created on: {{ query.created_on }} | Active: {{ query.enabled }} 
+    <a href="{{ url_for('build_timeline_query.change_status_mentions', qid=query.id, pid=project.id) }}">(Disable)</a></p> 
+
+    {% else %}
+
+    <p>{{ query.name }} | Created on: {{ query.created_on }} | Active: {{ query.enabled }} 
+    <a href="{{ url_for('build_timeline_query.change_status_mentions', qid=query.id, pid=project.id) }}">(Enable)</a></p>
 
     {% endif %}
 {% endfor %}

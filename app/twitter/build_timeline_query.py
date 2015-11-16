@@ -41,7 +41,7 @@ def main(pid):
     # return all user info queries
     user_info_queries = TwitterUserInfoQuery.query.filter_by(
                                                              project_name=project.id,
-                                                             create_by=current_user.id
+                                                             created_by=current_user.id
                                                              )
 
     if proj_auth:
@@ -75,7 +75,7 @@ def main(pid):
                            proj_auth=proj_auth,
                            basic_query=basic_query,
                            timeline_queries=timeline_queries,
-                           mentions_queries=mentions_queries
+                           mentions_queries=mentions_queries,
                            user_info_queries=user_info_queries
                            )
 
