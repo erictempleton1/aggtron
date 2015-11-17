@@ -87,6 +87,7 @@ def build_user_info(pid):
                                       created_by=current_user.id,
                                       api_type='Twitter'
                                       ).first_or_404()
+
     # get the authorization for the current project
     proj_auth = AuthInfo.query.filter_by(project_name=project.id).first()
 
@@ -94,9 +95,11 @@ def build_user_info(pid):
     if form.validate_on_submit():
         query_title = request.form['query_name']
 
-        new_query = TwitterUserInfoQuery(id=pid,
+        new_query = TwitterUserInfoQuery(
+                                         auth_id=proj_auth.id,
+                                         name=query_title,
                                          created_by=current_user.id,
-                                         api_type='Twitter'
+                                         project_name=pid
                                          )
         try:
             db.session.add(new_query)

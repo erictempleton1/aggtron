@@ -11,16 +11,17 @@
 <strong>Recent tweet:</strong> {{ basic_query[0]['text'] }} ({{ basic_query[0]['id'] }})
 
 <p>
-    <a href="{{ url_for('build_timeline_query.build_user_info', pid=project.id) }}">Create New User Info Query</a>
-</p>
-
-<p>
     <a href="{{ url_for('build_timeline_query.build', pid=project.id) }}">Create New Timeline Query</a>
 </p>
 
 <p>
     <a href="{{ url_for('build_timeline_query.build_mentions', pid=project.id) }}">Create New Mentions Query</a>
-</a>    
+</a> 
+
+<p>
+    <a href="{{ url_for('build_timeline_query.build_user_info', pid=project.id) }}">Create New User Info Query</a>
+</p>
+  
 
 <h3>Current Timeline Queries</h3>
 {% for query in timeline_queries %}

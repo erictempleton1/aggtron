@@ -121,7 +121,7 @@ class TwitterUserInfoQuery(db.Model):
     created_on = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     created_by = db.Column(db.Integer)
     enabled = db.Column(db.Boolean, default=True)
-    last_run = db.Column(db.DateTime, default=True)
+    last_run = db.Column(db.DateTime, default=None)
     project_name = db.Column(db.Integer, db.ForeignKey('project.id'))
 
 
