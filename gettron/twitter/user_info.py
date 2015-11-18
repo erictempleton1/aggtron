@@ -72,28 +72,28 @@ class GetUserInfo(object):
         for query in self.queries:
             if query.enabled:
 
-            # get the access tokens
-            access_token = self.get_tokens(query.auth_id)
+              # get the access tokens
+              access_token = self.get_tokens(query.auth_id)
 
-            # get json response from request generator
-            twitter_info = self.base_request(
-                                          access_token.oauth_token,
-                                          access_token.oauth_token_secret
-                                        ).next()
+              # get json response from request generator
+              twitter_info = self.base_request(
+                                            access_token.oauth_token,
+                                            access_token.oauth_token_secret
+                                          ).next()
 
-            twitter_user_info = AggTwitterUserInfo(
-                                                   query_id=query.id,
-                                                   username=twitter_info['name'],
-                                                   user_id=twitter_info['id'],
-                                                   favorites_count=twitter_info['favourites'],
-                                                   listed_count=twitter_info['listed_count'],
-                                                   followers_count=twitter_info['followers_count'],
-                                                   statuses_count=twitter_info['statuses_count'],
-                                                   friends_count=twitter_info['friends_count']
-                                                )
-            session.add(twitter_user_info)
+              twitter_user_info = AggTwitterUserInfo(
+                                                     query_id=query.id,
+                                                     username=twitter_info['name'],
+                                                     user_id=twitter_info['id'],
+                                                     favorites_count=twitter_info['favourites'],
+                                                     listed_count=twitter_info['listed_count'],
+                                                     followers_count=twitter_info['followers_count'],
+                                                     statuses_count=twitter_info['statuses_count'],
+                                                     friends_count=twitter_info['friends_count']
+                                                  )
+              session.add(twitter_user_info)
 
-            # update last run
-            query.last_run = datetime.datetime.utcnow()
+        # update last run
+        query.last_run = datetime.datetime.utcnow()
 
-            session.commit()
+        session.commit()
