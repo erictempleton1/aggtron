@@ -86,6 +86,12 @@ class TestTwitterQuery(unittest.TestCase):
         print resp_data['friends_count']
         print resp_data['statuses_count']
         self.assertTrue(resp_data)
+
+    def test_save_request(self):
+        """
+        re-create the save request function
+        """
+        pass    
         
     def tearDown(self):
         self.session.close()
