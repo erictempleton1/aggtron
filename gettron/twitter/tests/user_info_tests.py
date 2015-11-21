@@ -91,7 +91,26 @@ class TestTwitterQuery(unittest.TestCase):
         """
         re-create the save request function
         """
-        pass    
+        resp_data = self.json_resp
+
+        user_info_save = AggTwitterUserInfo(
+                                            query_id=1,
+                                            username=resp_data['screen_name'],
+                                            user_id=resp_data['id'],
+                                            favorites_count=resp_data['favourites_count'],
+                                            listed_count=resp_data['listed_count'],
+                                            followers_count=resp_data['followers_count'],
+                                            statuses_count=resp_data['statuses_count'],
+                                            friends_count=resp_data['friends_count']
+                                        )
+
+        self.session.add(user_info_save)
+        self.session.commit()
+
+        results = [info for info in self.session.query(AggTwitterUserInfo)]
+        print results
+
+        self.assertTrue(len(results) >= 1)
         
     def tearDown(self):
         self.session.close()
