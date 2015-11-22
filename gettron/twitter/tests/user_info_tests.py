@@ -108,9 +108,10 @@ class TestTwitterQuery(unittest.TestCase):
         self.session.commit()
 
         results = [info for info in self.session.query(AggTwitterUserInfo)]
-        print results
+        print results[0]
 
         self.assertTrue(len(results) >= 1)
+        self.assertTrue('<Username: etemple10>' in results)
         
     def tearDown(self):
         self.session.close()
