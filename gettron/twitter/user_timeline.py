@@ -55,4 +55,9 @@ class GetUserTimeline(object):
             # if the id does not exist for some reason
             json_result = False
             print e
-        yield json_result                               
+        yield json_result 
+        
+    def get_tokens(self, auth_id):
+        """ query for access token from auth info table """
+        access_token = session.query(AuthInfo).filter_by(id=auth_id).first()
+        return access_token                                  
