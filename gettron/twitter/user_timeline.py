@@ -22,10 +22,10 @@ Session.configure(bind=engine)
 
 # reflect exsiting tables
 class UserTimeline(Base):
-    __table__ = Table('twitterusertimlinequery', metabase, autoload=True)
+    __table__ = Table('twitterusertimelinequery', metadata, autoload=True)
 
 class AuthInfo(Base):
-    __table__ = Table('authinfo', metadata, autload=True)
+    __table__ = Table('authinfo', metadata, autoload=True)
 
 class ProjectInfo(Base):
    __table__ = Table('project', metadata, autoload=True)
