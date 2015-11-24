@@ -40,4 +40,15 @@ class TestTimelineQuery(unittest.TestCase):
         self.user_timeline = GetUserTimeline()
 
     def test_base_request(self):
-        pass    
+        base_req =  self.user_timeline.base_request(
+                                                    config.TWITTER_TEST_KEY,
+                                                    config.TWITTER_TEST_KEY_SECRET
+                                                )
+
+        json_resp = base_req.next()
+        print json_resp
+        self.assertTrue(json_resp)
+
+
+if __name__ == '__main__':
+    unittest.main()             

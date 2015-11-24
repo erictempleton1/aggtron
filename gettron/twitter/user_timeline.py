@@ -37,7 +37,7 @@ session = Session()
 class GetUserTimeline(object):
 
     def __init__(self):
-        self.queries = session.query(UserTimline)
+        self.queries = session.query(UserTimeline)
         self.timeline_url = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
 
     def base_request(self, access_key, access_secret):
@@ -49,7 +49,7 @@ class GetUserTimeline(object):
                               access_secret
                             )
         try:
-            r = request.get(self.timeline_url, auth=oauth_params)
+            r = requests.get(self.timeline_url, auth=oauth_params)
             json_result = r.json()
         except AttributeError, e:
             # if the id does not exist for some reason
