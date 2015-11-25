@@ -39,15 +39,25 @@ class TestTimelineQuery(unittest.TestCase):
 
         self.user_timeline = GetUserTimeline()
 
-    def test_base_request(self):
-        base_req =  self.user_timeline.base_request(
+        self.base_req =  self.user_timeline.base_request(
                                                     config.TWITTER_TEST_KEY,
                                                     config.TWITTER_TEST_KEY_SECRET
                                                 )
 
-        json_resp = base_req.next()
-        print json_resp
+    def test_base_request(self):
+
+        json_resp = self.base_req.next()
+
+        print len(json_resp)   
+
         self.assertTrue(json_resp)
+
+    def test_get_all(self):
+        """
+        get the last id in the returned list, subtract one from that id, 
+        and use it in the max_id param to query as many tweets as possible.
+        """
+        pass
 
 
 if __name__ == '__main__':

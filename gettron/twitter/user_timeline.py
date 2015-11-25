@@ -48,8 +48,10 @@ class GetUserTimeline(object):
                               access_key,
                               access_secret
                             )
+
+        params = {'count': '200'}
         try:
-            r = requests.get(self.timeline_url, auth=oauth_params)
+            r = requests.get(self.timeline_url, auth=oauth_params, params=params)
             json_result = r.json()
         except AttributeError, e:
             # if the id does not exist for some reason
