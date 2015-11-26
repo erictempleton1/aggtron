@@ -40,8 +40,8 @@ class TestTimelineQuery(unittest.TestCase):
         self.user_timeline = GetUserTimeline()
 
         self.base_req =  self.user_timeline.base_request(
-                                                    config.TWITTER_TEST_KEY,
-                                                    config.TWITTER_TEST_KEY_SECRET
+                                                    access_key=config.TWITTER_TEST_KEY,
+                                                    access_secret=config.TWITTER_TEST_KEY_SECRET
                                                 )
 
     def test_base_request(self):
