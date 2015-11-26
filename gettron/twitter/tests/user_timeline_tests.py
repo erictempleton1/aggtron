@@ -37,12 +37,12 @@ class TestTimelineQuery(unittest.TestCase):
         # ignored by default if db and table already exist
         Base.metadata.create_all(engine)
 
-        self.user_timeline = GetUserTimeline()
+        self.user_timeline = GetUserTimeline(
+            access_key=config.TWITTER_TEST_KEY,
+            access_secret=config.TWITTER_TEST_KEY_SECRET
+        )
 
-        self.base_req =  self.user_timeline.base_request(
-                                                    access_key=config.TWITTER_TEST_KEY,
-                                                    access_secret=config.TWITTER_TEST_KEY_SECRET
-                                                )
+        self.base_req =  self.user_timeline.base_request()
 
     def test_base_request(self):
 
@@ -51,6 +51,13 @@ class TestTimelineQuery(unittest.TestCase):
         print len(json_resp)   
 
         self.assertTrue(json_resp)
+
+    def test_get_timeline(self):
+
+        user_timeline = self.user_timeline.get_timeline()
+
+        for tweet in user_timeline:
+            print tweet
 
 
 if __name__ == '__main__':

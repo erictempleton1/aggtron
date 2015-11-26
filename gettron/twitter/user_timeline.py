@@ -42,7 +42,7 @@ class GetUserTimeline(object):
         self.queries = session.query(UserTimeline)
         self.timeline_url = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
 
-    def base_request(self, access_key, access_secret, max_id=None):
+    def base_request(self, max_id=None):
         """ set up request to twitter api """
         oauth_params = OAuth1(
                               config.TWITTER_CONSUMER_KEY,
@@ -69,7 +69,7 @@ class GetUserTimeline(object):
         Make requests to get as much of the user's timeline as possible
         """
         # make initial request for first 200 results
-        make_req = self.base_request.next()
+        make_req = self.base_request().next()
 
         for res in make_req:
             yield res
@@ -84,8 +84,6 @@ class GetUserTimeline(object):
 
             # make the query again using next_max
             base_req = self.base_request(
-                self.access_key,
-                self.access_secret,
                 max_id=next_max
             )
 
