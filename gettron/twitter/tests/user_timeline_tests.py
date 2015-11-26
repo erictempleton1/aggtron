@@ -52,52 +52,6 @@ class TestTimelineQuery(unittest.TestCase):
 
         self.assertTrue(json_resp)
 
-    def test_get_all(self):
-        """
-        get the last id in the returned list, subtract one from that id, 
-        and use it in the max_id param to query as many tweets as possible.
-        """
-        count = 0
-
-        # make initial request for the first 200 results
-        make_req = self.base_req.next()
-
-        for x in make_req:
-            count += 1
-            print count
-            print x
-
-        # get the last id from the list
-        max_id = make_req[-1]['id']
-
-        # api docs say to subtract one from the id and query again using that id as the next id
-        next_max = max_id - 1
-
-        while max_id:
-
-            # make the query again using next_max
-            base_req = self.user_timeline.base_request(
-                config.TWITTER_TEST_KEY,
-                config.TWITTER_TEST_KEY_SECRET,
-                next_max
-            )
-
-            make_req = base_req.next()
-
-            for x in make_req:
-                count += 1
-                print count
-                print x
-
-            try:
-                # keep trying to get the max_id until some limit is hit, then break out of the loop
-                # could be a quota limit, 3200 tweet limit, or we got all tweets
-                max_id = make_req[-1]['id']
-                next_max = max_id - 1
-            except Exception, e:
-                print e
-                max_id = False
-
 
 if __name__ == '__main__':
     unittest.main()             
