@@ -53,7 +53,8 @@ class GetUserTimeline(object):
 
         params = {
             'count': '200',
-            'max_id': max_id
+            'max_id': max_id,
+            'trim_user': 1
         }
         try:
             r = requests.get(self.timeline_url, auth=oauth_params, params=params)

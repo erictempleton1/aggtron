@@ -57,7 +57,7 @@ class TestTimelineQuery(unittest.TestCase):
         user_timeline = self.user_timeline.get_timeline()
 
         for tweet in user_timeline:
-            print tweet
+            print tweet['favorited']
 
 
 if __name__ == '__main__':
