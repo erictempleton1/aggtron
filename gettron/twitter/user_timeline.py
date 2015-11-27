@@ -100,6 +100,12 @@ class GetUserTimeline(object):
                 next_max = max_id - 1
             except Exception:
                 max_id = False
+
+    def get_recent(self):
+        """
+        Check last date and query for any new tweets
+        """
+        pass
         
     def get_tokens(self, auth_id):
         """ query for access token from auth info table """
