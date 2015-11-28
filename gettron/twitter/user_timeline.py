@@ -42,7 +42,7 @@ class GetUserTimeline(object):
         self.queries = session.query(UserTimeline)
         self.timeline_url = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
 
-    def base_request(self, max_id=None):
+    def base_request(self, max_id=None, since_id=None):
         """ set up request to twitter api """
         oauth_params = OAuth1(
                               config.TWITTER_CONSUMER_KEY,
@@ -54,8 +54,10 @@ class GetUserTimeline(object):
         params = {
             'count': '200',
             'max_id': max_id,
+            'since_id': since_id,
             'trim_user': 1
         }
+
         try:
             r = requests.get(self.timeline_url, auth=oauth_params, params=params)
             json_result = r.json()

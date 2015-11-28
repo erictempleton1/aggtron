@@ -53,11 +53,15 @@ class TestTimelineQuery(unittest.TestCase):
         self.assertTrue(json_resp)
 
     def test_get_timeline(self):
+        """
+        Test basic response from the api
+        """
+        query_timeline = self.user_timeline.get_timeline()
 
-        user_timeline = self.user_timeline.get_timeline()
+        user_timeline = query_timeline.next()
 
-        for tweet in user_timeline:
-            print tweet['favorited']
+        # tweet text in the dict indicates good response
+        self.assertTrue('text' in user_timeline)
 
 
 if __name__ == '__main__':
