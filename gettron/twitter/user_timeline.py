@@ -103,13 +103,18 @@ class GetUserTimeline(object):
             except Exception:
                 max_id = False
 
-    def get_recent(self):
+    def get_recent(self, since_id):
         """
-        Check last date and query for any new tweets
+        Query for any new tweets since last saved tweet
         """
-        pass
-        
+        since_req = self.base_request(since_id)
+
+        for res in since_req:
+            yield res
+
+class UserTimelineHandlers(object):
+
     def get_tokens(self, auth_id):
         """ query for access token from auth info table """
         access_token = session.query(AuthInfo).filter_by(id=auth_id).first()
-        return access_token                                  
+        return access_token
