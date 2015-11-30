@@ -93,7 +93,7 @@ class GetUserInfo(object):
                                                   )
               session.add(twitter_user_info)
 
-        # update last run
-        query.last_run = datetime.datetime.utcnow()
+            # update last run
+            query.last_run = datetime.datetime.utcnow()
 
         session.commit()

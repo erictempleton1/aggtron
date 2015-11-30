@@ -1,6 +1,7 @@
 import datetime
 import requests
 from requests_oauthlib import OAuth1
+from models.user_timeline_model import AggTwitterUserTimeline
 
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, Table, MetaData
@@ -161,15 +162,4 @@ class UserTimelineHandlers(object):
             # sometimes we get encoded chars
             print tweet_text
 
-            print tweet_id
-            print created_at
-            print coordinate_lat
-            print coordinate_long
-            print fav_count
-            print reply_to_name
-            print reply_to_status_id
-            print reply_to_user_id
-            print place_name
-            print quoted_status_id
-            print quoted_status
-            print retweet_count
+
