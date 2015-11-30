@@ -120,46 +120,68 @@ class UserTimelineHandlers(object):
         access_token = session.query(AuthInfo).filter_by(id=auth_id).first()
         return access_token
 
-    def save_tweets(self, tweet_list, max_id=None, since_id=None):
+    def save_tweets(self, tweet_list, queries, max_id=None, since_id=None):
         """
         Iterate over twitter response and save
         """
-        for tweet in tweet_list:
-            tweet_id = tweet['id']
-            tweet_text = tweet['text'].encode('utf-8')
-            created_at = tweet['created_at']
-            fav_count = tweet['favorite_count']
-            retweet_count = tweet['retweet_count']
+        for query in queries:
+            for tweet in tweet_list:
+                tweet_id = tweet['id']
+                tweet_text = tweet['text'].encode('utf-8')
+                created_at = tweet['created_at']
+                fav_count = tweet['favorite_count']
+                retweet_count = tweet['retweet_count']
 
-            try:
-                coordinate_lat = tweet['coordinates']['coordinates'][0]
-                coordinate_long = tweet['coordinates']['coordinates'][1]
-            except TypeError:
-                coordinate_lat = 'NA'
-                coordinate_long = 'NA'
+                try:
+                    coordinate_lat = tweet['coordinates']['coordinates'][0]
+                    coordinate_long = tweet['coordinates']['coordinates'][1]
+                except TypeError:
+                    coordinate_lat = 'NA'
+                    coordinate_long = 'NA'
 
-            try:
-                place_name = tweet['place']['name']
-            except TypeError:
-                place_name = 'NA'
+                try:
+                    place_name = tweet['place']['name']
+                except TypeError:
+                    place_name = 'NA'
 
-            try:
-                quoted_status_id = tweet['quoted_status_id']
-                quoted_status = tweet['quoted_status']
-            except KeyError:
-                quoted_status_id = 'NA'
-                quoted_status = 'NA'
+                try:
+                    quoted_status_id = tweet['quoted_status_id']
+                    quoted_status = tweet['quoted_status']
+                except KeyError:
+                    quoted_status_id = 'NA'
+                    quoted_status = 'NA'
 
-            try:
-                reply_to_name = tweet['in_reply_to_screen_name']
-                reply_to_status_id = tweet['in_reply_to_status_id']
-                reply_to_user_id = tweet['in_reply_to_user_id']
-            except KeyError:
-                reply_to_name = 'NA'
-                reply_to_status_id = 'NA'
-                reply_to_user_id = 'NA'
+                try:
+                    reply_to_name = tweet['in_reply_to_screen_name']
+                    reply_to_status_id = tweet['in_reply_to_status_id']
+                    reply_to_user_id = tweet['in_reply_to_user_id']
+                except KeyError:
+                    reply_to_name = 'NA'
+                    reply_to_status_id = 'NA'
+                    reply_to_user_id = 'NA'
 
-            # sometimes we get encoded chars
-            print tweet_text
+                twitter_timeline = AggTwitterUserTimeline(
+                    query_id=query.id,
+                    tweet_id=tweet_id,
+                    created_at=created_at,
+                    coordinate_lat=coordinate_lat,
+                    coordinate_long=coordinate_long,
+                    favorite_count=fav_count,
+                    in_reply_to_screen_name=reply_to_name,
+                    in_reply_to_status_id=reply_to_status_id,
+                    in_reply_to_user_id=reply_to_user_id,
+                    place_name=place_name,
+                    quoted_status_id=quoted_status_id,
+                    quoted_status=quoted_status,
+                    retweet_count=retweet_count,
+                    tweet_text=tweet_text
+                )
+
+                session.add(twitter_timeline)
+
+            # update last run
+            query.last_run = datetime.datetime.utcnow()
+
+        session.commit()    
 
 
