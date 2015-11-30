@@ -11,7 +11,7 @@ import sys
 sys.path.insert(0, '../../..')
 import config
 sys.path.insert(0, '../')
-from user_timeline import GetUserTimeline
+from user_timeline import GetUserTimeline, UserTimelineHandlers
 
 
 # global app scope
@@ -44,6 +44,8 @@ class TestTimelineQuery(unittest.TestCase):
 
         self.base_req =  self.user_timeline.base_request()
 
+        self.timeline_handler = UserTimelineHandlers()
+
     def test_base_request(self):
 
         json_resp = self.base_req.next()
@@ -62,6 +64,12 @@ class TestTimelineQuery(unittest.TestCase):
 
         # tweet text in the dict indicates good response
         self.assertTrue('text' in user_timeline)
+
+    def test_save_tweets(self):
+
+        query_timeline = self.user_timeline.get_timeline()
+
+        self.timeline_handler.save_tweets(query_timeline)
 
 
 if __name__ == '__main__':
