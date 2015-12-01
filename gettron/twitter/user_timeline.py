@@ -182,6 +182,6 @@ class UserTimelineHandlers(object):
             # update last run
             query.last_run = datetime.datetime.utcnow()
 
-        session.commit()    
+        session.commit()
 
 

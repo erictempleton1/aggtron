@@ -5,7 +5,6 @@ import datetime
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, Table, MetaData
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 
 import sys
 sys.path.insert(0, '../../..')
@@ -64,12 +63,6 @@ class TestTimelineQuery(unittest.TestCase):
 
         # tweet text in the dict indicates good response
         self.assertTrue('text' in user_timeline)
-
-    def test_save_tweets(self):
-
-        query_timeline = self.user_timeline.get_timeline()
-
-        self.timeline_handler.save_tweets(query_timeline)
 
 
 if __name__ == '__main__':
