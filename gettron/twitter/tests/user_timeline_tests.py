@@ -64,6 +64,21 @@ class TestTimelineQuery(unittest.TestCase):
         # tweet text in the dict indicates good response
         self.assertTrue('text' in user_timeline)
 
+    def test_get_recent(self):
+        """
+        Test that tweets after a given ID are returned
+        """
+        # first we query some tweets
+        query_timeline = self.user_timeline.get_timeline()
+        user_timeline = query_timeline.next()
+
+        get_id = user_timeline['id']
+
+        get_recent = self.user_timeline.get_recent(get_id).next()
+        print get_id
+        print get_recent
+        print len(get_recent)
+
 
 if __name__ == '__main__':
     unittest.main()             
