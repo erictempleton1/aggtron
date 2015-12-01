@@ -40,7 +40,6 @@ class GetUserTimeline(object):
     def __init__(self, access_key, access_secret):
         self.access_key = access_key
         self.access_secret = access_secret
-        self.queries = session.query(UserTimeline)
         self.timeline_url = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
 
     def base_request(self, max_id=None, since_id=None):
@@ -115,16 +114,19 @@ class GetUserTimeline(object):
 
 class UserTimelineHandlers(object):
 
+    def __init__(self):
+        self.queries = session.query(UserTimeline)
+
     def get_tokens(self, auth_id):
         """ query for access token from auth info table """
         access_token = session.query(AuthInfo).filter_by(id=auth_id).first()
         return access_token
 
-    def save_tweets(self, tweet_list, queries, max_id=None, since_id=None):
+    def save_tweets(self, tweet_list, max_id=None, since_id=None):
         """
         Iterate over twitter response and save
         """
-        for query in queries:
+        for query in self.queries:
             for tweet in tweet_list:
                 tweet_id = tweet['id']
                 tweet_text = tweet['text'].encode('utf-8')
@@ -183,5 +185,3 @@ class UserTimelineHandlers(object):
             query.last_run = datetime.datetime.utcnow()
 
         session.commit()
-
-
