@@ -10,7 +10,7 @@ import sys
 sys.path.insert(0, '../../..')
 import config
 sys.path.insert(0, '../')
-from user_timeline import GetUserTimeline, UserTimelineHandlers
+from user_timeline import GetUserTimeline, UserTimelineHandlers, UserTimeline
 
 
 # global app scope
@@ -43,10 +43,12 @@ class TestTimelineQuery(unittest.TestCase):
 
         self.base_req =  self.user_timeline.base_request()
 
-        self.timeline_handler = UserTimelineHandlers()
+        #self.timeline_handler = UserTimelineHandlers()
 
     def test_base_request(self):
-
+        """
+        Test top level query to the api
+        """
         json_resp = self.base_req.next()
 
         print len(json_resp)   
@@ -55,12 +57,13 @@ class TestTimelineQuery(unittest.TestCase):
 
     def test_get_timeline(self):
         """
-        Test basic response from the api
+        Test response from the api for as much of the timeline as possible
         """
         query_timeline = self.user_timeline.get_timeline()
 
         user_timeline = query_timeline.next()
 
+        print user_timeline
         # tweet text in the dict indicates good response
         self.assertTrue('text' in user_timeline)
 
@@ -68,16 +71,16 @@ class TestTimelineQuery(unittest.TestCase):
         """
         Test that tweets after a given ID are returned
         """
-        # first we query some tweets
-        query_timeline = self.user_timeline.get_timeline()
-        user_timeline = query_timeline.next()
+        pass
 
-        get_id = user_timeline['id']
+    def tearDown(self):
+        self.session.close()
 
-        get_recent = self.user_timeline.get_recent(get_id).next()
-        print get_id
-        print get_recent
-        print len(get_recent)
+        # rollback everything from above
+        self.trans.rollback()
+
+        # return connection to the engine
+        self.connection.close()
 
 
 if __name__ == '__main__':

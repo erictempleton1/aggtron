@@ -114,20 +114,24 @@ class GetUserTimeline(object):
 
 class UserTimelineHandlers(object):
 
-    def __init__(self):
-        self.queries = session.query(UserTimeline)
+    def __init__(self, tweet_list, queries, max_id=None, since_id=None):
+        self.tweet_list = tweet_list
+        self.queries = queries
+        #self.queries = session.query(UserTimeline)
+        self.max_id=max_id
+        self.since_id=since_id
 
     def get_tokens(self, auth_id):
         """ query for access token from auth info table """
         access_token = session.query(AuthInfo).filter_by(id=auth_id).first()
         return access_token
 
-    def save_tweets(self, tweet_list, max_id=None, since_id=None):
+    def save_tweets(self):
         """
         Iterate over twitter response and save
         """
         for query in self.queries:
-            for tweet in tweet_list:
+            for tweet in self.tweet_list:
                 tweet_id = tweet['id']
                 tweet_text = tweet['text'].encode('utf-8')
                 created_at = tweet['created_at']
