@@ -10,7 +10,7 @@ import sys
 sys.path.insert(0, '../../..')
 import config
 sys.path.insert(0, '../')
-from user_timeline import GetUserTimeline, UserTimelineHandlers, UserTimeline
+from user_timeline import GetUserTimeline, UserTimelineHandlers, UserTimeline, QueryHandlers
 
 
 # global app scope
@@ -18,6 +18,7 @@ Session = sessionmaker()
 engine = create_engine('sqlite:////home/erictempleton/Documents/Projects/myenv/aggtron/aggtron_test.db', echo=True)
 Base = declarative_base()
 
+# todo seperate test classes to match user_timeline.py classes
 
 class TestTimelineQuery(unittest.TestCase):
 
@@ -36,14 +37,16 @@ class TestTimelineQuery(unittest.TestCase):
         # ignored by default if db and table already exist
         Base.metadata.create_all(engine)
 
+        # set up base request
         self.user_timeline = GetUserTimeline(
             access_key=config.TWITTER_TEST_KEY,
             access_secret=config.TWITTER_TEST_KEY_SECRET
         )
-
         self.base_req =  self.user_timeline.base_request()
 
-        #self.timeline_handler = UserTimelineHandlers()
+        # set up query handlers
+        self.query_handlers = QueryHandlers()
+
 
     def test_base_request(self):
         """
@@ -73,6 +76,33 @@ class TestTimelineQuery(unittest.TestCase):
         Test that tweets after a given ID are returned
         """
         pass
+
+    def test_get_queries(self):
+        """
+        Test that queries are returned
+        """
+        queries = self.query_handlers.get_queries()
+        for q in queries:
+            print q.name
+
+        self.assertTrue(queries)
+
+    def test_get_tokens(self):
+        """
+        Test that given token is returned
+        """
+        # grab a recent id
+        auth_id = self.query_handlers.get_queries().first().id
+
+        # query for token based on that id
+        token = self.query_handlers.get_tokens(auth_id)
+
+        oauth_token = token.oauth_token
+        oauth_token_secret = token.oauth_token_secret
+
+        print oauth_token, oauth_token_secret
+        self.assertTrue(oauth_token)
+        self.assertTrue(oauth_token_secret)
 
     def tearDown(self):
         self.session.close()

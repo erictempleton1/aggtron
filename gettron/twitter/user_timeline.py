@@ -50,7 +50,6 @@ class GetUserTimeline(object):
                               self.access_key,
                               self.access_secret
                             )
-
         params = {
             'count': '200',
             'max_id': max_id,
@@ -113,14 +112,14 @@ class GetUserTimeline(object):
             yield res
 
 
-class UserTimelineHandlers(object):
+class QueryHandlers(object):
 
-    def __init__(self, tweet_list, queries, max_id=None, since_id=None):
-        self.tweet_list = tweet_list
-        self.queries = queries
-        #self.queries = session.query(UserTimeline)
-        self.max_id=max_id
-        self.since_id=since_id
+    def get_queries(self):
+        """
+        Return active queries from db
+        """
+        queries = session.query(UserTimeline)
+        return queries
 
     def get_tokens(self, auth_id):
         """ query for access token from auth info table """
@@ -133,6 +132,15 @@ class UserTimelineHandlers(object):
         """
         # AggTwitterUserTimeline.query.filter_by(query_id).first() ...?
         pass
+
+
+class UserTimelineHandlers(object):
+
+    def __init__(self, tweet_list, queries, max_id=None, since_id=None):
+        self.tweet_list = tweet_list
+        self.queries = queries
+        self.max_id=max_id
+        self.since_id=since_id
 
     def save_tweets(self):
         """
