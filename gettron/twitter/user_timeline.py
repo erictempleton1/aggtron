@@ -127,6 +127,13 @@ class UserTimelineHandlers(object):
         access_token = session.query(AuthInfo).filter_by(id=auth_id).first()
         return access_token
 
+    def query_recent(self):
+        """
+        Query db for last saved tweet
+        """
+        # AggTwitterUserTimeline.query.filter_by(query_id).first() ...?
+        pass
+
     def save_tweets(self):
         """
         Iterate over twitter response and save
