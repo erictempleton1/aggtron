@@ -112,6 +112,7 @@ class GetUserTimeline(object):
         for res in since_req:
             yield res
 
+
 class UserTimelineHandlers(object):
 
     def __init__(self, tweet_list, queries, max_id=None, since_id=None):

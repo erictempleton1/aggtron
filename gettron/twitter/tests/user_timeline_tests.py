@@ -61,6 +61,7 @@ class TestTimelineQuery(unittest.TestCase):
         """
         query_timeline = self.user_timeline.get_timeline()
 
+        # user generator to get first page of results
         user_timeline = query_timeline.next()
 
         print user_timeline
