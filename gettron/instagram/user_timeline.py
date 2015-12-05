@@ -94,12 +94,12 @@ class GetTimelineInfo(object):
             except KeyError:
                 break
 
-    def delete_previous(self):
+    def delete_previous(self, query_id):
         """
         Delete existing records and replace with new on next query run
         """
-        pass
-        # todo finish this and call before save!
+        existing_data = session.query(AggInstagramUserTimeline).filter_by(query_id=query_id)
+        return existing_data
 
     def save_results(self):
         """
