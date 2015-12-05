@@ -92,7 +92,14 @@ class GetTimelineInfo(object):
             try:
                 next_url = new_request['pagination']['next_url']
             except KeyError:
-                break                
+                break
+
+    def delete_previous(self):
+        """
+        Delete existing records and replace with new on next query run
+        """
+        pass
+        # todo finish this and call before save!
 
     def save_results(self):
         """
