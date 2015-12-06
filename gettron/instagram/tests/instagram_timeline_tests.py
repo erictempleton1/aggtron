@@ -147,6 +147,9 @@ class TestUserTimeline(unittest.TestCase):
         # test to be sure results are actually saved
         self.assertTrue(len(results) >= 1)
 
+    def test_delete_previous(self):
+        print self.insta.delete_previous(1)
+
     def tearDown(self):
         self.session.close()
 
