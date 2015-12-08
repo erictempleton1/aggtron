@@ -136,9 +136,9 @@ class QueryHandlers(object):
 
 class UserTimelineHandlers(object):
 
-    def __init__(self, tweet_list, queries, max_id=None, since_id=None):
+    def __init__(self, tweet_list, max_id=None, since_id=None):
         self.tweet_list = tweet_list
-        self.queries = queries
+        self.queries = session.query(UserTimeline)
         self.max_id=max_id
         self.since_id=since_id
 
@@ -146,8 +146,10 @@ class UserTimelineHandlers(object):
         """
         Iterate over twitter response and save
         """
+        count = 0
         for query in self.queries:
             for tweet in self.tweet_list:
+
                 tweet_id = tweet['id']
                 tweet_text = tweet['text'].encode('utf-8')
                 created_at = tweet['created_at']
@@ -158,8 +160,8 @@ class UserTimelineHandlers(object):
                     coordinate_lat = tweet['coordinates']['coordinates'][0]
                     coordinate_long = tweet['coordinates']['coordinates'][1]
                 except TypeError:
-                    coordinate_lat = 'NA'
-                    coordinate_long = 'NA'
+                    coordinate_lat = 0
+                    coordinate_long = 0
 
                 try:
                     place_name = tweet['place']['name']
@@ -168,9 +170,9 @@ class UserTimelineHandlers(object):
 
                 try:
                     quoted_status_id = tweet['quoted_status_id']
-                    quoted_status = tweet['quoted_status']
+                    quoted_status = tweet['quoted_status']['text']
                 except KeyError:
-                    quoted_status_id = 'NA'
+                    quoted_status_id = 0
                     quoted_status = 'NA'
 
                 try:
@@ -179,8 +181,8 @@ class UserTimelineHandlers(object):
                     reply_to_user_id = tweet['in_reply_to_user_id']
                 except KeyError:
                     reply_to_name = 'NA'
-                    reply_to_status_id = 'NA'
-                    reply_to_user_id = 'NA'
+                    reply_to_status_id = 0
+                    reply_to_user_id = 0
 
                 twitter_timeline = AggTwitterUserTimeline(
                     query_id=query.id,
@@ -198,6 +200,8 @@ class UserTimelineHandlers(object):
                     retweet_count=retweet_count,
                     tweet_text=tweet_text
                 )
+                count += 1
+                print count
 
                 session.add(twitter_timeline)
 
