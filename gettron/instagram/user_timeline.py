@@ -98,8 +98,7 @@ class GetTimelineInfo(object):
         """
         Delete existing records and replace with new on next query run
         """
-        existing_data = session.query(AggInstagramUserTimeline).filter_by(query_id=query_id)
-        return existing_data
+        return session.query(AggInstagramUserTimeline).filter_by(query_id=query_id).delete()
 
     def save_results(self):
         """
