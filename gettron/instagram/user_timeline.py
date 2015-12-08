@@ -108,14 +108,15 @@ class GetTimelineInfo(object):
         for query in self.queries:
             if query.enabled:
 
+                # query needs to refresh entire timeline, so get rid of previous data
+                self.delete_previous(query.id)
+
                 # first get the access token
                 access_token = self.get_token(query.auth_id)
                 
                 insta_json = self.make_request(access_token)
 
                 for resp in insta_json:
-                    count += 1
-                    print count
                     
                     try:
                         img_text = resp['caption']['text']
