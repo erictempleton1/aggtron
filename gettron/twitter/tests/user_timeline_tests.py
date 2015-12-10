@@ -104,6 +104,15 @@ class TestTimelineQuery(unittest.TestCase):
         self.assertTrue(oauth_token)
         self.assertTrue(oauth_token_secret)
 
+    def test_save_tweets(self):
+        """
+        Test save method
+        """
+        query_timeline = self.user_timeline.get_timeline()
+
+        for x in query_timeline:
+            print x
+
     def tearDown(self):
         self.session.close()
 
