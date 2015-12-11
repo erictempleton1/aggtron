@@ -110,8 +110,9 @@ class TestTimelineQuery(unittest.TestCase):
         """
         query_timeline = self.user_timeline.get_timeline()
 
-        for x in query_timeline:
-            print x
+        timeline_handler = UserTimelineHandlers(query_timeline)
+
+        timeline_handler.save_tweets()
 
     def tearDown(self):
         self.session.close()

@@ -196,9 +196,9 @@ class UserTimelineHandlers(object):
                     in_reply_to_user_id=reply_to_user_id,
                     place_name=place_name,
                     quoted_status_id=quoted_status_id,
-                    quoted_status=quoted_status,
+                    quoted_status=str(quoted_status),
                     retweet_count=retweet_count,
-                    tweet_text=tweet_text
+                    tweet_text=str(tweet_text)
                 )
                 count += 1
                 print count
