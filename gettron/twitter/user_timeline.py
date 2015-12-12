@@ -170,7 +170,7 @@ class UserTimelineHandlers(object):
 
                 try:
                     quoted_status_id = tweet['quoted_status_id']
-                    quoted_status = tweet['quoted_status']['text'].encode('utf-8')
+                    quoted_status = tweet['quoted_status']['text']
                 except KeyError:
                     quoted_status_id = 0
                     quoted_status = 'NA'
