@@ -152,7 +152,7 @@ class UserTimelineHandlers(object):
 
                 tweet_id = tweet['id']
                 tweet_text = tweet['text'].encode('utf-8')
-                created_at = tweet['created_at']
+                created_at = str(tweet['created_at'])
                 fav_count = tweet['favorite_count']
                 retweet_count = tweet['retweet_count']
 
