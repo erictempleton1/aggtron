@@ -30,9 +30,13 @@
             <li><a href="#contact">Contact</a></li>
           </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="../navbar/">Default</a></li>
-                <li class="active"><a href="./">Static top <span class="sr-only">(current)</span></a></li>
-                <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+                 {% if not current_user.is_authenticated() %}
+                    <li><a href="{{ url_for('auth_flask_login.login') }}">Log in</a></li>
+                    <li><a href="{{ url_for('auth_flask_login.register') }}">Register</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('auth_flask_login.logout') }}">Logout</a></li>
+                {% endif %}
+
           </ul>
         </div><!--/.nav-collapse -->
       </div>
