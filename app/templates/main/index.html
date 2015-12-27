@@ -42,36 +42,43 @@
       </div>
     </nav>
 
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
+    <div class="container">
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                {% for message in messages %}
+                    <div class="alert alert-info" role="alert">{{ message }}</div>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% block body %}
+
+        {% if not current_user.is_authenticated() %}
+            <div class="text-center">
+                <h4 class="lead">Welcome to Aggtron</h4>
+                <h4>Data Aggregation Platform</h4>
+            </div>
+        {% else %}
+            <p>Hello, {{ current_user.email }}</p>
+            <p><a href="{{ url_for('add_project.index') }}">Create Project</a></p>
+
+            <h4>Projects</h4>
+            {% for proj in projects %}
+                <p>
+                    <a href="/{{ proj.id }}/{{ proj.api_type.lower() }}/queries">
+                    {{ proj.name }} </a>
+                    ({{ proj.api_type}}) Created: {{ proj.created_on.strftime('%Y-%m-%d') }}
+                </p>
             {% endfor %}
-            </ul>
+
         {% endif %}
-    {% endwith %}   
 
-    {% block body %}
+        {% endblock %}
 
-    {% if not current_user.is_authenticated() %}
-        <h4>Welcome to Aggtron</h4>
-    {% else %}
-        <p>Hello, {{ current_user.email }}</p>
-        <p><a href="{{ url_for('add_project.index') }}">Create Project</a></p>
-
-        <h4>Projects</h4>
-        {% for proj in projects %}
-            <p>
-                <a href="/{{ proj.id }}/{{ proj.api_type.lower() }}/queries">
-                {{ proj.name }} </a>
-                ({{ proj.api_type}}) Created: {{ proj.created_on.strftime('%Y-%m-%d') }}
-            </p>
-        {% endfor %}    
-
-    {% endif %}
-
-    {% endblock %}
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
