@@ -1,24 +1,29 @@
 {% extends "main/index.html" %}
 
 {% block body %}
-<h3>Register</h3>
-    <form action="" method="POST" role="form">
-        {{ form.csrf_token }}
-        <p>
-            <label for="">Email:</label>
-            <input type="email" id="email" name="email" required="required" placeholder="Email">
-        </p>
 
-        <p>
-            <label for="">Password:</label>
-            <input type="password" id="password" name="password" required="required" placeholder="Password">
-        </p>
-        
-        <p>
-            <label for="">Password Again:</label>
-            <input type="password" id="confirm" name="confirm" required="required" placeholder="Password Again">
-        </p>
+    <div class="row">
+        <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <h4 class="lead">Register</h4>
+                </div>
+                <form action="" method="POST" role="form">
+                    {{ form.csrf_token }}
+                    <p>
+                        <input type="email" class="form-control" id="email" name="email" required="required" placeholder="Email">
+                    </p>
 
-        <button type="submit">Register</button>
-    </form>
+                    <p>
+                        <input type="password" class="form-control" id="password" name="password" required="required" placeholder="Password">
+                    </p>
+
+                    <p>
+                        <input type="password" class="form-control" id="confirm" name="confirm" required="required" placeholder="Password Again">
+                    </p>
+
+                    <button type="submit" class="btn btn-default">Register</button>
+                </form>
+        </div>
+    </div>
 {% endblock %}
