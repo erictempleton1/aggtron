@@ -1,19 +1,31 @@
 {% extends "main/index.html" %}
 
+    {% block title %}
+    <title>Aggtron - Create Project</title>
+    {% endblock %}
+
 {% block body %}
-<h3>API Authentication - {{ current_user.email }}</h3>      
 
-    <form action="" method="POST" role="form">
-        {{ form.csrf_token }}
-        <p>
-            <label for="">Project Name: </label>
-            <input type="text" id="name" name="name" placeholder="Project Name">
-        </p>
-        <p>
-            <label for="">API Type:</label>
-            {{ form.api_type }}
-        </p>    
+    <div class="row">
+        <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <h3 class="lead">API Authentication - {{ current_user.email }}</h3>
+                </div>
+                <form action="" method="POST" role="form">
+                    <div class="form-group">
+                        {{ form.csrf_token }}
+                        <p>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Project Name">
+                        </p>
+                        <p>
+                            <label for="">API Type:</label>
+                            {{ form.api_type }}
+                        </p>
 
-        <button type="submit">Save Project</button>
-    </form>
+                        <button type="submit" class="btn btn-default">Save Project</button>
+                    </div>
+                </form>
+        </div>
+    </div>
 {% endblock %}
