@@ -9,6 +9,8 @@
     {% endblock %}
 
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-0.8.1.min.js"></script>
+    <link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.8.1.min.css">
 
 </head>
 <body>
@@ -62,6 +64,10 @@
             <div class="text-center">
                 <h4 class="lead">Welcome to Aggtron</h4>
                 <h4>Data Aggregation Platform</h4>
+                <p>
+                    {{ div | safe }}
+                    {{ script | safe }}
+                </p>
             </div>
         {% else %}
             <p>Hello, {{ current_user.email }}</p>
@@ -75,6 +81,11 @@
                     ({{ proj.api_type}}) Created: {{ proj.created_on.strftime('%Y-%m-%d') }}
                 </p>
             {% endfor %}
+
+                <p>
+                    {{ div | safe }}
+                    {{ script | safe}}
+                </p>
 
         {% endif %}
 
