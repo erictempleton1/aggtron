@@ -64,10 +64,6 @@
             <div class="text-center">
                 <h4 class="lead">Welcome to Aggtron</h4>
                 <h4>Data Aggregation Platform</h4>
-                <p>
-                    {{ div | safe }}
-                    {{ script | safe }}
-                </p>
             </div>
         {% else %}
             <p>Hello, {{ current_user.email }}</p>
@@ -82,14 +78,19 @@
                 </p>
             {% endfor %}
 
-                <p>
-                    {{ div | safe }}
-                    {{ script | safe}}
-                </p>
-
         {% endif %}
 
         {% endblock %}
+
+            <div class="row">
+                <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <p>
+                            {{ div | safe }}
+                            {{ script | safe}}
+                        </p>
+                    </div>
+            </div>
 
     </div>
 

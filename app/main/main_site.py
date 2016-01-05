@@ -1,3 +1,4 @@
+import random
 import os, datetime
 from models import Users, Project
 from flask import Blueprint, render_template, url_for
@@ -22,8 +23,8 @@ def index():
         projects = 'No projects created'
 
     # create some data
-    x1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    y1 = [0, 8, 2, 4, 6, 9, 5, 6, 25, 28, 4, 7]
+    x1 = random.sample(range(1, 50), 20)
+    y1 = random.sample(range(1, 50), 20)
 
     # select the tools we want
     TOOLS="pan,wheel_zoom,box_zoom,reset,save"
@@ -33,8 +34,20 @@ def index():
     yr1 = Range1d(start=0, end=30)
 
     # build our figures
-    p1 = figure(x_range=xr1, y_range=yr1, tools=TOOLS, plot_width=300, plot_height=300)
+    p1 = figure(
+            x_range=xr1, y_range=yr1, tools=TOOLS,
+                plot_width=500, plot_height=300, logo=None,
+                toolbar_location=None, outline_line_color=None
+    )
     p1.scatter(x1, y1, size=12, color="red", alpha=0.5)
+
+    # hide gridlines
+    p1.xgrid.grid_line_color = None
+    p1.ygrid.grid_line_color = None
+
+    # remove minor tickmarks
+    p1.yaxis[0].ticker.num_minor_ticks = 0
+    p1.xaxis[0].ticker.num_minor_ticks = 0
 
     script, div = components(p1)
 
