@@ -1,12 +1,14 @@
 import random
 import os, datetime
+from collections import OrderedDict
+
 from models import Users, Project
 from flask import Blueprint, render_template, url_for
 from flask.ext.login import current_user
 from jinja2 import TemplateNotFound
 
 from bokeh.plotting import figure
-from bokeh.models import Range1d
+from bokeh.models import Range1d, HoverTool
 from bokeh.embed import components
 
 
@@ -23,23 +25,36 @@ def index():
         projects = 'No projects created'
 
     # create some data
-    x1 = random.sample(range(1, 50), 20)
-    y1 = random.sample(range(1, 50), 20)
+    x1 = [0, 1, 2, 3, 4, 5, 6, 7]
+    y1 = [0, 6, 7, 2, 4, 5, 5, 5]
+
+    x2 = [0, 1, 2, 3, 4, 5, 6, 7]
+    y2 = [0, 7, 6, 4, 2, 5, 2, 3]
+
+    x3 = [0, 1, 2, 3, 4, 5, 6, 7]
+    y3 = [0, 2, 5, 2, 6, 2, 4, 2]
 
     # select the tools we want
-    TOOLS="pan,wheel_zoom,box_zoom,reset,save"
+    TOOLS = 'pan,wheel_zoom,box_zoom,reset,save,hover'
 
     # the red and blue graphs will share this data range
-    xr1 = Range1d(start=0, end=30)
-    yr1 = Range1d(start=0, end=30)
+    xr1 = Range1d(start=0, end=7)
+    yr1 = Range1d(start=0, end=7)
 
     # build our figures
     p1 = figure(
-            x_range=xr1, y_range=yr1, tools=TOOLS,
-                plot_width=500, plot_height=300, logo=None,
-                toolbar_location=None, outline_line_color=None
+                x_range=xr1, y_range=yr1, tools=TOOLS,
+                plot_width=400, plot_height=400, logo=None,
+                outline_line_color=None
     )
-    p1.scatter(x1, y1, size=12, color="red", alpha=0.5)
+
+    # build multi line and set options
+    p1.multi_line(
+            [x1, x2, x3],
+            [y1, y2, y3],
+            color=['red', 'blue', 'green'],
+            line_width=2
+    )
 
     # hide gridlines
     p1.xgrid.grid_line_color = None
@@ -48,6 +63,15 @@ def index():
     # remove minor tickmarks
     p1.yaxis[0].ticker.num_minor_ticks = 0
     p1.xaxis[0].ticker.num_minor_ticks = 0
+
+    # build hover tooltip
+    # todo - look into this more. probably not available for line glyphs
+    hover = p1.select(dict(type=HoverTool))
+    hover.point_policy = 'follow_mouse'
+    hover.tooltips = OrderedDict([
+        ('Value 1', "$x"),
+        ('Value 2', "$y")
+    ])
 
     script, div = components(p1)
 
