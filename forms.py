@@ -18,9 +18,10 @@ class LoginForm(Form):
 class ProjectForm(Form):
     name = TextField('Project Name', validators=[validators.Required()])
     api_type = SelectField(u'Select API', choices=[
-                           ('Twitter', 'Twitter'),
-                           ('Instagram', 'Instagram'),
-                           ])
+        ('Twitter', 'Twitter'),
+        ('Instagram', 'Instagram'),
+        ('Salesforce', 'Salesforce')
+    ])
 
 class TwitterUserInfo(Form):
     query_name = TextField('Query Name', validators=[validators.Required()])
